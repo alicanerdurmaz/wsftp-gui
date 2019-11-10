@@ -1,1 +1,2 @@
-##### This project react-electron front end implementation for [wsftp](https://github.com/eco9999/wsftp)
+## Wsftp
+[wsftp](http://github.com) is a file transfer and instant messaging application for communication over a local network.
