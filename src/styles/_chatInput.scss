@@ -1,0 +1,37 @@
+.chat-input-area {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  justify-items: center;
+  align-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.text-area-autosize {
+  background-color: $secondarycolor-light;
+  color: $blueGray;
+  border: none;
+  outline: none;
+  resize: none;
+  width: 100%;
+  margin: 10px 0px;
+  border-radius: 4px;
+  padding: 8px;
+  overflow: auto;
+}
+
+.file-upload-container {
+  cursor: pointer;
+  text-align: center;
+  width: 60px;
+  height: 70px;
+}
+
+.file-upload-icon {
+  fill: $gray;
+  position: relative;
+  top: 14px;
+  width: 40px;
+  height: 40px;
+}

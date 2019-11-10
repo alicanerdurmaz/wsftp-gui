@@ -1,0 +1,39 @@
+{
+  "id": "a14f09f8-b0b2-49f2-9ad9-f596fde3d844",
+  "computer_name": "Eco",
+  "ip_address": "247.159.255.251",
+  "messages": [
+    {
+      "sender": "Eco",
+      "messageType": "text",
+      "content": "Laan bi baksana",
+      "createdAt": "Sep 30,2019 - 09:39PM "
+    },
+    {
+      "sender": "Eco",
+      "messageType": "text",
+      "content": "Guzel oldu ha",
+      "createdAt": "Sep 30,2019 - 09:39PM "
+    },
+    {
+      "sender": "user",
+      "messageType": "text",
+      "content": "hea cok hosuma gitti",
+      "createdAt": "Sep 30,2019 - 09:40PM "
+    },
+    {
+      "sender": "Eco",
+      "messageType": "text",
+      "content": "bi dosya atsana",
+      "createdAt": "Sep 30,2019 - 09:40PM "
+    },
+    {
+      "sender": "user",
+      "messageType": "file",
+      "fileName": "index.css",
+      "fileType": "code",
+      "fileSize": "10mb",
+      "createdAt": "Sep 30,2019 - 09:46PM "
+    }
+  ]
+}

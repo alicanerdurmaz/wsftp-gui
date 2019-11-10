@@ -1,0 +1,59 @@
+html,
+body,
+.root {
+  font-family: -apple-system, system-ui;
+  min-height: 100% !important;
+  height: 100%;
+  overflow: hidden;
+  background-color: $primarycolor;
+  color: $blueGray-darken;
+}
+
+span {
+  font-family: -apple-system, system-ui;
+}
+.material-icons {
+  display: flex;
+}
+
+ul,
+li {
+  text-decoration: none;
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+  overflow: hidden;
+}
+.settings-icon {
+  color: $primarycolor;
+  background-color: white;
+}
+
+input {
+  width: 80%;
+  background-color: $primarycolor;
+  border: 1px solid $primarycolor;
+  border-radius: 4px;
+  color: $blueGray;
+  padding: 4px;
+  &:focus {
+    outline: none !important;
+    box-shadow: 0px 0px 1px #079cd794;
+    border-color: #079cd794;
+  }
+}
+p {
+  padding: 0px;
+  margin: 0px;
+}
+::-webkit-input-placeholder {
+  color: rgba(255, 192, 203, 0.397);
+  text-align: start;
+  padding-left: 8px;
+  padding-top: 8px;
+}
+
+.NavLink {
+  text-decoration: none;
+  color: $blueGray;
+}

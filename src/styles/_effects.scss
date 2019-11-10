@@ -1,0 +1,16 @@
+.tooltiptext {
+  position: absolute;
+  visibility: hidden;
+  background-color: $blueGray;
+  color: #000000;
+  text-align: center;
+  width: 120px;
+  padding: 5px 0;
+  left: 125px;
+  top: 88%;
+  opacity: 0;
+  transition: opacity 0.2s;
+
+  border: 1px solid $primarycolor;
+  border-radius: 2px;
+}

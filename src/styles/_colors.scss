@@ -1,0 +1,32 @@
+// $primarycolor: #202225;
+// $primarycolor-light: #36393f;
+// $secondarycolor: #2f3136;
+// $secondarycolor-light: #40444b;
+$primarycolor: #202225;
+$primarycolor-light: #2f3136;
+$secondarycolor: #36393f;
+$secondarycolor-light: #40444b;
+$white: #ffffff;
+$gray: #9e9e9e;
+$blueGray: #eceff1;
+$blueGray-darken: #9ea7aa;
+$gray-darken: #393c42;
+$border-color: #202225;
+$green: #43b581;
+$blue: #079dd7;
+$red: #f44336;
+.colorBlue {
+  color: $blueGray;
+}
+.colorRed {
+  color: $red;
+  &:hover {
+    color: lighten($color: $red, $amount: 10);
+  }
+}
+.colorGreen {
+  color: $green;
+  &:hover {
+    color: lighten($color: $green, $amount: 15);
+  }
+}

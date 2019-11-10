@@ -1,0 +1,57 @@
+@import './colors';
+
+.main-container {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  grid-template-columns: 150px 350px 1fr;
+  grid-template-areas: 'leftarea middlearea rightarea';
+  column-gap: 8px;
+  row-gap: 8px;
+}
+
+.left-area {
+  grid-area: leftarea;
+  height: 99%;
+  overflow: auto;
+  border-bottom: 1px solid $border-color;
+}
+.middle-area {
+  grid-area: rightarea;
+}
+
+.right-area {
+  grid-area: middlearea;
+  overflow: hidden;
+}
+
+.leftfooter-container {
+  height: 100%;
+  width: 100%;
+  color: $gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  & > i {
+    font-size: 24px;
+  }
+  &:hover {
+    .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  & > li {
+    font-size: 16px;
+    font-weight: bold;
+  }
+}

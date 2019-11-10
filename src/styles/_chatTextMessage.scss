@@ -1,0 +1,44 @@
+.message-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+
+  &.user {
+    border-right: 2px solid $green;
+    .message-p {
+      float: right;
+      text-align: right;
+    }
+  }
+  &.other {
+    border-left: 2px solid $blue;
+    .message-p {
+      float: left;
+    }
+  }
+}
+.message-content {
+  color: $blueGray;
+  margin-bottom: 4px;
+  padding: 2px;
+  width: 100%;
+}
+.message-p {
+  width: 50%;
+}
+.message-createdAt {
+  font-size: 12px;
+  position: sticky;
+  color: $blueGray-darken;
+
+  &.user {
+    .createdAt-p {
+      float: right;
+    }
+  }
+  &.other {
+    .createdAt-p {
+      float: left;
+    }
+  }
+}

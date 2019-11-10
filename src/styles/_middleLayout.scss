@@ -1,0 +1,34 @@
+@import 'dndarea';
+.middle-area {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+.middle-container {
+  background-color: $secondarycolor;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 22fr 2fr;
+  grid-template-areas:
+    'chatheader'
+    'chatread'
+    'chatinput';
+}
+.chat-header-container {
+  grid-area: chatheader;
+  width: 99%;
+  height: 99%;
+  border-bottom: 1px solid $primarycolor;
+}
+.chat-read-container {
+  grid-area: chatread;
+  padding: 8px;
+  overflow: auto;
+  border-top: 4px solid $border-color;
+  border-bottom: 4px solid $border-color;
+}
+.chat-input-container {
+  grid-area: chatinput;
+  width: 100%;
+}
