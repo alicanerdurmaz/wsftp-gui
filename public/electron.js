@@ -28,9 +28,6 @@ function createWindow() {
     app.quit();
   });
   mainWindow.webContents.openDevTools();
-  BrowserWindow.addDevToolsExtension(
-    path.join(os.homedir(), '/.config/google-chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.2.0_0')
-  );
 }
 app.on('ready', createWindow);
 app.on('window-all-closed', () => {

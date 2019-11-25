@@ -43,16 +43,13 @@ const MessageContextProvider = props => {
   };
 
   srScoket.onmessage = function(e) {
-    const fileNameIndex = e.data.indexOf('fileName');
-    const tempString = e.data.slice(0, fileNameIndex) + '"' + e.data.slice(fileNameIndex);
-
-    const dataToJson = JSON.parse(tempString);
+    const dataToJson = JSON.parse(e.data);
     console.log(dataToJson);
     if (dataToJson.stat === 'rreq') {
       dispatch({
         type: 'ADD_MESSAGE',
         payload: {
-          accepted: false,
+          accepted: 'waiting',
           dbName: dataToJson.username,
           from: dataToJson.username,
           to: '*MYPC*',

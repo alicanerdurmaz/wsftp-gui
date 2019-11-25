@@ -1,30 +1,46 @@
-import React, { useState, Fragment } from 'react';
+import React, { useContext, Fragment } from 'react';
+import { commanderSocket } from '../../backend/api/api';
+import { MessageContext } from '../../context/MessageContext/MessageContext';
 
-const ChatFileMessage = ({ accepted, from, createdAt, fileType, fileSize, fileName, dir }) => {
+const ChatFileMessage = ({ accepted, from, createdAt, fileType, fileSize, fileName, dir, ip, uuid, dbName }) => {
+  const { dispatch } = useContext(MessageContext);
+  let tempFrom = '';
   if (from !== '*MYPC*') {
-    from = 'other';
+    tempFrom = 'other';
   }
+
   const setAccepted = action => {
-    console.log(action);
+    if (action) {
+      const tempAcceptRequest = {
+        stat: 'cacp',
+        ip: ip,
+        dir: dir,
+        dest: '/home/alican/Desktop'
+      };
+      commanderSocket.send(JSON.stringify(tempAcceptRequest));
+      dispatch({ type: 'STATUS_CHANGED', payload: { uuid: uuid, dbName: dbName, status: action } });
+    }
+    if (!action) {
+      const tempRejectRequest = {
+        stat: 'crej',
+        ip: ip,
+        dir: dir
+      };
+      commanderSocket.send(JSON.stringify(tempRejectRequest));
+      dispatch({ type: 'STATUS_CHANGED', payload: { uuid: uuid, dbName: dbName, status: action } });
+    }
   };
 
-  console.log(accepted);
-  console.log(from);
-  console.log(createdAt);
-  console.log(fileType);
-  console.log(fileSize);
-  console.log(fileName);
-  console.log(dir);
   return (
     <Fragment>
-      <li className={`file-message-container ${from}`}>
-        <div className={`file-message-content ${from}`}>
+      <li className={`file-message-container ${tempFrom}`}>
+        <div className={`file-message-content ${tempFrom}`}>
           <i className={`fas fa-file-pdf file-icon`}></i>
           <div className='file-info'>
             <span className='file-name'>{fileName}</span>
             <span className='file-size'>{fileSize}</span>
           </div>
-          {!accepted && from === 'other' ? (
+          {accepted === 'waiting' && tempFrom === 'other' ? (
             <div className='btn-group'>
               <i className='fas fa-check-circle colorGreen ' onClick={() => setAccepted(true)}></i>
               <i className='fas fa-ban colorRed' onClick={() => setAccepted(false)}></i>
@@ -37,7 +53,7 @@ const ChatFileMessage = ({ accepted, from, createdAt, fileType, fileSize, fileNa
           )}
         </div>
       </li>
-      <span className={`file-message-createdAt ${from}`}>
+      <span className={`file-message-createdAt ${tempFrom}`}>
         <span className='createdAt-f'>{createdAt}</span>
       </span>
     </Fragment>

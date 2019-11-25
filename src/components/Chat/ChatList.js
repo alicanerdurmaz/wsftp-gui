@@ -7,7 +7,7 @@ import { MessageContext } from '../../context/MessageContext/MessageContext';
 const ChatList = () => {
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
   const { messageHistory } = useContext(MessageContext);
-
+  console.log(messageHistory);
   // scroll to lasted message
   useEffect(() => {
     scrollToBottom();
@@ -34,12 +34,14 @@ const ChatList = () => {
                 key={message.uuid}
                 accepted={message.accepted}
                 from={message.username}
+                dbName={message.dbName}
                 createdAt={message.createdAt}
                 fileType={message.fileType}
                 fileSize={message.fileSize}
                 fileName={message.fileName}
                 dir={message.dir}
-                ip={message.ip}></ChatFileMessage>
+                ip={message.ip}
+                uuid={message.uuid}></ChatFileMessage>
             );
           } else {
             return null;
@@ -54,18 +56,3 @@ const ChatList = () => {
 };
 
 export default ChatList;
-
-{
-  /* <ChatTextMessage
-        whoIs={user}
-        content={
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et doloremagna aliqua. Feugiat in fermentum posuere urna nec.'
-        }></ChatTextMessage>
-      <ChatTextMessage
-        whoIs={other}
-        content={
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et doloremagna aliqua. Feugiat in fermentum posuere urna nec.'
-        }></ChatTextMessage>
-      <ChatFileMessage whoIs={other} fileType={'pdf'}></ChatFileMessage>
-      <ChatFileMessage whoIs={user} fileType={'code'}></ChatFileMessage> */
-}

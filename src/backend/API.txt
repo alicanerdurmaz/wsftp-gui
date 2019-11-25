@@ -1,20 +1,11 @@
 
 Commands
-{"stat":"creq","ip":"192.168.1.24","dir":"/home/virtualubuntu/Desktop/test.jpeg"}
 	send file request
 		{
 			"stat":"creq",
 			"ip":"IP",
 			"dir":"file_dir"
 		}
-SR : {"stat":"rreq",
-"username":"virtualubuntu",
-"ip":"192.168.1.28",
-"dir":"/home/virtualubuntu/Desktop/test.jpeg",
-fileName":"test.jpeg",
-"fileType":"jpeg",
-"fileSize":"54603",
-"contentType":"file"}
 
 	send accept to request
 		{
@@ -30,12 +21,18 @@ fileName":"test.jpeg",
 			"ip":"IP",
 			"dir":"file_dir"
 		}
-{"stat":"cmsg","ip":"192.168.1.24","msg":"naber la"}
+
 	send message
 		{
 			"stat":"cmsg",
 			"ip":"IP",
+			"to":"username_of_other",
 			"msg":"msg_content"
+		}
+	kill download/upload progress
+		{
+			"stat":"kprg",
+			"port":"port_of_download/upload"
 		}
 
 
