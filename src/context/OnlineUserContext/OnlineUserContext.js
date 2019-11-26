@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext } from 'react';
 import { MessageContext } from '../MessageContext/MessageContext';
 import { hsSocket } from '../../backend/api/api';
+import { USER_CREATED } from '../types';
 
 export const OnlineUserContext = createContext();
 
@@ -12,7 +13,7 @@ const OnlineUserContextProvider = props => {
     const toJson = JSON.parse(msg.data);
     const tempName = toJson.username;
     if (!messageHistory.hasOwnProperty(tempName)) {
-      dispatch({ type: 'CREATE_USER', username: tempName });
+      dispatch({ type: USER_CREATED, username: tempName });
     }
 
     setOnlineUserList({

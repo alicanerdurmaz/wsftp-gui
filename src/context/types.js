@@ -1,0 +1,3 @@
+export const USER_CREATED = 'USER_CREATED';
+export const MESSAGE_ADDED = 'MESSAGE_ADDED';
+export const STATUS_CHANGED = 'STATUS_CHANGED';

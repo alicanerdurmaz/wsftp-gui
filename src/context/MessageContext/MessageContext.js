@@ -1,8 +1,10 @@
-import React, { createContext, useState, useReducer } from 'react';
+import React, { createContext, useReducer } from 'react';
 import uuid from 'uuid/v4';
 import { messageReducer } from './messageReducer';
 import { dateNow } from '../../Helpers/newDate';
 import { msgSocket, srScoket } from '../../backend/api/api';
+import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
+import { MESSAGE_ADDED } from '../types';
 
 export const MessageContext = createContext();
 
@@ -14,7 +16,7 @@ const MessageContextProvider = props => {
 
     if (dataToJson.stat === 'smsg') {
       dispatch({
-        type: 'ADD_MESSAGE',
+        type: MESSAGE_ADDED,
         payload: {
           dbName: dataToJson.person,
           from: '*MYPC*',
@@ -28,7 +30,7 @@ const MessageContextProvider = props => {
     }
     if (dataToJson.stat === 'rmsg') {
       dispatch({
-        type: 'ADD_MESSAGE',
+        type: MESSAGE_ADDED,
         payload: {
           dbName: dataToJson.person,
           from: dataToJson.person,
@@ -47,9 +49,9 @@ const MessageContextProvider = props => {
     console.log(dataToJson);
     if (dataToJson.stat === 'rreq') {
       dispatch({
-        type: 'ADD_MESSAGE',
+        type: MESSAGE_ADDED,
         payload: {
-          accepted: 'waiting',
+          fileStatus: FILE_STATUS.waiting,
           dbName: dataToJson.username,
           from: dataToJson.username,
           to: '*MYPC*',

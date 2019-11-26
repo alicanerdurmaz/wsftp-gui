@@ -1,11 +1,11 @@
-import React, { useRef, useEffect, useContext, useState } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import ChatTextMessage from './ChatTextMessage';
 import ChatFileMessage from './ChatFileMessage';
 import { SelectUserContext } from '../../context/SelectUserContext';
 import { MessageContext } from '../../context/MessageContext/MessageContext';
 
 const ChatList = () => {
-  const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
+  const { selectedUser } = useContext(SelectUserContext);
   const { messageHistory } = useContext(MessageContext);
   console.log(messageHistory);
   // scroll to lasted message
@@ -32,7 +32,7 @@ const ChatList = () => {
             return (
               <ChatFileMessage
                 key={message.uuid}
-                accepted={message.accepted}
+                fileStatus={message.fileStatus}
                 from={message.username}
                 dbName={message.dbName}
                 createdAt={message.createdAt}
