@@ -31,6 +31,7 @@ const ChatList = () => {
           } else if (message.contentType === 'file') {
             return (
               <ChatFileMessage
+                progress={message.progress}
                 key={message.uuid}
                 fileStatus={message.fileStatus}
                 from={message.username}

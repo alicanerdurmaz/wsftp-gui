@@ -4,7 +4,7 @@ import { messageReducer } from './messageReducer';
 import { dateNow } from '../../Helpers/newDate';
 import { msgSocket, srScoket } from '../../backend/api/api';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
-import { MESSAGE_ADDED } from '../types';
+import { MESSAGE_ADDED, PROGRESS_CHANGED } from '../types';
 
 export const MessageContext = createContext();
 
@@ -62,8 +62,17 @@ const MessageContextProvider = props => {
           fileType: dataToJson.fileType,
           ip: dataToJson.ip,
           createdAt: dateNow(),
+          current: '0',
+          speed: '0',
+          progress: 0,
           uuid: uuid()
         }
+      });
+    }
+    if (dataToJson.stat === 'rprg') {
+      dispatch({
+        type: PROGRESS_CHANGED,
+        payload: dataToJson
       });
     }
   };
