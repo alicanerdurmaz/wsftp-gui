@@ -81,3 +81,16 @@ $border-radius: 8px;
     padding-left: 16px;
   }
 }
+
+.custom-progressbar-container-user {
+  float: right !important;
+}
+.custom-progressbar-props-user {
+  height: 12px !important;
+}
+.custom-progressbar-container-other {
+  float: left !important;
+}
+.custom-progressbar-props-other {
+  height: 12px !important;
+}

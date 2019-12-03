@@ -2,7 +2,7 @@ import React, { createContext, useReducer } from 'react';
 import uuid from 'uuid/v4';
 import { messageReducer } from './messageReducer';
 import { dateNow } from '../../Helpers/newDate';
-import { msgSocket, srScoket } from '../../backend/api/api';
+import { msgSocket, srScoket } from '../../backend/api/webSocketConnection';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import { MESSAGE_ADDED, PROGRESS_CHANGED } from '../types';
 
@@ -14,13 +14,14 @@ const MessageContextProvider = props => {
   msgSocket.onmessage = function(e) {
     const dataToJson = JSON.parse(e.data);
 
-    if (dataToJson.stat === 'smsg') {
+    if (dataToJson.event === 'smsg') {
       dispatch({
         type: MESSAGE_ADDED,
         payload: {
-          dbName: dataToJson.person,
+          dbName: dataToJson.username,
+          mac: dataToJson.mac,
           from: '*MYPC*',
-          to: dataToJson.person,
+          to: dataToJson.username,
           content: dataToJson.content,
           contentType: dataToJson.contentType,
           createdAt: dateNow(),
@@ -28,12 +29,13 @@ const MessageContextProvider = props => {
         }
       });
     }
-    if (dataToJson.stat === 'rmsg') {
+    if (dataToJson.event === 'rmsg') {
       dispatch({
         type: MESSAGE_ADDED,
         payload: {
-          dbName: dataToJson.person,
-          from: dataToJson.person,
+          mac: dataToJson.mac,
+          dbName: dataToJson.username,
+          from: dataToJson.username,
           to: '*MYPC*',
           content: dataToJson.content,
           contentType: dataToJson.contentType,
@@ -46,11 +48,12 @@ const MessageContextProvider = props => {
 
   srScoket.onmessage = function(e) {
     const dataToJson = JSON.parse(e.data);
-    console.log(dataToJson);
-    if (dataToJson.stat === 'rreq') {
+
+    if (dataToJson.event === 'rreq') {
       dispatch({
         type: MESSAGE_ADDED,
         payload: {
+          mac: dataToJson.mac,
           fileStatus: FILE_STATUS.waiting,
           dbName: dataToJson.username,
           from: dataToJson.username,
@@ -69,7 +72,30 @@ const MessageContextProvider = props => {
         }
       });
     }
-    if (dataToJson.stat === 'rprg') {
+    if (dataToJson.event === 'sreq') {
+      dispatch({
+        type: MESSAGE_ADDED,
+        payload: {
+          mac: dataToJson.mac,
+          from: '*MYPC*',
+          dbName: dataToJson.username,
+          dir: dataToJson.dir,
+          fileName: dataToJson.fileName,
+          fileSize: dataToJson.fileSize,
+          fileType: dataToJson.fileType,
+          contentType: dataToJson.contentType,
+          fileStatus: FILE_STATUS.loading,
+          to: dataToJson.username,
+          ip: dataToJson.ip,
+          createdAt: dateNow(),
+          current: '0',
+          speed: '0',
+          progress: 0,
+          uuid: uuid()
+        }
+      });
+    }
+    if (dataToJson.event === 'prg') {
       dispatch({
         type: PROGRESS_CHANGED,
         payload: dataToJson

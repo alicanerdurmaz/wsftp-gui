@@ -7,7 +7,7 @@ import { MessageContext } from '../../context/MessageContext/MessageContext';
 const ChatList = () => {
   const { selectedUser } = useContext(SelectUserContext);
   const { messageHistory } = useContext(MessageContext);
-  console.log(messageHistory);
+
   // scroll to lasted message
   useEffect(() => {
     scrollToBottom();
@@ -33,8 +33,9 @@ const ChatList = () => {
               <ChatFileMessage
                 progress={message.progress}
                 key={message.uuid}
+                mac={message.mac}
                 fileStatus={message.fileStatus}
-                from={message.username}
+                from={message.from}
                 dbName={message.dbName}
                 createdAt={message.createdAt}
                 fileType={message.fileType}

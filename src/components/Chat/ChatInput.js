@@ -2,7 +2,8 @@ import React, { useState, useContext } from 'react';
 
 import { ReactComponent as FileUploadIcon } from '../../assets/svg/file-upload.svg';
 import { SelectUserContext } from '../../context/SelectUserContext';
-import { commanderSocket } from '../../backend/api/api';
+import { commanderSocket } from '../../backend/api/webSocketConnection';
+import { API_SendMessage, API_SendFile } from '../../backend/api/apiFunctions';
 
 const { dialog } = window.require('electron').remote;
 
@@ -16,13 +17,8 @@ const ChatInput = () => {
     } else if (text.length < 1) {
       return;
     } else if (e.key === 'Enter') {
-      const tempMessage = {
-        stat: 'cmsg',
-        ip: selectedUser.ipAddress,
-        to: selectedUser.username,
-        msg: text
-      };
-      commanderSocket.send(JSON.stringify(tempMessage));
+      API_SendMessage(selectedUser.macAddress, text);
+
       setText('');
     } else {
       return false;
@@ -40,15 +36,9 @@ const ChatInput = () => {
       return false;
     }
     const result = await dialog.showOpenDialog({ properties: ['multiSelections'] });
-    const tempIP = selectedUser.ipAddress;
-    const stat = 'creq';
+    const macAddress = selectedUser.macAddress;
     result.filePaths.map(path => {
-      const temp = {
-        stat: stat,
-        ip: tempIP,
-        dir: path
-      };
-      commanderSocket.send(JSON.stringify(temp));
+      API_SendFile(macAddress, path);
       return true;
     });
   };

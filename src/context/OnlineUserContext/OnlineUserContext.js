@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 import { MessageContext } from '../MessageContext/MessageContext';
-import { hsSocket } from '../../backend/api/api';
+import { hsSocket } from '../../backend/api/webSocketConnection';
 import { USER_CREATED } from '../types';
 
 export const OnlineUserContext = createContext();
@@ -11,6 +11,7 @@ const OnlineUserContextProvider = props => {
 
   hsSocket.onmessage = msg => {
     const toJson = JSON.parse(msg.data);
+
     const tempName = toJson.username;
     if (!messageHistory.hasOwnProperty(tempName)) {
       dispatch({ type: USER_CREATED, username: tempName });

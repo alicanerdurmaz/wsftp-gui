@@ -22,11 +22,12 @@ const UserListContainer = () => {
           // if (!onlineUserList[index].user.toLowerCase().startsWith(filter.toLowerCase())) {
           //   return false;
           // }
-          return onlineUserList[index].stat === 'online' ? (
+          return onlineUserList[index].event === 'online' ? (
             <UserListItem
-              status={onlineUserList[index].stat}
+              status={onlineUserList[index].event}
               username={onlineUserList[index].username}
               ipAddress={onlineUserList[index].ip}
+              macAddress={onlineUserList[index].mac}
               key={index}></UserListItem>
           ) : null;
         })}
@@ -34,11 +35,12 @@ const UserListContainer = () => {
           // if (!onlineUserList[index].user.toLowerCase().startsWith(filter.toLowerCase())) {
           //   return false;
           // }
-          return onlineUserList[index].stat === 'offline' ? (
+          return onlineUserList[index].event === 'offline' ? (
             <UserListItem
-              status={onlineUserList[index].stat}
+              status={onlineUserList[index].event}
               username={onlineUserList[index].username}
               ipAddress={onlineUserList[index].ip}
+              macAddress={onlineUserList[index].mac}
               key={index}></UserListItem>
           ) : null;
         })}
