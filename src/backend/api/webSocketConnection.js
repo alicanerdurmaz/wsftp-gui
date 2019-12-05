@@ -1,7 +1,7 @@
-const cmdSocketURI = 'ws://192.168.1.26:9997/cmd';
-const srSocketURI = 'ws://192.168.1.26:10003/sr';
-const msgSocketURI = 'ws://192.168.1.26:10004/msg';
-const hsSocketURI = 'ws://192.168.1.26:10000/hs';
+const cmdSocketURI = 'ws://192.168.1.34:9997/cmd';
+const srSocketURI = 'ws://192.168.1.34:10003/sr';
+const msgSocketURI = 'ws://192.168.1.34:10004/msg';
+const hsSocketURI = 'ws://192.168.1.34:10000/hs';
 
 export const commanderSocket = new WebSocket(cmdSocketURI);
 export const msgSocket = new WebSocket(msgSocketURI);

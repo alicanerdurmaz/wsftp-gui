@@ -1,4 +1,5 @@
-import { USER_CREATED, MESSAGE_ADDED, STATUS_CHANGED, PROGRESS_CHANGED } from '../types';
+import { USER_CREATED, MESSAGE_ADDED, STATUS_CHANGED, PROGRESS_CHANGED, PROGRESS_DONE, PROGRESS_FAIL } from '../types';
+import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 
 export const messageReducer = (state, action) => {
   switch (action.type) {
@@ -18,20 +19,25 @@ export const messageReducer = (state, action) => {
       return { ...state };
 
     case PROGRESS_CHANGED:
-      // state[action.payload.username].map(element => {
-      //   if (element.fileSize === action.payload.total) {
-      //     const tempProgress = parseInt(action.payload.current) / parseInt(action.payload.total);
-      //     element.progress = tempProgress * 100;
-      //     element.speed = action.payload.speed;
-      //     console.log(tempProgress);
-      //   }
-      // });
-
       state[action.payload.username].map(element => {
         if (element.uuid === action.payload.id) {
           const tempProgress = parseInt(action.payload.current) / parseInt(action.payload.total);
           element.progress = tempProgress * 100;
           element.speed = action.payload.speed;
+        }
+      });
+      return { ...state };
+    case PROGRESS_DONE:
+      state[action.payload.username].map(element => {
+        if (element.uuid === action.payload.id) {
+          element.fileStatus = FILE_STATUS.sent;
+        }
+      });
+      return { ...state };
+    case PROGRESS_FAIL:
+      state[action.payload.username].map(element => {
+        if (element.uuid === action.payload.id) {
+          element.fileStatus = FILE_STATUS.rejected;
         }
       });
       return { ...state };

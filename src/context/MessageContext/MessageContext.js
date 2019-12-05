@@ -4,7 +4,7 @@ import { messageReducer } from './messageReducer';
 import { dateNow } from '../../Helpers/newDate';
 import { msgSocket, srScoket } from '../../backend/api/webSocketConnection';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
-import { MESSAGE_ADDED, PROGRESS_CHANGED } from '../types';
+import { MESSAGE_ADDED, PROGRESS_CHANGED, PROGRESS_DONE, PROGRESS_FAIL } from '../types';
 
 export const MessageContext = createContext();
 
@@ -101,8 +101,20 @@ const MessageContextProvider = props => {
         payload: dataToJson
       });
     }
+    if (dataToJson.event === 'dprg') {
+      dispatch({
+        type: PROGRESS_DONE,
+        payload: dataToJson
+      });
+    }
+    if (dataToJson.event === 'fprg') {
+      dispatch({
+        type: PROGRESS_FAIL,
+        payload: dataToJson
+      });
+    }
   };
-
+  console.log(messageHistory);
   return <MessageContext.Provider value={{ messageHistory, dispatch }}>{props.children}</MessageContext.Provider>;
 };
 
