@@ -1,5 +1,3 @@
-// .file-message-container {
-// }
 $borderpx: 1.2px;
 $file-message-border-color: #20222586;
 $border-radius: 8px;
@@ -86,11 +84,30 @@ $border-radius: 8px;
   float: right !important;
 }
 .custom-progressbar-props-user {
-  height: 12px !important;
+  float: right !important;
+  width: 245px;
+  height: 10px !important;
+  background-color: $gray !important;
+  border-radius: 2px;
 }
 .custom-progressbar-container-other {
   float: left !important;
 }
 .custom-progressbar-props-other {
-  height: 12px !important;
+  float: left !important;
+  width: 245px;
+  height: 10px !important;
+  background-color: $gray !important;
+  border-radius: 2px;
+}
+.MuiLinearProgress-barColorPrimary {
+  background-color: $green !important;
+}
+
+.cancel-button {
+  font-size: 24px;
+  position: absolute;
+  margin-left: 28px;
+  margin-top: 6px;
+  color: $red;
 }

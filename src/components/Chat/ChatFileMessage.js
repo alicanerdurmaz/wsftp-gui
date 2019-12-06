@@ -5,9 +5,9 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { commanderSocket } from '../../backend/api/webSocketConnection';
 import { MessageContext } from '../../context/MessageContext/MessageContext';
-import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import { STATUS_CHANGED } from '../../context/types';
-
+import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
+import { byteConverter } from '../../Helpers/byteConverter';
 const useStyles = makeStyles(theme => ({
   circularProgress: {
     display: 'flex',
@@ -16,7 +16,6 @@ const useStyles = makeStyles(theme => ({
     }
   },
   linearProgress: {
-    width: '310px',
     '& > * + *': {
       marginTop: theme.spacing(2)
     }
@@ -44,6 +43,7 @@ const ChatFileMessage = ({
   if (from !== '*MYPC*') {
     tempFrom = 'other';
   }
+  const formattedFileSize = byteConverter(fileSize);
 
   const setAccepted = action => {
     if (action) {
@@ -86,6 +86,7 @@ const ChatFileMessage = ({
     } else if (fileStatus === FILE_STATUS.loading) {
       return (
         <div className={classes.circularProgress}>
+          <i className='fas fa-times cancel-button' onCLick={cancelFileTransfer}></i>
           <CircularProgress />
         </div>
       );
@@ -98,17 +99,21 @@ const ChatFileMessage = ({
     <Fragment>
       <li className={`file-message-container ${tempFrom}`}>
         <div className={`file-message-content ${tempFrom}`}>
-          <i className={`fas fa-file-pdf file-icon`}></i>
+          <i className={`fas fa-file file-icon`}></i>
           <div className='file-info'>
             <span className='file-name'>{fileName}</span>
-            <span className='file-size'>{fileSize}</span>
+            <span className='file-size'>{formattedFileSize}</span>
           </div>
           {fileInformation()}
         </div>
+      </li>
+
+      {fileStatus === FILE_STATUS.loading ? (
         <div className={`${classes.linearProgress} custom-progressbar-container-${tempFrom}`}>
           <LinearProgress variant='determinate' value={progress} className={`custom-progressbar-props-${tempFrom}`} />
         </div>
-      </li>
+      ) : null}
+
       <span className={`file-message-createdAt ${tempFrom}`}>
         <span className='createdAt-f'>{createdAt}</span>
       </span>
