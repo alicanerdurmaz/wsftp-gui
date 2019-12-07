@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from 'react';
+import React, { createContext, useReducer, useEffect, useState } from 'react';
 import uuid from 'uuid/v4';
 import { messageReducer } from './messageReducer';
 import { dateNow } from '../../Helpers/newDate';
@@ -9,16 +9,39 @@ import { MESSAGE_ADDED, PROGRESS_CHANGED, PROGRESS_DONE, PROGRESS_FAIL } from '.
 export const MessageContext = createContext();
 
 const MessageContextProvider = props => {
-  const [messageHistory, dispatch] = useReducer(messageReducer, {});
+  const [lastDbName, setLastDbName] = useState(null);
+  const [messageHistory, dispatch] = useReducer(messageReducer, {}, () => {
+    const localStorageKeys = Object.keys(localStorage);
+
+    const tempObject = {};
+    localStorageKeys.forEach(element => {
+      try {
+        tempObject[element] = JSON.parse(localStorage.getItem(element));
+      } catch (error) {
+        console.error(error);
+      }
+    });
+
+    return tempObject;
+  });
+
+  useEffect(() => {
+    if (lastDbName !== null) {
+      localStorage.setItem(lastDbName, JSON.stringify(messageHistory[lastDbName]));
+    }
+  }, [lastDbName, messageHistory]);
+
+  console.log(messageHistory);
 
   msgSocket.onmessage = function(e) {
     const dataToJson = JSON.parse(e.data);
+    setLastDbName(dataToJson.mac);
 
     if (dataToJson.event === 'smsg') {
       dispatch({
         type: MESSAGE_ADDED,
         payload: {
-          dbName: dataToJson.username,
+          dbName: dataToJson.mac,
           mac: dataToJson.mac,
           from: '*MYPC*',
           to: dataToJson.username,
@@ -34,7 +57,7 @@ const MessageContextProvider = props => {
         type: MESSAGE_ADDED,
         payload: {
           mac: dataToJson.mac,
-          dbName: dataToJson.username,
+          dbName: dataToJson.mac,
           from: dataToJson.username,
           to: '*MYPC*',
           content: dataToJson.content,
@@ -48,14 +71,14 @@ const MessageContextProvider = props => {
 
   srScoket.onmessage = function(e) {
     const dataToJson = JSON.parse(e.data);
-
+    setLastDbName(dataToJson.mac);
     if (dataToJson.event === 'rreq') {
       dispatch({
         type: MESSAGE_ADDED,
         payload: {
           mac: dataToJson.mac,
           fileStatus: FILE_STATUS.waiting,
-          dbName: dataToJson.username,
+          dbName: dataToJson.mac,
           from: dataToJson.username,
           to: '*MYPC*',
           contentType: dataToJson.contentType,
@@ -78,7 +101,7 @@ const MessageContextProvider = props => {
         payload: {
           mac: dataToJson.mac,
           from: '*MYPC*',
-          dbName: dataToJson.username,
+          dbName: dataToJson.mac,
           dir: dataToJson.dir,
           fileName: dataToJson.fileName,
           fileSize: dataToJson.fileSize,

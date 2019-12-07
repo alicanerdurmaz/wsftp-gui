@@ -4,7 +4,7 @@ import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 export const messageReducer = (state, action) => {
   switch (action.type) {
     case USER_CREATED:
-      return { ...state, [action.username]: [] };
+      return { ...state, [action.macAddress]: [] };
 
     case MESSAGE_ADDED:
       state[action.payload.dbName].push(action.payload);
@@ -19,7 +19,7 @@ export const messageReducer = (state, action) => {
       return { ...state };
 
     case PROGRESS_CHANGED:
-      state[action.payload.username].map(element => {
+      state[action.payload.mac].map(element => {
         if (element.uuid === action.payload.id) {
           const tempProgress = parseInt(action.payload.current) / parseInt(action.payload.total);
           element.progress = tempProgress * 100;
@@ -28,14 +28,14 @@ export const messageReducer = (state, action) => {
       });
       return { ...state };
     case PROGRESS_DONE:
-      state[action.payload.username].map(element => {
+      state[action.payload.mac].map(element => {
         if (element.uuid === action.payload.id) {
           element.fileStatus = FILE_STATUS.sent;
         }
       });
       return { ...state };
     case PROGRESS_FAIL:
-      state[action.payload.username].map(element => {
+      state[action.payload.mac].map(element => {
         if (element.uuid === action.payload.id) {
           element.fileStatus = FILE_STATUS.rejected;
         }

@@ -7,19 +7,20 @@ import { MessageContext } from '../../context/MessageContext/MessageContext';
 const ChatList = () => {
   const { selectedUser } = useContext(SelectUserContext);
   const { messageHistory } = useContext(MessageContext);
+  let messagesEnd = useRef(null);
 
   // scroll to lasted message
   useEffect(() => {
     scrollToBottom();
-  }, [messageHistory]);
-  let messagesEnd = useRef(null);
+  }, [messageHistory, selectedUser]);
+
   const scrollToBottom = () => {
     messagesEnd.scrollIntoView({ behavior: 'auto' });
   };
   return (
     <ul className='chat-list'>
       {selectedUser ? (
-        messageHistory[selectedUser.username].map(message => {
+        messageHistory[selectedUser.macAddress].map(message => {
           if (message.contentType === 'text') {
             return (
               <ChatTextMessage
