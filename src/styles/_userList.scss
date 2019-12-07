@@ -43,7 +43,7 @@
 .search-user {
   position: relative;
   top: 10px;
-  left: 17px;
+  left: 13px;
   height: 16px;
   color: $blueGray;
 }
@@ -66,5 +66,21 @@
   }
   & > span {
     color: $gray;
+  }
+}
+
+.refresh-button {
+  font-size: 20px;
+  margin-left: 43%;
+  margin-bottom: 4px;
+  transition: all 180ms;
+}
+.refresh-button-container {
+  cursor: pointer;
+  &:hover {
+    .refresh-button {
+      color: $blue;
+      transform: rotate(90deg);
+    }
   }
 }

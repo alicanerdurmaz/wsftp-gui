@@ -34,7 +34,7 @@ $border-radius: 8px;
   justify-content: center;
   align-items: flex-start;
   padding: 0px;
-  min-width: 120px;
+  min-width: 100px;
   max-width: 100px;
   max-height: 48px;
   min-height: 48px;
@@ -45,10 +45,6 @@ $border-radius: 8px;
   white-space: nowrap;
   overflow: hidden;
   width: 100%;
-}
-.file-icon {
-  font-size: 48px;
-  margin: 12px 12px;
 }
 
 .file-message-createdAt {
@@ -70,10 +66,12 @@ $border-radius: 8px;
 
 .btn-group {
   cursor: pointer;
-  justify-content: space-evenly;
+  display: flex;
+  justify-content: space-around;
   font-size: 36px;
   margin-top: 16px;
   margin-bottom: 16px;
+  width: 90px;
   & > i {
     transition: ease 125ms;
     padding-left: 16px;

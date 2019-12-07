@@ -18,7 +18,7 @@ const ChatList = () => {
   };
   return (
     <ul className='chat-list'>
-      {selectedUser &&
+      {selectedUser ? (
         messageHistory[selectedUser.username].map(message => {
           if (message.contentType === 'text') {
             return (
@@ -48,7 +48,10 @@ const ChatList = () => {
           } else {
             return null;
           }
-        })}
+        })
+      ) : (
+        <div className='no-selected-user-info'>Select user from left.</div>
+      )}
       <div
         ref={el => {
           messagesEnd = el;

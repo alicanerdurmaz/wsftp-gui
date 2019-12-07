@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { SelectUserContext } from '../../context/SelectUserContext';
-
+import { ReactComponent as AtIcon } from '../../assets/svg/at.svg';
 const ChatHeader = () => {
   const { selectedUser } = useContext(SelectUserContext);
   return (
@@ -8,13 +8,13 @@ const ChatHeader = () => {
       <div className='chat-header-area'>
         <ul className='user-info'>
           <li>
-            <i className='fas fa-at'></i>
+            <AtIcon></AtIcon>
           </li>
           <li>
             <span className='colorBlue'>{selectedUser && selectedUser.username}</span>
           </li>
         </ul>
-        <input type='text' className='search-message' placeholder='Search a message'></input>
+        {/* <input type='text' className='search-message' placeholder='Search a message'></input> */}
       </div>
     </div>
   );

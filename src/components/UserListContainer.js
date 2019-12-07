@@ -18,10 +18,13 @@ const UserListContainer = () => {
             value={filter}
             onChange={e => setFilter(e.currentTarget.value)}></input>
         </li>
+        {/* <li className='refresh-button-container' onClick={null}>
+          <i className='fas fa-redo-alt refresh-button'></i>
+        </li> */}
         {Object.keys(onlineUserList).map(index => {
-          // if (!onlineUserList[index].user.toLowerCase().startsWith(filter.toLowerCase())) {
-          //   return false;
-          // }
+          if (!onlineUserList[index].username.toLowerCase().startsWith(filter.toLowerCase())) {
+            return false;
+          }
           return onlineUserList[index].event === 'online' ? (
             <UserListItem
               status={onlineUserList[index].event}
@@ -32,9 +35,9 @@ const UserListContainer = () => {
           ) : null;
         })}
         {Object.keys(onlineUserList).map(index => {
-          // if (!onlineUserList[index].user.toLowerCase().startsWith(filter.toLowerCase())) {
-          //   return false;
-          // }
+          if (!onlineUserList[index].username.toLowerCase().startsWith(filter.toLowerCase())) {
+            return false;
+          }
           return onlineUserList[index].event === 'offline' ? (
             <UserListItem
               status={onlineUserList[index].event}
@@ -50,22 +53,3 @@ const UserListContainer = () => {
 };
 
 export default UserListContainer;
-
-// {Object.keys(onlineUserList).map(index => {
-//   return onlineUserList[index].stat === 'online' ? (
-//     <UserListItem
-//       status={onlineUserList[index].stat}
-//       name={onlineUserList[index].user}
-//       ipAddress={onlineUserList[index].ip}
-//       key={index}></UserListItem>
-//   ) : null;
-// })}
-// {Object.keys(onlineUserList).map(index => {
-//   return onlineUserList[index].stat === 'offline' ? (
-//     <UserListItem
-//       status={onlineUserList[index].stat}
-//       name={onlineUserList[index].user}
-//       ipAddress={onlineUserList[index].ip}
-//       key={index}></UserListItem>
-//   ) : null;
-// })}

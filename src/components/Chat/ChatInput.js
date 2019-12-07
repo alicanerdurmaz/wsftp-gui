@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, Fragment } from 'react';
 
 import { ReactComponent as FileUploadIcon } from '../../assets/svg/file-upload.svg';
 import { SelectUserContext } from '../../context/SelectUserContext';
-import { commanderSocket } from '../../backend/api/webSocketConnection';
 import { API_SendMessage, API_SendFile } from '../../backend/api/apiFunctions';
 
 const { dialog } = window.require('electron').remote;
@@ -44,16 +43,20 @@ const ChatInput = () => {
   };
   return (
     <div className='chat-input-area'>
-      <div className='file-upload-container' onClick={() => openFileExplorer()}>
-        <FileUploadIcon></FileUploadIcon>
-      </div>
-      <textarea
-        value={text}
-        placeholder='Type a message'
-        className='text-area-autosize'
-        onChange={e => setText(e.target.value)}
-        onKeyUp={sendMessage}
-        onKeyDown={checkEnter}></textarea>
+      {selectedUser ? (
+        <Fragment>
+          <div className='file-upload-container' onClick={() => openFileExplorer()}>
+            <FileUploadIcon></FileUploadIcon>
+          </div>
+          <textarea
+            value={text}
+            placeholder='Type a message'
+            className='text-area-autosize'
+            onChange={e => setText(e.target.value)}
+            onKeyUp={sendMessage}
+            onKeyDown={checkEnter}></textarea>
+        </Fragment>
+      ) : null}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useEffect } from 'react';
 import uuid from 'uuid/v4';
 import { messageReducer } from './messageReducer';
 import { dateNow } from '../../Helpers/newDate';
@@ -114,7 +114,7 @@ const MessageContextProvider = props => {
       });
     }
   };
-  console.log(messageHistory);
+
   return <MessageContext.Provider value={{ messageHistory, dispatch }}>{props.children}</MessageContext.Provider>;
 };
 

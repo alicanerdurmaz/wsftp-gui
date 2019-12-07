@@ -18,3 +18,8 @@ export const API_SendFile = (macAddress, fileDir) => {
   };
   commanderSocket.send(JSON.stringify(data));
 };
+
+export const API_refreshOnlineUserList = () => {
+  const data = { event: 'rshs' };
+  commanderSocket.send(JSON.stringify(data));
+};
