@@ -5,24 +5,26 @@
   height: 100%;
   width: 100%;
   overflow: hidden;
-  grid-template-columns: 150px 350px 1fr;
+  grid-template-columns: 150px 1fr 300px;
   grid-template-areas: 'leftarea middlearea rightarea';
-  column-gap: 8px;
+  column-gap: 4px;
   row-gap: 8px;
+  background: #141618;
 }
 
 .left-area {
   grid-area: leftarea;
-  height: 99%;
+  height: 100%;
   overflow: auto;
+  background-color: $primarycolor;
   border-bottom: 1px solid $border-color;
 }
 .middle-area {
-  grid-area: rightarea;
+  grid-area: middlearea;
 }
 
 .right-area {
-  grid-area: middlearea;
+  grid-area: rightarea;
   overflow: hidden;
 }
 

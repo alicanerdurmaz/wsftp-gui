@@ -2,8 +2,8 @@
   background-color: $primarycolor;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: $primarycolor-light;
-  box-shadow: inset 0 0 6px $primarycolor;
+  background-color: $secondarycolor-light;
+  box-shadow: inset 0 0 6px $secondarycolor-light;
 }
 ::-webkit-scrollbar {
   width: 6px;

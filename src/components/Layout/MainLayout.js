@@ -34,9 +34,7 @@ const MainLayout = () => {
     event.preventDefault();
     setCounter(0);
     const data = await event.dataTransfer.files;
-    for (let i = 0; i < data.length; i++) {
-      console.log(data[i]);
-    }
+    for (let i = 0; i < data.length; i++) {}
   };
   return (
     <div

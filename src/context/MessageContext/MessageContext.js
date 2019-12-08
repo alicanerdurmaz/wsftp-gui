@@ -11,6 +11,7 @@ export const MessageContext = createContext();
 const MessageContextProvider = props => {
   // const [lastDbName, setLastDbName] = useState(null);
   const [messageHistory, dispatch] = useReducer(messageReducer, {});
+
   // ,() => {
   //   const localStorageKeys = Object.keys(localStorage);
 

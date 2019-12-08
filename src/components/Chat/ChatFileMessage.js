@@ -44,7 +44,7 @@ const ChatFileMessage = ({
         dest: '/home/alican/Desktop',
         id: uuid
       };
-      console.log(tempAcceptRequest);
+
       commanderSocket.send(JSON.stringify(tempAcceptRequest));
       dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading } });
     }
@@ -90,7 +90,7 @@ const ChatFileMessage = ({
       return <CheckIcon className='check-icon'></CheckIcon>;
     }
   };
-  console.log(uuid);
+
   return (
     <Fragment>
       <li

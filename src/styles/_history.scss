@@ -1,41 +1,79 @@
 .right-container {
   height: 100%;
   width: 100%;
-  background-color: $primarycolor-light;
-  display: flex;
-  flex-direction: column;
 }
-.two-route-buttons {
-  width: 100%;
-  height: 49px;
-  display: flex;
-  justify-content: space-evenly;
-  align-content: center;
-  align-items: center;
-  justify-items: center;
-  border-bottom: 4px solid $border-color;
-}
-.upload-icon {
-  fill: $blueGray;
-  width: 24px;
-  height: 24px;
-  margin-right: 8px;
-  margin-top: 12px;
-}
-.download-icon {
-  fill: $blueGray;
-  width: 24px;
-  height: 24px;
-  margin-right: 8px;
-  margin-top: 12px;
-}
-.btn-container {
-  width: 100%;
+.history-container {
   height: 100%;
-  text-align: center;
-  font-weight: 700;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 44px 1fr 40px 1fr;
+  row-gap: 4px;
+  background-color: $primarycolor-light;
 }
 
-.add-border {
-  border-left: 2px solid $border-color;
+.history-list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 0px 4px;
+}
+.history-list-item {
+  max-height: 70px;
+  min-height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.history-content {
+  width: 280px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.h-file-icon {
+  min-width: 36px;
+  min-height: 36px;
+  max-width: 36px;
+  max-height: 36px;
+  color: $blueGray;
+}
+.history-fileName {
+  color: $blueGray;
+  font-weight: bold;
+  width: 230px;
+  height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.history-title {
+  text-align: center;
+  padding-top: 8px;
+  font-weight: bolder;
+}
+
+.history-twoText {
+  min-width: 230px;
+  max-width: 230px;
+}
+.history-fileSize {
+  display: inline-block;
+  min-width: 100px;
+  max-width: 100px;
+}
+.history-createdAt {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.padding-top-2 {
+  padding-top: 12px;
+}
+.border-top {
+  border-top: 4px solid $primarycolor;
+}
+.border-bottom {
+  border-bottom: 4px solid $primarycolor;
 }

@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import UserListContainer from '../UserListContainer';
-import Profile from '../Profile';
 
 const LeftLayout = () => {
   return (
