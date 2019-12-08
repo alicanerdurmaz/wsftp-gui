@@ -9,33 +9,32 @@ import { MESSAGE_ADDED, PROGRESS_CHANGED, PROGRESS_DONE, PROGRESS_FAIL } from '.
 export const MessageContext = createContext();
 
 const MessageContextProvider = props => {
-  const [lastDbName, setLastDbName] = useState(null);
-  const [messageHistory, dispatch] = useReducer(messageReducer, {}, () => {
-    const localStorageKeys = Object.keys(localStorage);
+  // const [lastDbName, setLastDbName] = useState(null);
+  const [messageHistory, dispatch] = useReducer(messageReducer, {});
+  // ,() => {
+  //   const localStorageKeys = Object.keys(localStorage);
 
-    const tempObject = {};
-    localStorageKeys.forEach(element => {
-      try {
-        tempObject[element] = JSON.parse(localStorage.getItem(element));
-      } catch (error) {
-        console.error(error);
-      }
-    });
+  //   const tempObject = {};
+  //   localStorageKeys.forEach(element => {
+  //     try {
+  //       tempObject[element] = JSON.parse(localStorage.getItem(element));
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   });
 
-    return tempObject;
-  });
+  //   return tempObject;
+  // });
 
-  useEffect(() => {
-    if (lastDbName !== null) {
-      localStorage.setItem(lastDbName, JSON.stringify(messageHistory[lastDbName]));
-    }
-  }, [lastDbName, messageHistory]);
-
-  console.log(messageHistory);
+  // useEffect(() => {
+  //   if (lastDbName !== null) {
+  //     localStorage.setItem(lastDbName, JSON.stringify(messageHistory[lastDbName]));
+  //   }
+  // }, [lastDbName, messageHistory]);
 
   msgSocket.onmessage = function(e) {
     const dataToJson = JSON.parse(e.data);
-    setLastDbName(dataToJson.mac);
+    // setLastDbName(dataToJson.mac);
 
     if (dataToJson.event === 'smsg') {
       dispatch({
@@ -71,7 +70,7 @@ const MessageContextProvider = props => {
 
   srScoket.onmessage = function(e) {
     const dataToJson = JSON.parse(e.data);
-    setLastDbName(dataToJson.mac);
+    // setLastDbName(dataToJson.mac);
     if (dataToJson.event === 'rreq') {
       dispatch({
         type: MESSAGE_ADDED,

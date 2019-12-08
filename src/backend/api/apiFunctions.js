@@ -23,3 +23,9 @@ export const API_refreshOnlineUserList = () => {
   const data = { event: 'rshs' };
   commanderSocket.send(JSON.stringify(data));
 };
+
+export const API_killTransaction = port => {
+  const data = { event: 'kprg', port: port };
+  commanderSocket.send(JSON.stringify(data));
+  console.log(port, 'worked');
+};

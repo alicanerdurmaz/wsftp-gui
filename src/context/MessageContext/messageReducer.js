@@ -22,8 +22,9 @@ export const messageReducer = (state, action) => {
       state[action.payload.mac].map(element => {
         if (element.uuid === action.payload.id) {
           const tempProgress = parseInt(action.payload.current) / parseInt(action.payload.total);
-          element.progress = tempProgress * 100;
+          element.progress = Math.round(tempProgress * 100);
           element.speed = action.payload.speed;
+          element['port'] = action.payload.port;
         }
       });
       return { ...state };

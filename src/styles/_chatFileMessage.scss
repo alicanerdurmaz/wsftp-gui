@@ -1,6 +1,10 @@
 $borderpx: 1.2px;
 $file-message-border-color: #20222586;
 $border-radius: 8px;
+
+.file-message-container {
+  cursor: pointer;
+}
 .file-message-content {
   color: $blueGray;
   margin-bottom: 4px;
@@ -73,34 +77,6 @@ $border-radius: 8px;
   margin-top: 16px;
   margin-bottom: 16px;
   width: 90px;
-  & > i {
-    transition: ease 125ms;
-    padding-left: 16px;
-  }
-}
-
-.custom-progressbar-container-user {
-  float: right !important;
-}
-.custom-progressbar-props-user {
-  float: right !important;
-  width: 245px;
-  height: 10px !important;
-  background-color: $gray !important;
-  border-radius: 2px;
-}
-.custom-progressbar-container-other {
-  float: left !important;
-}
-.custom-progressbar-props-other {
-  float: left !important;
-  width: 245px;
-  height: 10px !important;
-  background-color: $gray !important;
-  border-radius: 2px;
-}
-.MuiLinearProgress-barColorPrimary {
-  background-color: $green !important;
 }
 
 .cancel-button {
@@ -109,4 +85,17 @@ $border-radius: 8px;
   margin-left: 28px;
   margin-top: 6px;
   color: $red;
+}
+
+.progress-text-container {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+}
+.progress-text {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 25%;
+  color: $blueGray;
 }

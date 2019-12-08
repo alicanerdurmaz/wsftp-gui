@@ -1,31 +1,15 @@
-import React, { useContext, Fragment } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import React, { useContext, Fragment, useState } from 'react';
 
+import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import { commanderSocket } from '../../backend/api/webSocketConnection';
 import { MessageContext } from '../../context/MessageContext/MessageContext';
 import { STATUS_CHANGED } from '../../context/types';
 import { byteConverter } from '../../Helpers/byteConverter';
-import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
+import { API_killTransaction } from '../../backend/api/apiFunctions';
 import { ReactComponent as FileIcon } from '../../assets/svg/file-solid.svg';
 import { ReactComponent as BanIcon } from '../../assets/svg/ban-solid.svg';
 import { ReactComponent as CheckIcon } from '../../assets/svg/check-circle-solid.svg';
 import { ReactComponent as TimesIcon } from '../../assets/svg/times-solid.svg';
-
-const useStyles = makeStyles(theme => ({
-  circularProgress: {
-    display: 'flex',
-    '& > * + *': {
-      marginLeft: theme.spacing(2)
-    }
-  },
-  linearProgress: {
-    '& > * + *': {
-      marginTop: theme.spacing(2)
-    }
-  }
-}));
 
 const ChatFileMessage = ({
   fileStatus,
@@ -39,11 +23,12 @@ const ChatFileMessage = ({
   uuid,
   dbName,
   progress,
-  mac
+  mac,
+  port
 }) => {
-  const classes = useStyles();
-
   const { dispatch } = useContext(MessageContext);
+  const [showCancel, setShowCancel] = useState(false);
+
   let tempFrom = 'user';
   if (from !== '*MYPC*') {
     tempFrom = 'other';
@@ -83,27 +68,41 @@ const ChatFileMessage = ({
           </BanIcon>
         </div>
       );
-    } else if (fileStatus === FILE_STATUS.rejected) {
+    }
+    if (fileStatus === FILE_STATUS.rejected) {
       return (
         <div className='btn-group'>
           <TimesIcon className='times-icon disabled'></TimesIcon>
         </div>
       );
-    } else if (fileStatus === FILE_STATUS.loading) {
+    }
+    if (fileStatus === FILE_STATUS.loading && !showCancel) {
       return (
-        <div className={classes.circularProgress}>
-          <CircularProgress />
+        <div className='progress-text-container'>
+          <span className='progress-text'>%{progress}</span>
         </div>
       );
-    } else if (fileStatus === FILE_STATUS.sent) {
-      return <CheckIcon className='check-icon' onClick={() => setAccepted(true)}></CheckIcon>;
+    }
+    if (fileStatus === FILE_STATUS.loading && showCancel) {
+      return <TimesIcon className='times-icon-cancelprg' onClick={e => API_killTransaction(port)}></TimesIcon>;
+    }
+    if (fileStatus === FILE_STATUS.sent) {
+      return <CheckIcon className='check-icon'></CheckIcon>;
     }
   };
-
+  console.log(uuid);
   return (
     <Fragment>
-      <li className={`file-message-container ${tempFrom}`}>
-        <div className={`file-message-content ${tempFrom}`}>
+      <li
+        className={`file-message-container ${tempFrom}`}
+        onMouseEnter={tempFrom === 'other' ? e => setShowCancel(true) : null}
+        onMouseLeave={tempFrom === 'other' ? e => setShowCancel(false) : null}>
+        <div
+          className={`file-message-content ${tempFrom}`}
+          style={{
+            background:
+              fileStatus === FILE_STATUS.loading ? `linear-gradient(90deg, #6ab8959c ${progress}%, #2f3136 1%)` : null
+          }}>
           <FileIcon className='file-icon'></FileIcon>
           <div className='file-info'>
             <span className='file-name'>{fileName}</span>
@@ -112,12 +111,6 @@ const ChatFileMessage = ({
           {fileInformation()}
         </div>
       </li>
-
-      {fileStatus === FILE_STATUS.loading ? (
-        <div className={`${classes.linearProgress} custom-progressbar-container-${tempFrom}`}>
-          <LinearProgress variant='determinate' value={progress} className={`custom-progressbar-props-${tempFrom}`} />
-        </div>
-      ) : null}
 
       <span className={`file-message-createdAt ${tempFrom}`}>
         <span className='createdAt-f'>{createdAt}</span>

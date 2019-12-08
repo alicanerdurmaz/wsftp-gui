@@ -32,6 +32,7 @@ const ChatList = () => {
           } else if (message.contentType === 'file') {
             return (
               <ChatFileMessage
+                port={message.port}
                 progress={message.progress}
                 key={message.uuid}
                 mac={message.mac}

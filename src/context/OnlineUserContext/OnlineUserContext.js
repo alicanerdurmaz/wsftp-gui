@@ -18,11 +18,11 @@ const OnlineUserContextProvider = props => {
       dispatch({ type: USER_CREATED, macAddress: macAddress });
     }
 
-    const localData = localStorage.getItem(macAddress);
+    // const localData = localStorage.getItem(macAddress);
 
-    if (localData === null || localData === undefined) {
-      localStorage.setItem(macAddress, '{}');
-    }
+    // if (localData === null || localData === undefined) {
+    //   // localStorage.setItem(macAddress, '[]');
+    // }
 
     setOnlineUserList({
       ...onlineUserList,
