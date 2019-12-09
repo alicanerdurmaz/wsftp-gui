@@ -36,9 +36,8 @@ const ChatInput = () => {
     }
     const result = await dialog.showOpenDialog({ properties: ['multiSelections'] });
     const macAddress = selectedUser.macAddress;
-    result.filePaths.map(path => {
+    result.filePaths.forEach(path => {
       API_SendFile(macAddress, path);
-      return true;
     });
   };
   return (

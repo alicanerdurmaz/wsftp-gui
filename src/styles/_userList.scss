@@ -68,19 +68,3 @@
     color: $gray;
   }
 }
-
-.refresh-button {
-  font-size: 20px;
-  margin-left: 43%;
-  margin-bottom: 4px;
-  transition: all 180ms;
-}
-.refresh-button-container {
-  cursor: pointer;
-  &:hover {
-    .refresh-button {
-      color: $blue;
-      transform: rotate(90deg);
-    }
-  }
-}

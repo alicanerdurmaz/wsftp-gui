@@ -15,9 +15,13 @@
 .left-area {
   grid-area: leftarea;
   height: 100%;
+  width: 150px;
   overflow: auto;
   background-color: $primarycolor;
   border-bottom: 1px solid $border-color;
+  display: grid;
+  grid-template-rows: 1fr 53px;
+  overflow-x: hidden;
 }
 .middle-area {
   grid-area: middlearea;
@@ -26,34 +30,4 @@
 .right-area {
   grid-area: rightarea;
   overflow: hidden;
-}
-
-.leftfooter-container {
-  height: 100%;
-  width: 100%;
-  color: $gray;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  & > i {
-    font-size: 24px;
-  }
-  &:hover {
-    .tooltiptext {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-}
-
-.flex-column {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  & > li {
-    font-size: 16px;
-    font-weight: bold;
-  }
 }

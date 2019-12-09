@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 
 import LeftLayout from './LeftLayout';
 import MiddleLayout from './MiddleLayout';
@@ -36,6 +36,7 @@ const MainLayout = () => {
     const data = await event.dataTransfer.files;
     for (let i = 0; i < data.length; i++) {}
   };
+
   return (
     <div
       className={'main-container'}

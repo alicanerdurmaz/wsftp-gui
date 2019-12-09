@@ -18,9 +18,6 @@ const UserListContainer = () => {
             value={filter}
             onChange={e => setFilter(e.currentTarget.value)}></input>
         </li>
-        {/* <li className='refresh-button-container' onClick={null}>
-          <i className='fas fa-redo-alt refresh-button'></i>
-        </li> */}
         {Object.keys(onlineUserList).map(index => {
           if (!onlineUserList[index].username.toLowerCase().startsWith(filter.toLowerCase())) {
             return false;
