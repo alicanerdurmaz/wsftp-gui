@@ -19,11 +19,15 @@
   padding: 0px 4px;
 }
 .history-list-item {
+  cursor: pointer;
   max-height: 70px;
   min-height: 70px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  &:hover {
+    background-color: $primarycolor;
+  }
 }
 .history-content {
   width: 280px;

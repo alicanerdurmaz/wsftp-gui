@@ -2,7 +2,7 @@ import React, { useState, useContext, Fragment } from 'react';
 
 import { ReactComponent as FileUploadIcon } from '../../assets/svg/file-upload.svg';
 import { SelectUserContext } from '../../context/SelectUserContext';
-import { API_SendMessage, API_SendFile } from '../../backend/api/apiFunctions';
+import { API_SendMessage, API_SendFile } from '../../backend/api/webSocketConnection';
 
 const { dialog } = window.require('electron').remote;
 

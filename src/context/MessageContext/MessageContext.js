@@ -2,40 +2,18 @@ import React, { createContext, useReducer, useEffect, useState } from 'react';
 import uuid from 'uuid/v4';
 import { messageReducer } from './messageReducer';
 import { dateNow } from '../../Helpers/newDate';
-import { msgSocket, srScoket } from '../../backend/api/webSocketConnection';
+import { msgSocket, srScoket, commanderSocket } from '../../backend/api/webSocketConnection';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import { MESSAGE_ADDED, PROGRESS_CHANGED, PROGRESS_DONE, PROGRESS_FAIL } from '../types';
+import { API_saveJson, API_getJson, API_SendMessage } from '../../backend/api/webSocketConnection';
 
 export const MessageContext = createContext();
 
 const MessageContextProvider = props => {
-  // const [lastDbName, setLastDbName] = useState(null);
   const [messageHistory, dispatch] = useReducer(messageReducer, {});
-
-  // ,() => {
-  //   const localStorageKeys = Object.keys(localStorage);
-
-  //   const tempObject = {};
-  //   localStorageKeys.forEach(element => {
-  //     try {
-  //       tempObject[element] = JSON.parse(localStorage.getItem(element));
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   });
-
-  //   return tempObject;
-  // });
-
-  // useEffect(() => {
-  //   if (lastDbName !== null) {
-  //     localStorage.setItem(lastDbName, JSON.stringify(messageHistory[lastDbName]));
-  //   }
-  // }, [lastDbName, messageHistory]);
 
   msgSocket.onmessage = function(e) {
     const dataToJson = JSON.parse(e.data);
-    // setLastDbName(dataToJson.mac);
 
     if (dataToJson.event === 'smsg') {
       dispatch({
@@ -71,7 +49,8 @@ const MessageContextProvider = props => {
 
   srScoket.onmessage = function(e) {
     const dataToJson = JSON.parse(e.data);
-    // setLastDbName(dataToJson.mac);
+
+    console.log('srSocket', dataToJson);
     if (dataToJson.event === 'rreq') {
       dispatch({
         type: MESSAGE_ADDED,

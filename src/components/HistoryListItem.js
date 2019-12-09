@@ -7,10 +7,7 @@ import { ReactComponent as FileCodeIcon } from '../assets/svg/file/file-code.svg
 import { ReactComponent as FileImageIcon } from '../assets/svg/file/file-image.svg';
 import { ReactComponent as FileVideoIcon } from '../assets/svg/file/file-video.svg';
 import { ReactComponent as FileAltIcon } from '../assets/svg/file/file-alt.svg';
-
-import { ReactComponent as FolderOpenIcon } from '../assets/svg/folder-open.svg';
 import { ReactComponent as FilePdfIcon } from '../assets/svg/file/file-pdf.svg';
-
 import {
   AudioFormats,
   ArchiveFormats,
@@ -19,6 +16,7 @@ import {
   VideoFormats,
   CodeFormats
 } from '../Helpers/fileFormats';
+const { shell } = require('electron');
 
 const HistoryListItem = ({ fileName, createdAt, fileSize, fileDir, fileType }) => {
   const chooseIcon = () => {
@@ -57,8 +55,12 @@ const HistoryListItem = ({ fileName, createdAt, fileSize, fileDir, fileType }) =
     }
     return <FileIcon className='h-file-icon'></FileIcon>;
   };
+
+  const openFileDirectory = () => {
+    shell.showItemInFolder(fileDir);
+  };
   return (
-    <li className='history-list-item'>
+    <li className='history-list-item' onClick={openFileDirectory}>
       <div className='history-content'>
         {chooseIcon()}
         <div className='history-info'>

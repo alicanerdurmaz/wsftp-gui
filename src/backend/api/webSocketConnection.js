@@ -33,9 +33,47 @@ srScoket.onclose = function(e) {
 commanderSocket.onopen = function() {
   console.log('connected to commanderSocket ' + commanderSocket);
 };
+
 commanderSocket.onclose = function(e) {
   console.log('connection closed commanderSocket ' + e);
 };
 commanderSocket.onmessage = function(e) {
   console.log('CMD : ' + e);
+};
+export const API_SendMessage = (macAddress, msgContent) => {
+  const data = {
+    event: 'cmsg',
+    mac: macAddress,
+    msg: msgContent
+  };
+  commanderSocket.send(JSON.stringify(data));
+};
+
+export const API_SendFile = (macAddress, fileDir) => {
+  const data = {
+    event: 'creq',
+    mac: macAddress,
+    dir: fileDir
+  };
+  commanderSocket.send(JSON.stringify(data));
+};
+
+export const API_refreshOnlineUserList = () => {
+  const data = { event: 'rshs' };
+  commanderSocket.send(JSON.stringify(data));
+};
+
+export const API_killTransaction = port => {
+  const data = { event: 'kprg', port: port };
+  commanderSocket.send(JSON.stringify(data));
+};
+
+export const API_saveJson = (mac, input) => {
+  const data = { event: 'save', mac: mac, input: input };
+  commanderSocket.send(JSON.stringify(data));
+};
+
+export const API_getJson = mac => {
+  const data = { event: 'get', mac: mac };
+  commanderSocket.send(JSON.stringify(data));
 };

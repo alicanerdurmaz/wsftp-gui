@@ -6,9 +6,7 @@ import { ReactComponent as UploadIcon } from '../../assets/svg/upload.svg';
 const RightLayout = () => {
   return (
     <div className='right-area'>
-      <div className='right-container'>
-        <HistoryLayout></HistoryLayout>
-      </div>
+      <div className='right-container'>{/* <HistoryLayout></HistoryLayout> */}</div>
     </div>
   );
 };

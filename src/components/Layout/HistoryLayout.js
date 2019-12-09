@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import { SelectUserContext } from '../../context/SelectUserContext';
 
 import fakeData from '../../data.json';
@@ -6,7 +6,22 @@ import HistoryListItem from '../HistoryListItem';
 
 const HistoryLayout = () => {
   const { selectedUser } = useContext(SelectUserContext);
+  let downloadsListEnd = useRef(null);
+  let uploadsListEnd = useRef(null);
 
+  useEffect(() => {
+    scrollToDownloadList();
+  }, [selectedUser]);
+
+  useEffect(() => {
+    scrollToUploadList();
+  }, [selectedUser]);
+  const scrollToUploadList = () => {
+    uploadsListEnd.scrollIntoView({ behavior: 'auto' });
+  };
+  const scrollToDownloadList = () => {
+    downloadsListEnd.scrollIntoView({ behavior: 'auto' });
+  };
   return (
     <div className='history-container'>
       <div className='border-bottom'>
@@ -22,10 +37,14 @@ const HistoryLayout = () => {
                 createdAt={e.createdAt}
                 fileSize={e.fileSize}
                 fileType={e.fileType}
-                fileDir={e.fileDir}></HistoryListItem>
+                fileDir={e.dir}></HistoryListItem>
             );
           } else return null;
         })}
+        <div
+          ref={el => {
+            uploadsListEnd = el;
+          }}></div>
       </ul>
 
       <div className='border-top border-bottom '>
@@ -41,10 +60,14 @@ const HistoryLayout = () => {
                 fileName={e.fileName}
                 createdAt={e.createdAt}
                 fileSize={e.fileSize}
-                fileDir={e.fileDir}></HistoryListItem>
+                fileDir={e.dir}></HistoryListItem>
             );
           } else return null;
         })}
+        <div
+          ref={el => {
+            downloadsListEnd = el;
+          }}></div>
       </ul>
     </div>
   );

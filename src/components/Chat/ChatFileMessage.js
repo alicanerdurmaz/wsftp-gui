@@ -5,7 +5,7 @@ import { commanderSocket } from '../../backend/api/webSocketConnection';
 import { MessageContext } from '../../context/MessageContext/MessageContext';
 import { STATUS_CHANGED } from '../../context/types';
 import { byteConverter } from '../../Helpers/byteConverter';
-import { API_killTransaction } from '../../backend/api/apiFunctions';
+import { API_killTransaction } from '../../backend/api/webSocketConnection';
 import { ReactComponent as FileIcon } from '../../assets/svg/file-solid.svg';
 import { ReactComponent as BanIcon } from '../../assets/svg/ban-solid.svg';
 import { ReactComponent as CheckIcon } from '../../assets/svg/check-circle-solid.svg';
