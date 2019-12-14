@@ -11,7 +11,7 @@ export const messageReducer = (state, action) => {
       return { ...state };
 
     case STATUS_CHANGED:
-      state[action.payload.dbName].ForEach(element => {
+      state[action.payload.dbName].map(element => {
         if (element.uuid === action.payload.uuid) {
           element.fileStatus = action.payload.fileStatus;
         }
@@ -19,7 +19,7 @@ export const messageReducer = (state, action) => {
       return { ...state };
 
     case PROGRESS_CHANGED:
-      state[action.payload.mac].ForEach(element => {
+      state[action.payload.mac].map(element => {
         if (element.uuid === action.payload.id) {
           const tempProgress = parseInt(action.payload.current) / parseInt(action.payload.total);
           element.progress = Math.round(tempProgress * 100);
@@ -29,14 +29,14 @@ export const messageReducer = (state, action) => {
       });
       return { ...state };
     case PROGRESS_DONE:
-      state[action.payload.mac].ForEach(element => {
+      state[action.payload.mac].map(element => {
         if (element.uuid === action.payload.id) {
           element.fileStatus = FILE_STATUS.sent;
         }
       });
       return { ...state };
     case PROGRESS_FAIL:
-      state[action.payload.mac].ForEach(element => {
+      state[action.payload.mac].map(element => {
         if (element.uuid === action.payload.id) {
           element.fileStatus = FILE_STATUS.rejected;
         }
