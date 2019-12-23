@@ -57,3 +57,11 @@ p {
   text-decoration: none;
   color: $blueGray;
 }
+
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+.overflow-auto {
+  overflow: auto !important;
+}

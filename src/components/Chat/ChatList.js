@@ -1,12 +1,14 @@
-import React, { useRef, useEffect, useContext, Fragment } from 'react';
+import React, { useRef, useEffect, useContext, Fragment, useState } from 'react';
 import ChatTextMessage from './ChatTextMessage';
 import ChatFileMessage from './ChatFileMessage';
 import { SelectUserContext } from '../../context/SelectUserContext';
 import { MessageContext } from '../../context/MessageContext/MessageContext';
+import { getFromDataBase } from '../../backend/api/dbFunctions';
 
-const ChatList = () => {
+const ChatList = ({ oldList }) => {
   const { selectedUser } = useContext(SelectUserContext);
   const { messageHistory } = useContext(MessageContext);
+
   let messagesEnd = useRef(null);
 
   // scroll to lasted message
@@ -19,7 +21,17 @@ const ChatList = () => {
   };
 
   return (
-    <Fragment>
+    <div>
+      {oldList &&
+        oldList.map(message => {
+          return (
+            <ChatTextMessage
+              key={message.uuid}
+              content={message.content}
+              createdAt={message.createdAt}
+              sender={message.from}></ChatTextMessage>
+          );
+        })}
       {selectedUser ? (
         messageHistory[selectedUser.userIdentity].map(message => {
           if (message.contentType === 'text') {
@@ -59,7 +71,7 @@ const ChatList = () => {
         ref={el => {
           messagesEnd = el;
         }}></div>
-    </Fragment>
+    </div>
   );
 };
 
