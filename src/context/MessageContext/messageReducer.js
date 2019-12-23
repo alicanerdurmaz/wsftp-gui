@@ -20,7 +20,7 @@ export const messageReducer = (state, action) => {
 
     case PROGRESS_CHANGED:
       state[`${action.payload.username}:${action.payload.mac}`].forEach(element => {
-        if (element.uuid === action.payload.id) {
+        if (element.uuid === action.payload.uuid) {
           const tempProgress = parseInt(action.payload.current) / parseInt(action.payload.total);
           element.progress = Math.round(tempProgress * 100);
           element.speed = action.payload.speed;
@@ -30,14 +30,14 @@ export const messageReducer = (state, action) => {
       return { ...state };
     case PROGRESS_DONE:
       state[`${action.payload.username}:${action.payload.mac}`].forEach(element => {
-        if (element.uuid === action.payload.id) {
+        if (element.uuid === action.payload.uuid) {
           element.fileStatus = FILE_STATUS.sent;
         }
       });
       return { ...state };
     case PROGRESS_FAIL:
       state[`${action.payload.username}:${action.payload.mac}`].forEach(element => {
-        if (element.uuid === action.payload.id) {
+        if (element.uuid === action.payload.uuid) {
           element.fileStatus = FILE_STATUS.rejected;
         }
       });
