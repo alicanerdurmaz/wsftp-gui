@@ -42,7 +42,7 @@ const ChatFileMessage = ({
         mac: mac,
         dir: dir,
         dest: 'desk',
-        id: uuid
+        tid: uuid
       };
 
       commanderSocket.send(JSON.stringify(tempAcceptRequest));

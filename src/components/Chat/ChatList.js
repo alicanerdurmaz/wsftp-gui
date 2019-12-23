@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useContext } from 'react';
+import React, { useRef, useEffect, useContext, Fragment } from 'react';
 import ChatTextMessage from './ChatTextMessage';
 import ChatFileMessage from './ChatFileMessage';
 import { SelectUserContext } from '../../context/SelectUserContext';

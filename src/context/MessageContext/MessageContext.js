@@ -15,7 +15,7 @@ export const MessageContext = createContext();
 
 const MessageContextProvider = props => {
   const [messageHistory, dispatch] = useReducer(messageReducer, {});
-
+  console.log(messageHistory);
   useEffect(() => {
     const saveToDatabase = () => {
       for (let key in messageHistory) {
@@ -70,7 +70,10 @@ const MessageContextProvider = props => {
 
   srScoket.onmessage = function(e) {
     const dataToJson = JSON.parse(e.data);
+    console.log(dataToJson);
+
     const userIdentity = dataToJson.username + ':' + dataToJson.mac;
+
     if (dataToJson.event === 'rreq') {
       dispatch({
         type: MESSAGE_ADDED,
@@ -91,7 +94,7 @@ const MessageContextProvider = props => {
           current: '0',
           speed: '0',
           progress: 0,
-          uuid: uuid()
+          uuid: dataToJson.tid
         }
       });
     }
@@ -116,7 +119,7 @@ const MessageContextProvider = props => {
           current: '0',
           speed: '0',
           progress: 0,
-          uuid: uuid()
+          uuid: dataToJson.tid
         }
       });
     }

@@ -3,6 +3,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { ReactComponent as FileUploadIcon } from '../../assets/svg/file-upload.svg';
 import { SelectUserContext } from '../../context/SelectUserContext';
 import { API_SendMessage, API_SendFile } from '../../backend/api/webSocketConnection';
+import uuid from 'uuid/v4';
 
 const { dialog } = window.require('electron').remote;
 
@@ -35,8 +36,9 @@ const ChatInput = () => {
     }
     const result = await dialog.showOpenDialog({ properties: ['multiSelections'] });
     const macAddress = selectedUser.macAddress;
+    const tid = uuid();
     result.filePaths.forEach(path => {
-      API_SendFile(macAddress, path);
+      API_SendFile(macAddress, path, tid);
     });
   };
   return (

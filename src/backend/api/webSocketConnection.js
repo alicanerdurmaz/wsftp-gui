@@ -49,11 +49,12 @@ export const API_SendMessage = (macAddress, msgContent) => {
   commanderSocket.send(JSON.stringify(data));
 };
 
-export const API_SendFile = (macAddress, fileDir) => {
+export const API_SendFile = (macAddress, fileDir, tid) => {
   const data = {
     event: 'creq',
     mac: macAddress,
-    dir: fileDir
+    dir: fileDir,
+    tid: tid
   };
   commanderSocket.send(JSON.stringify(data));
 };
