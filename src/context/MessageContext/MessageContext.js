@@ -94,7 +94,7 @@ const MessageContextProvider = props => {
           current: '0',
           speed: '0',
           progress: 0,
-          uuid: dataToJson.tid
+          uuid: dataToJson.uuid
         }
       });
     }
@@ -119,7 +119,7 @@ const MessageContextProvider = props => {
           current: '0',
           speed: '0',
           progress: 0,
-          uuid: dataToJson.tid
+          uuid: dataToJson.uuid
         }
       });
     }
