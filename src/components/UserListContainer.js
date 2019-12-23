@@ -28,6 +28,7 @@ const UserListContainer = () => {
               username={onlineUserList[index].username}
               ipAddress={onlineUserList[index].ip}
               macAddress={onlineUserList[index].mac}
+              userIdentity={onlineUserList[index].userIdentity}
               key={index}></UserListItem>
           ) : null;
         })}
@@ -41,6 +42,7 @@ const UserListContainer = () => {
               username={onlineUserList[index].username}
               ipAddress={onlineUserList[index].ip}
               macAddress={onlineUserList[index].mac}
+              userIdentity={onlineUserList[index].userIdentity}
               key={index}></UserListItem>
           ) : null;
         })}

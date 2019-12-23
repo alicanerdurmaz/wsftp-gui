@@ -12,14 +12,17 @@ const OnlineUserContextProvider = props => {
   hsSocket.onmessage = msg => {
     const toJson = JSON.parse(msg.data);
     const macAddress = toJson.mac;
+    const username = toJson.username;
+    const userIdentity = username + ':' + macAddress;
+    toJson.userIdentity = userIdentity;
 
     if (!messageHistory.hasOwnProperty(macAddress)) {
-      dispatch({ type: USER_CREATED, macAddress: macAddress });
+      dispatch({ type: USER_CREATED, macAddress: macAddress, username: username, userIdentity: userIdentity });
     }
 
     setOnlineUserList({
       ...onlineUserList,
-      [macAddress]: {
+      [userIdentity]: {
         ...toJson
       }
     });

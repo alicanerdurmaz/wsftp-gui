@@ -22,9 +22,12 @@
   margin-bottom: 4px;
   padding: 2px;
   width: 100%;
+  height: auto;
 }
 .message-p {
   width: 70%;
+  white-space: pre-wrap;
+  height: auto;
 }
 .message-createdAt {
   font-size: 12px;

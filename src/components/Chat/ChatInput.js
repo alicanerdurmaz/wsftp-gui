@@ -1,5 +1,5 @@
-import React, { useState, useContext, Fragment } from 'react';
-
+import React, { useState, useContext, Fragment, useRef } from 'react';
+import TextareaAutosize from 'react-textarea-autosize';
 import { ReactComponent as FileUploadIcon } from '../../assets/svg/file-upload.svg';
 import { SelectUserContext } from '../../context/SelectUserContext';
 import { API_SendMessage, API_SendFile } from '../../backend/api/webSocketConnection';
@@ -9,25 +9,24 @@ const { dialog } = window.require('electron').remote;
 const ChatInput = () => {
   const { selectedUser } = useContext(SelectUserContext);
   const [text, setText] = useState('');
+  const root = useRef(document.documentElement);
 
-  const sendMessage = e => {
-    if (selectedUser === null) {
-      return;
-    } else if (text.length < 1) {
-      return;
-    } else if (e.key === 'Enter') {
-      API_SendMessage(selectedUser.macAddress, text);
-
-      setText('');
-    } else {
-      return false;
+  const handleHeightChange = e => {
+    const newPx = e + 31;
+    root.current.style.setProperty('--input-px', newPx + 'px');
+  };
+  const handleKeyEvents = e => {
+    if (e.key === 'Enter' && e.shiftKey) {
+      return true;
+    } else if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
     }
   };
-  const checkEnter = e => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      return false;
-    }
+
+  const sendMessage = e => {
+    API_SendMessage(selectedUser.macAddress, text);
+    setText('');
   };
 
   const openFileExplorer = async () => {
@@ -42,18 +41,18 @@ const ChatInput = () => {
   };
   return (
     <div className='chat-input-area'>
+      <FileUploadIcon onClick={() => openFileExplorer()}></FileUploadIcon>
       {selectedUser ? (
         <Fragment>
-          <div className='file-upload-container' onClick={() => openFileExplorer()}>
-            <FileUploadIcon></FileUploadIcon>
-          </div>
-          <textarea
+          <TextareaAutosize
+            minRows={1}
+            maxRows={4}
             value={text}
+            onHeightChange={e => handleHeightChange(e)}
             placeholder='Type a message'
             className='text-area-autosize'
             onChange={e => setText(e.target.value)}
-            onKeyUp={sendMessage}
-            onKeyDown={checkEnter}></textarea>
+            onKeyDown={e => handleKeyEvents(e)}></TextareaAutosize>
         </Fragment>
       ) : null}
     </div>

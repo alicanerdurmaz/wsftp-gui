@@ -7,13 +7,13 @@
 //     event.stopPropagation();
 //     event.preventDefault();
 //     // setShowDndInfo('showDndInfo');
-//     console.log('enter');
+//     ('enter');
 //   };
 //   const onDragLeaveHandler = event => {
 //     event.stopPropagation();
 //     event.preventDefault();
 //     // setShowDndInfo('');
-//     console.log('leave');
+//     ('leave');
 //   };
 
 //   const onDragOverHandler = event => {
@@ -26,7 +26,7 @@
 //     // setShowDndInfo('');
 //     const data = await event.dataTransfer.files;
 //     for (let i = 0; i < data.length; i++) {
-//       console.log(data[i]);
+//       (data[i]);
 //     }
 //   };
 

@@ -17,10 +17,11 @@ const ChatList = () => {
   const scrollToBottom = () => {
     messagesEnd.scrollIntoView({ behavior: 'auto' });
   };
+
   return (
-    <ul className='chat-list'>
+    <Fragment>
       {selectedUser ? (
-        messageHistory[selectedUser.macAddress].map(message => {
+        messageHistory[selectedUser.userIdentity].map(message => {
           if (message.contentType === 'text') {
             return (
               <ChatTextMessage
@@ -58,7 +59,7 @@ const ChatList = () => {
         ref={el => {
           messagesEnd = el;
         }}></div>
-    </ul>
+    </Fragment>
   );
 };
 

@@ -41,7 +41,7 @@ const ChatFileMessage = ({
         event: 'cacp',
         mac: mac,
         dir: dir,
-        dest: '/home/alican/Desktop',
+        dest: 'desk',
         id: uuid
       };
 

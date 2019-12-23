@@ -3,35 +3,45 @@
   height: 100%;
   display: flex;
   justify-content: flex-start;
-  justify-items: center;
-  align-content: center;
-  align-items: center;
+  align-items: flex-end;
   overflow: hidden;
 }
-.text-area-autosize {
+.text-area-container {
   background-color: $secondarycolor-light;
+  min-width: 92.5%;
+  max-width: 92.5%;
+  border-radius: 4px;
+  margin-left: 6px;
+  margin-bottom: 6px;
+  border-radius: 4px;
+  height: 35px !important;
+}
+.text-area-autosize {
   color: $blueGray;
+  background-color: $secondarycolor-light;
   border: none;
   outline: none;
   resize: none;
-  width: 100%;
-  margin: 10px 0px;
+  width: 91%;
   border-radius: 4px;
-  padding: 8px;
-  overflow: auto;
-}
+  position: relative;
+  left: 8px;
+  bottom: 6px;
 
-.file-upload-container {
-  cursor: pointer;
-  text-align: center;
-  width: 60px;
-  height: 70px;
+  padding: 8px;
+
+  &::placeholder {
+    padding-left: 0px;
+    padding-top: 0px;
+  }
 }
 
 .file-upload-icon {
+  cursor: pointer;
   fill: $gray;
   position: relative;
-  top: 14px;
-  width: 40px;
-  height: 40px;
+  left: 4px;
+  bottom: 6px;
+  width: 36px;
+  height: 36px;
 }

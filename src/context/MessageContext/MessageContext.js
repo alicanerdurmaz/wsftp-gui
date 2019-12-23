@@ -1,25 +1,45 @@
-import React, { createContext, useReducer, useEffect, useState } from 'react';
+import React, { createContext, useReducer, useRef, useEffect } from 'react';
 import uuid from 'uuid/v4';
+
 import { messageReducer } from './messageReducer';
 import { dateNow } from '../../Helpers/newDate';
 import { msgSocket, srScoket, commanderSocket } from '../../backend/api/webSocketConnection';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import { MESSAGE_ADDED, PROGRESS_CHANGED, PROGRESS_DONE, PROGRESS_FAIL } from '../types';
 import { API_saveJson, API_getJson, API_SendMessage } from '../../backend/api/webSocketConnection';
+import { writeToDataBaseArray } from '../../backend/api/dbFunctions';
+
+const { ipcRenderer } = require('electron');
 
 export const MessageContext = createContext();
 
 const MessageContextProvider = props => {
   const [messageHistory, dispatch] = useReducer(messageReducer, {});
 
+  useEffect(() => {
+    const saveToDatabase = () => {
+      for (let key in messageHistory) {
+        writeToDataBaseArray(`${key}.json`, './src/database/', messageHistory[key], () => {
+          ipcRenderer.send('save-completed');
+        });
+      }
+    };
+    ipcRenderer.on('app-close', saveToDatabase);
+    return () => {
+      ipcRenderer.removeListener('app-close', saveToDatabase);
+    };
+  }, [messageHistory]);
+
   msgSocket.onmessage = function(e) {
     const dataToJson = JSON.parse(e.data);
+    const userIdentity = dataToJson.username + ':' + dataToJson.mac;
 
     if (dataToJson.event === 'smsg') {
       dispatch({
         type: MESSAGE_ADDED,
         payload: {
-          dbName: dataToJson.mac,
+          dbName: userIdentity,
+          userIdentity: userIdentity,
           mac: dataToJson.mac,
           from: '*MYPC*',
           to: dataToJson.username,
@@ -35,7 +55,8 @@ const MessageContextProvider = props => {
         type: MESSAGE_ADDED,
         payload: {
           mac: dataToJson.mac,
-          dbName: dataToJson.mac,
+          userIdentity: userIdentity,
+          dbName: userIdentity,
           from: dataToJson.username,
           to: '*MYPC*',
           content: dataToJson.content,
@@ -49,15 +70,15 @@ const MessageContextProvider = props => {
 
   srScoket.onmessage = function(e) {
     const dataToJson = JSON.parse(e.data);
-
-    console.log('srSocket', dataToJson);
+    const userIdentity = dataToJson.username + ':' + dataToJson.mac;
     if (dataToJson.event === 'rreq') {
       dispatch({
         type: MESSAGE_ADDED,
         payload: {
           mac: dataToJson.mac,
           fileStatus: FILE_STATUS.waiting,
-          dbName: dataToJson.mac,
+          userIdentity: userIdentity,
+          dbName: userIdentity,
           from: dataToJson.username,
           to: '*MYPC*',
           contentType: dataToJson.contentType,
@@ -75,12 +96,14 @@ const MessageContextProvider = props => {
       });
     }
     if (dataToJson.event === 'sreq') {
+      const userIdentity = dataToJson.username + ':' + dataToJson.mac;
       dispatch({
         type: MESSAGE_ADDED,
         payload: {
           mac: dataToJson.mac,
           from: '*MYPC*',
-          dbName: dataToJson.mac,
+          dbName: userIdentity,
+          userIdentity: userIdentity,
           dir: dataToJson.dir,
           fileName: dataToJson.fileName,
           fileSize: dataToJson.fileSize,

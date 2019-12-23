@@ -1,10 +1,17 @@
 import React, { useContext } from 'react';
 import { SelectUserContext } from '../context/SelectUserContext';
 import { ReactComponent as DesktopIcon } from '../assets/svg/desktop.svg';
-const UserListItem = ({ status, username, ipAddress, macAddress }) => {
+const UserListItem = ({ status, username, ipAddress, macAddress, userIdentity }) => {
   const { setSelectedUser } = useContext(SelectUserContext);
+
   const selectUserHandler = () => {
-    setSelectedUser({ status: status, username: username, ipAddress: ipAddress, macAddress: macAddress });
+    setSelectedUser({
+      status: status,
+      username: username,
+      ipAddress: ipAddress,
+      macAddress: macAddress,
+      userIdentity: userIdentity
+    });
   };
   return (
     <li className='user-li' onClick={selectUserHandler}>

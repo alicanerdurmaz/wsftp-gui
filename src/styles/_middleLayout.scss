@@ -1,4 +1,8 @@
 @import 'dndarea';
+
+:root {
+  --input-px: 49px;
+}
 .middle-area {
   overflow: hidden;
   width: 100%;
@@ -9,7 +13,7 @@
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: 1fr 22fr 2fr;
+  grid-template-rows: 1fr 22fr var(--input-px);
   grid-template-areas:
     'chatheader'
     'chatread'
