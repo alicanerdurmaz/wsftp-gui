@@ -5,7 +5,7 @@ import { messageReducer } from './messageReducer';
 import { dateNow } from '../../Helpers/newDate';
 import { msgSocket, srScoket, commanderSocket } from '../../backend/api/webSocketConnection';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
-import { MESSAGE_ADDED, PROGRESS_CHANGED, PROGRESS_DONE, PROGRESS_FAIL } from '../types';
+import { MESSAGE_ADDED, PROGRESS_CHANGED, PROGRESS_DONE, PROGRESS_FAIL, STATUS_CHANGED } from '../types';
 import { API_saveJson, API_getJson, API_SendMessage } from '../../backend/api/webSocketConnection';
 import { writeToDataBaseArray } from '../../backend/api/dbFunctions';
 
@@ -121,6 +121,12 @@ const MessageContextProvider = props => {
           progress: 0,
           uuid: dataToJson.uuid
         }
+      });
+    }
+    if (dataToJson.event === 'rrej') {
+      dispatch({
+        type: STATUS_CHANGED,
+        payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
       });
     }
     if (dataToJson.event === 'prg') {

@@ -52,7 +52,8 @@ const ChatFileMessage = ({
       const tempRejectRequest = {
         event: 'crej',
         mac: mac,
-        dir: dir
+        dir: dir,
+        uuid: uuid
       };
       commanderSocket.send(JSON.stringify(tempRejectRequest));
       dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected } });
