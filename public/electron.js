@@ -19,12 +19,12 @@ function createWindow() {
       nodeIntegration: true
     }
   });
-  // mainWindow.on('close', e => {
-  //   if (mainWindow) {
-  //     e.preventDefault();
-  //     mainWindow.webContents.send('app-close');
-  //   }
-  // });
+  mainWindow.on('close', e => {
+    if (mainWindow) {
+      e.preventDefault();
+      mainWindow.webContents.send('app-close');
+    }
+  });
   mainWindow.on('closed', () => {
     killCommander();
     mainWindow = null;

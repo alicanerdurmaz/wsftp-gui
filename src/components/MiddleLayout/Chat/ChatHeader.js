@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { SelectUserContext } from '../../context/SelectUserContext';
-import { ReactComponent as AtIcon } from '../../assets/svg/at.svg';
+import { SelectUserContext } from '../../../context/SelectUserContext';
+import { ReactComponent as AtIcon } from '../../../assets/svg/at.svg';
 const ChatHeader = () => {
   const { selectedUser } = useContext(SelectUserContext);
   return (

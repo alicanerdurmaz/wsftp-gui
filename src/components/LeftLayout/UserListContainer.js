@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 
 import UserListItem from './UserListItem';
-import { OnlineUserContext } from '../context/OnlineUserContext/OnlineUserContext';
+import { OnlineUserContext } from '../../context/OnlineUserContext/OnlineUserContext';
 
 const UserListContainer = () => {
   const { onlineUserList } = useContext(OnlineUserContext);

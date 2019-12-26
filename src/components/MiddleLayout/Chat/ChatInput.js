@@ -1,8 +1,8 @@
 import React, { useState, useContext, Fragment, useRef } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
-import { ReactComponent as FileUploadIcon } from '../../assets/svg/file-upload.svg';
-import { SelectUserContext } from '../../context/SelectUserContext';
-import { API_SendMessage, API_SendFile } from '../../backend/api/webSocketConnection';
+import { ReactComponent as FileUploadIcon } from '../../../assets/svg/file-upload.svg';
+import { SelectUserContext } from '../../../context/SelectUserContext';
+import { API_SendMessage, API_SendFile } from '../../../backend/api/webSocketConnection';
 import uuid from 'uuid/v4';
 
 const { dialog } = window.require('electron').remote;

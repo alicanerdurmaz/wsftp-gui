@@ -10,9 +10,7 @@ const writeToDataBase = (name, dir, input, done) => {
   } else if (dir === 'docu') {
     dir = path.join(os.homedir(), 'Documents');
   }
-
   let file = path.join(dir, name);
-
   fs.exists(file, err => {
     let exists = err ? true : false;
     if (exists) {
@@ -20,14 +18,16 @@ const writeToDataBase = (name, dir, input, done) => {
         if (err) {
           done(err);
         }
-        let arr = [];
+        let arrExist = [];
+        let arrNew = [];
         let str = '';
         let reader = fs.readFileSync(file, 'utf8');
+        arrNew.push(input);
         if (reader !== '') {
-          arr = JSON.parse(reader);
+          arrExist = JSON.parse(reader);
         }
-        arr.push(input);
-        str = JSON.stringify(arr);
+        arrNew = arrNew.concat(arrExist);
+        str = JSON.stringify(arrNew);
         fs.open(file, 'w', function(err, fd) {
           if (err) {
             done(err);
@@ -49,8 +49,8 @@ const writeToDataBase = (name, dir, input, done) => {
         }
         let arr = [];
         arr.push(input);
+        arr = arr.reverse();
         let str = JSON.stringify(arr);
-        // write
         fs.write(fd, str, function(err) {
           if (err) {
             done(err);
@@ -67,6 +67,7 @@ const writeToDataBase = (name, dir, input, done) => {
 const writeToDataBaseArray = (name, dir, arr, done) => {
   let len = arr.length;
   let index = 0;
+
   reqSave(name, dir, arr, len, index, err => {
     done(err);
   });
@@ -108,21 +109,30 @@ const getFromDataBase = (name, dir, start, end, done) => {
         }
         const slice = [];
         const lenarr = arr.length;
-        if (start === 0 && end === 0) {
+        if (start == 0 && end == 0) {
           done(err, arr, lenarr);
         } else {
-          if (lenarr < end) {
-            done(err, arr, lenarr);
+          if (lenarr <= start) {
+            done(err, [], -1);
           } else {
-            for (var i = start; i < end; i++) {
-              slice.push(arr[i]);
+            let count = 0;
+            if (end > lenarr) {
+              for (var i = start; i < lenarr - 1; i++) {
+                slice.push(arr[i]);
+                count++;
+              }
+            } else {
+              for (var i = start; i < end; i++) {
+                slice.push(arr[i]);
+                count++;
+              }
             }
-            done(err, slice, slice.length);
+            done(err, slice, count);
           }
         }
       });
     } else {
-      done(false, arr);
+      done(false, arr, 0);
     }
   });
 };

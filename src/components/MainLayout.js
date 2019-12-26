@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import LeftLayout from './LeftLayout';
-import MiddleLayout from './MiddleLayout';
-import RightLayout from './RightLayout';
+import LeftLayout from './LeftLayout/LeftLayout';
+import MiddleLayout from './MiddleLayout/MiddleLayout';
+import RightLayout from './RightLayout/RightLayout';
 
 const MainLayout = () => {
   const [showDnd, setShowDnd] = useState('');

@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState, useRef } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import MainLayout from './components/Layout/MainLayout';
+import MainLayout from './components/MainLayout';
 import SelectUserContextProvider from './context/SelectUserContext';
 import OnlineUserContextProvider from './context/OnlineUserContext/OnlineUserContext';
 import MessageContextProvider from './context/MessageContext/MessageContext';

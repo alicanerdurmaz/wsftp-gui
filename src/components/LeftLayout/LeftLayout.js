@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import UserListContainer from '../UserListContainer';
+import UserListContainer from './UserListContainer';
 import { ReactComponent as RefreshIcon } from '../../assets/svg/redo-alt.svg';
 import { ReactComponent as SettingsIcon } from '../../assets/svg/cog-solid.svg';
 import { API_refreshOnlineUserList } from '../../backend/api/webSocketConnection';

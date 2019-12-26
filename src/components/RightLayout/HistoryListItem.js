@@ -1,13 +1,13 @@
 import React from 'react';
-import { byteConverter } from '../Helpers/byteConverter';
-import { ReactComponent as FileIcon } from '../assets/svg/file-solid.svg';
-import { ReactComponent as FileArchiveIcon } from '../assets/svg/file/file-archive.svg';
-import { ReactComponent as FileAudioIcon } from '../assets/svg/file/file-audio.svg';
-import { ReactComponent as FileCodeIcon } from '../assets/svg/file/file-code.svg';
-import { ReactComponent as FileImageIcon } from '../assets/svg/file/file-image.svg';
-import { ReactComponent as FileVideoIcon } from '../assets/svg/file/file-video.svg';
-import { ReactComponent as FileAltIcon } from '../assets/svg/file/file-alt.svg';
-import { ReactComponent as FilePdfIcon } from '../assets/svg/file/file-pdf.svg';
+import { byteConverter } from '../../Helpers/byteConverter';
+import { ReactComponent as FileIcon } from '../../assets/svg/file-solid.svg';
+import { ReactComponent as FileArchiveIcon } from '../../assets/svg/file/file-archive.svg';
+import { ReactComponent as FileAudioIcon } from '../../assets/svg/file/file-audio.svg';
+import { ReactComponent as FileCodeIcon } from '../../assets/svg/file/file-code.svg';
+import { ReactComponent as FileImageIcon } from '../../assets/svg/file/file-image.svg';
+import { ReactComponent as FileVideoIcon } from '../../assets/svg/file/file-video.svg';
+import { ReactComponent as FileAltIcon } from '../../assets/svg/file/file-alt.svg';
+import { ReactComponent as FilePdfIcon } from '../../assets/svg/file/file-pdf.svg';
 import {
   AudioFormats,
   ArchiveFormats,
@@ -15,7 +15,7 @@ import {
   ImageFormats,
   VideoFormats,
   CodeFormats
-} from '../Helpers/fileFormats';
+} from '../../Helpers/fileFormats';
 const { shell } = require('electron');
 
 const HistoryListItem = ({ fileName, createdAt, fileSize, fileDir, fileType }) => {

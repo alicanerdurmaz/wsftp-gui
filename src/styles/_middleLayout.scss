@@ -36,3 +36,30 @@
   grid-area: chatinput;
   width: 100%;
 }
+.btn-jumpToPresent {
+  position: absolute;
+  bottom: 40px;
+  right: 330px;
+
+  margin: 30px auto;
+  padding: 0;
+  overflow: hidden;
+  border-width: 0;
+  outline: none;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  background-color: $primarycolor;
+  color: #ecf0f1;
+  transition: background-color 0.3s;
+  &:hover,
+  &:focus {
+    background-color: $primarycolor-light;
+  }
+  & > * {
+    position: relative;
+  }
+  & > span {
+    display: block;
+    padding: 6px 12px;
+  }
+}

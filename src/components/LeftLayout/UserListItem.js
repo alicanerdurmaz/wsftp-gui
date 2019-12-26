@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { SelectUserContext } from '../context/SelectUserContext';
-import { ReactComponent as DesktopIcon } from '../assets/svg/desktop.svg';
+import { SelectUserContext } from '../../context/SelectUserContext';
+import { ReactComponent as DesktopIcon } from '../../assets/svg/desktop.svg';
 const UserListItem = ({ status, username, ipAddress, macAddress, userIdentity }) => {
   const { setSelectedUser } = useContext(SelectUserContext);
 

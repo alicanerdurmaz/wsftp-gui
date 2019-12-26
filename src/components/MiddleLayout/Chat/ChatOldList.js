@@ -1,21 +1,17 @@
-import React, { useRef, useEffect, useContext, Fragment, useState } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import ChatTextMessage from './ChatTextMessage';
 import ChatFileMessage from './ChatFileMessage';
-import { SelectUserContext } from '../../context/SelectUserContext';
-import { MessageContext } from '../../context/MessageContext/MessageContext';
-import { getFromDataBase } from '../../backend/api/dbFunctions';
+import { SelectUserContext } from '../../../context/SelectUserContext';
 
-const ChatList = ({ oldList }) => {
+export const ChatOldList = ({ oldList }) => {
   const { selectedUser } = useContext(SelectUserContext);
-  const { messageHistory } = useContext(MessageContext);
 
   let messagesEnd = useRef(null);
 
   // scroll to lasted message
   useEffect(() => {
     scrollToBottom();
-  }, [messageHistory, selectedUser]);
-
+  }, []);
   const scrollToBottom = () => {
     messagesEnd.scrollIntoView({ behavior: 'auto' });
   };
@@ -24,16 +20,6 @@ const ChatList = ({ oldList }) => {
     <div>
       {oldList &&
         oldList.map(message => {
-          return (
-            <ChatTextMessage
-              key={message.uuid}
-              content={message.content}
-              createdAt={message.createdAt}
-              sender={message.from}></ChatTextMessage>
-          );
-        })}
-      {selectedUser ? (
-        messageHistory[selectedUser.userIdentity].map(message => {
           if (message.contentType === 'text') {
             return (
               <ChatTextMessage
@@ -63,10 +49,7 @@ const ChatList = ({ oldList }) => {
           } else {
             return null;
           }
-        })
-      ) : (
-        <div className='no-selected-user-info'>Select user from left.</div>
-      )}
+        })}
       <div
         ref={el => {
           messagesEnd = el;
@@ -75,4 +58,4 @@ const ChatList = ({ oldList }) => {
   );
 };
 
-export default ChatList;
+export default ChatOldList;

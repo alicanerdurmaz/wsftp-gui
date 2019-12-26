@@ -7,7 +7,7 @@ import { msgSocket, srScoket, commanderSocket } from '../../backend/api/webSocke
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import { MESSAGE_ADDED, PROGRESS_CHANGED, PROGRESS_DONE, PROGRESS_FAIL, STATUS_CHANGED } from '../types';
 import { API_saveJson, API_getJson, API_SendMessage } from '../../backend/api/webSocketConnection';
-import { writeToDataBaseArray } from '../../backend/api/dbFunctions';
+import { writeToDataBaseArray, writeToDataBase } from '../../backend/api/dbFunctions';
 
 const { ipcRenderer } = require('electron');
 
@@ -16,6 +16,7 @@ export const MessageContext = createContext();
 const MessageContextProvider = props => {
   const [messageHistory, dispatch] = useReducer(messageReducer, {});
   console.log(messageHistory);
+
   useEffect(() => {
     const saveToDatabase = () => {
       for (let key in messageHistory) {
@@ -100,6 +101,7 @@ const MessageContextProvider = props => {
     }
     if (dataToJson.event === 'sreq') {
       const userIdentity = dataToJson.username + ':' + dataToJson.mac;
+
       dispatch({
         type: MESSAGE_ADDED,
         payload: {
