@@ -5,32 +5,35 @@ import ChatInput from '../Chat/ChatInput';
 import { getFromDataBase } from '../../../backend/api/dbFunctions';
 import ChatOldList from '../Chat/ChatOldList';
 import { SelectUserContext } from '../../../context/SelectUserContext';
+import { DatabaseMessageContext } from '../../../context/DatabaseMessageContext/DatabaseMessageContext';
+import { GET_MSG_FROM_DB } from '../../../context/types';
 
 const Chat = () => {
   const { selectedUser } = useContext(SelectUserContext);
-  const [oldList, setOldList] = useState([]);
+  const { messageFromDatabase, dispatch } = useContext(DatabaseMessageContext);
+
   const [shouldScroll, setShouldScroll] = useState(true);
   const [hidden, setHidden] = useState('hidden');
-  const [getFromDbRange, setGetFromDbRange] = useState({ start: 0, end: 20 });
+
   let refScroller = useRef(false);
+  let scrollGoingUp = useRef(false);
   const scrollHeightBeforeLoad = useRef(false);
-  const loadingState = useRef(false);
 
   useEffect(() => {
-    setGetFromDbRange({ start: 0, end: 20 });
-    setOldList([]);
-    fetchData();
+    scrollGoingUp.current = false;
+    refScroller.scrollTop = refScroller.scrollHeight - refScroller.clientHeight;
+    console.log(refScroller.scrollTop, refScroller.scrollHeight, refScroller.clientHeight);
   }, [selectedUser]);
 
   useEffect(() => {
-    refScroller.scrollTop = refScroller.scrollHeight - scrollHeightBeforeLoad.current;
-    loadingState.current = false;
-  }, [oldList]);
-
-  console.log(selectedUser, getFromDbRange.start, getFromDbRange.end, setOldList.length);
+    if (scrollGoingUp.current) {
+      refScroller.scrollTop = refScroller.scrollHeight - scrollHeightBeforeLoad.current;
+    }
+  }, [messageFromDatabase]);
 
   const handleScroll = e => {
-    const limit = refScroller.scrollHeight - refScroller.scrollTop - 250;
+    console.log('onscroll', refScroller.scrollTop, refScroller.scrollHeight, refScroller.clientHeight);
+    const limit = refScroller.scrollHeight - refScroller.scrollTop - 125;
     if (limit < refScroller.clientHeight) {
       setShouldScroll(true);
       setHidden('hidden');
@@ -38,49 +41,40 @@ const Chat = () => {
       setShouldScroll(false);
       setHidden('');
     }
-    if (!loadingState.current && refScroller.scrollTop === 0) {
-      loadingState.current = true;
-      fetchData();
+    if (refScroller.scrollTop === 0) {
+      scrollHeightBeforeLoad.current = refScroller.scrollHeight;
+      if (selectedUser) {
+        dispatch({ type: GET_MSG_FROM_DB, userIdentity: selectedUser.userIdentity });
+      }
     }
   };
   const jumpToBottom = () => {
     refScroller.scrollTop = refScroller.scrollHeight;
   };
 
-  const fetchData = () => {
-    if (!selectedUser) {
-      return false;
-    }
-
-    scrollHeightBeforeLoad.current = refScroller.scrollHeight;
-    getFromDataBase(
-      `${selectedUser.userIdentity}.json`,
-      './src/database/',
-      getFromDbRange.start,
-      getFromDbRange.end,
-      (err, arr, len) => {
-        if (len === -1) {
-          console.log('history bitti');
-          return;
-        }
-        arr.reverse();
-        setGetFromDbRange(getFromDataBase => ({ start: getFromDbRange.end, end: getFromDbRange.end + 20 }));
-        setOldList(oldList => arr.concat(oldList));
-      }
-    );
-  };
-
   return (
     <Fragment>
       <ChatHeader></ChatHeader>
-      <div className={`chat-read-container`} onScroll={e => handleScroll(e)} ref={e => (refScroller = e)}>
+      <div
+        className={`chat-read-container`}
+        onScroll={e => handleScroll(e)}
+        ref={e => (refScroller = e)}
+        onWheel={event => {
+          if (event.nativeEvent.wheelDelta > 0) {
+            scrollGoingUp.current = true;
+          } else {
+            scrollGoingUp.current = false;
+          }
+        }}>
         <ul className='chat-list'>
           {selectedUser ? (
             <Fragment>
-              <ChatOldList oldList={oldList}> </ChatOldList>
+              <ChatOldList> </ChatOldList>
               <ChatList shouldScroll={shouldScroll}></ChatList>
             </Fragment>
-          ) : null}
+          ) : (
+            <div className='no-selected-user-info'>Select user from left.</div>
+          )}
         </ul>
       </div>
       <button className={`btn-jumpToPresent ${hidden}`} onClick={jumpToBottom}>

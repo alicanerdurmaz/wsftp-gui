@@ -86,7 +86,7 @@ const reqSave = (name, dir, arr, len, index, done) => {
   });
 };
 
-const getFromDataBase = (name, dir, start, end, done) => {
+function getFromDataBase(name, dir, start, end) {
   if (dir === 'desk') {
     dir = path.join(os.homedir(), 'Desktop');
   } else if (dir === 'down') {
@@ -95,47 +95,47 @@ const getFromDataBase = (name, dir, start, end, done) => {
     dir = path.join(os.homedir(), 'Documents');
   }
   let file = path.join(dir, name);
-  fs.exists(file, err => {
-    let exists = err ? true : false;
+  let exist = false;
+
+  try {
+    let stat = fs.statSync(file);
+    exist = true;
+  } catch (err) {
+    exist = false;
+  }
+  if (exist) {
     let arr = [];
-    if (exists) {
-      fs.access(file, fs.constants.W_OK, err => {
-        if (err) {
-          done(err, arr, 0);
-        }
-        let reader = fs.readFileSync(file, 'utf8');
-        if (reader !== '') {
-          arr = JSON.parse(reader);
-        }
-        const slice = [];
-        const lenarr = arr.length;
-        if (start == 0 && end == 0) {
-          done(err, arr, lenarr);
+    let reader = fs.readFileSync(file, 'utf8');
+    if (reader !== '') {
+      arr = JSON.parse(reader);
+    }
+    const slice = [];
+    const lenarr = arr.length;
+    if (start === 0 && end === 0) {
+      return { done: true, arr: arr, len: lenarr };
+    } else {
+      if (lenarr <= start) {
+        return { done: true, arr: [], len: -1 };
+      } else {
+        let count = 0;
+        if (end > lenarr) {
+          for (var i = start; i < lenarr; i++) {
+            slice.push(arr[i]);
+            count++;
+          }
         } else {
-          if (lenarr <= start) {
-            done(err, [], -1);
-          } else {
-            let count = 0;
-            if (end > lenarr) {
-              for (var i = start; i < lenarr - 1; i++) {
-                slice.push(arr[i]);
-                count++;
-              }
-            } else {
-              for (var i = start; i < end; i++) {
-                slice.push(arr[i]);
-                count++;
-              }
-            }
-            done(err, slice, count);
+          for (var i = start; i < end; i++) {
+            slice.push(arr[i]);
+            count++;
           }
         }
-      });
-    } else {
-      done(false, arr, 0);
+        return { done: true, arr: slice, len: count };
+      }
     }
-  });
-};
+  } else {
+    return { done: false, arr: [], len: -3 };
+  }
+}
 
 const deleteFromDataBase = (name, dir, key, value, done) => {
   getFromDataBase(name, dir, 0, 0, (err, arr) => {

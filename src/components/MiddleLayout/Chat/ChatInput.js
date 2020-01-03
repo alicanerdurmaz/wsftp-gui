@@ -43,9 +43,9 @@ const ChatInput = () => {
   };
   return (
     <div className='chat-input-area'>
-      <FileUploadIcon onClick={() => openFileExplorer()}></FileUploadIcon>
       {selectedUser ? (
         <Fragment>
+          <FileUploadIcon onClick={() => openFileExplorer()}></FileUploadIcon>
           <TextareaAutosize
             minRows={1}
             maxRows={4}

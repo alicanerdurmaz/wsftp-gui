@@ -4,6 +4,7 @@ import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 export const messageReducer = (state, action) => {
   switch (action.type) {
     case USER_CREATED:
+      console.log('user created');
       return { ...state, [action.userIdentity]: [] };
 
     case MESSAGE_ADDED:

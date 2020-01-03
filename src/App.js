@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect, useState, useRef } from 'react';
-import { BrowserRouter } from 'react-router-dom';
 
 import MainLayout from './components/MainLayout';
 import SelectUserContextProvider from './context/SelectUserContext';
 import OnlineUserContextProvider from './context/OnlineUserContext/OnlineUserContext';
 import MessageContextProvider from './context/MessageContext/MessageContext';
 import './App.scss';
+import DatabaseMessageContextProvider from './context/DatabaseMessageContext/DatabaseMessageContext';
 
 const App = () => {
   return (
@@ -13,9 +13,9 @@ const App = () => {
       <MessageContextProvider>
         <OnlineUserContextProvider>
           <SelectUserContextProvider>
-            <BrowserRouter>
+            <DatabaseMessageContextProvider>
               <MainLayout></MainLayout>
-            </BrowserRouter>
+            </DatabaseMessageContextProvider>
           </SelectUserContextProvider>
         </OnlineUserContextProvider>
       </MessageContextProvider>

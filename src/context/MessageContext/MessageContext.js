@@ -1,10 +1,10 @@
 import React, { createContext, useReducer, useRef, useEffect } from 'react';
 import uuid from 'uuid/v4';
 
+import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import { messageReducer } from './messageReducer';
 import { dateNow } from '../../Helpers/newDate';
 import { msgSocket, srScoket, commanderSocket } from '../../backend/api/webSocketConnection';
-import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import { MESSAGE_ADDED, PROGRESS_CHANGED, PROGRESS_DONE, PROGRESS_FAIL, STATUS_CHANGED } from '../types';
 import { API_saveJson, API_getJson, API_SendMessage } from '../../backend/api/webSocketConnection';
 import { writeToDataBaseArray, writeToDataBase } from '../../backend/api/dbFunctions';
