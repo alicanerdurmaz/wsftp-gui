@@ -2,25 +2,13 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { MessageContext } from '../MessageContext/MessageContext';
 import { hsSocket } from '../../backend/api/webSocketConnection';
 import { USER_CREATED } from '../types';
+import allUserList from '../../database/allUserList.json';
 
 export const OnlineUserContext = createContext();
 
 const OnlineUserContextProvider = props => {
   const [onlineUserList, setOnlineUserList] = useState(() => {
-    const tempObject = {
-      'virtualmint:08:00:27:fc:3d:f2': {
-        event: 'offline',
-        mac: '08:00:27:fc:3d:f2',
-        userIdentity: 'virtualmint:08:00:27:fc:3d:f2',
-        username: 'virtualmint'
-      },
-      'virtualtwo:08:00:27:13:98:2e': {
-        event: 'offline',
-        mac: '08:00:27:fc:3d:f2',
-        userIdentity: 'virtualtwo:08:00:27:13:98:2e',
-        username: 'virtualtwo'
-      }
-    };
+    const tempObject = allUserList;
     return tempObject;
   });
   const { messageHistory, dispatch } = useContext(MessageContext);
@@ -35,11 +23,36 @@ const OnlineUserContextProvider = props => {
     if (messageHistory.hasOwnProperty(userIdentity) === false && toJson.event === 'online') {
       dispatch({ type: USER_CREATED, macAddress: macAddress, username: username, userIdentity: userIdentity });
     }
-
+    if (onlineUserList.hasOwnProperty(userIdentity)) {
+      toJson.muted = onlineUserList[userIdentity].muted;
+      toJson.notificationNumber = onlineUserList[userIdentity].notificationNumber;
+    } else {
+      toJson.muted = false;
+      toJson.notificationNumber = 0;
+    }
     setOnlineUserList(onlineUserList => ({ ...onlineUserList, [toJson.userIdentity]: toJson }));
   };
 
-  return <OnlineUserContext.Provider value={{ onlineUserList }}>{props.children}</OnlineUserContext.Provider>;
+  const incrementNotificationNumber = userIdentity => {
+    if (!userIdentity) return;
+
+    const tempObject = { ...onlineUserList };
+    tempObject[userIdentity].notificationNumber++;
+    setOnlineUserList(tempObject);
+  };
+  const resetNotificationNumber = userIdentity => {
+    if (!userIdentity) return;
+
+    const tempObject = { ...onlineUserList };
+    tempObject[userIdentity].notificationNumber = 0;
+    setOnlineUserList(tempObject);
+  };
+
+  return (
+    <OnlineUserContext.Provider value={{ onlineUserList, incrementNotificationNumber, resetNotificationNumber }}>
+      {props.children}
+    </OnlineUserContext.Provider>
+  );
 };
 
 export default OnlineUserContextProvider;

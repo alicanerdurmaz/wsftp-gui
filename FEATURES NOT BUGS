@@ -7,5 +7,14 @@ creq -> if(on going transaction > 25) {
 
 büyük küçük yaparken ekran bozuluyo
 
-ben de hiç çalışmayan refresh emrede 10 kere çalısıyo
+notifications visual & sounds
+
+username change (dir: maybe change)-> after changed rhsh
+
+update,patch ->
+
+*ui tweaks* ->
+
+save messagehistory on close -> history should not empty 
+
 

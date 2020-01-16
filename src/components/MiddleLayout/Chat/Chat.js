@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef, useEffect, useContext, useLayoutEffect } from 'react';
+import React, { Fragment, useState, useRef, useEffect, useContext } from 'react';
 import ChatHeader from '../Chat/ChatHeader';
 import ChatList from '../Chat/ChatList';
 import ChatInput from '../Chat/ChatInput';
@@ -7,10 +7,14 @@ import ChatOldList from '../Chat/ChatOldList';
 import { SelectUserContext } from '../../../context/SelectUserContext';
 import { DatabaseMessageContext } from '../../../context/DatabaseMessageContext/DatabaseMessageContext';
 import { GET_MSG_FROM_DB } from '../../../context/types';
+import { MessageContext } from '../../../context/MessageContext/MessageContext';
+import { OnlineUserContext } from '../../../context/OnlineUserContext/OnlineUserContext';
 
 const Chat = () => {
   const { selectedUser } = useContext(SelectUserContext);
+  const { resetNotificationNumber, incrementNotificationNumber } = useContext(OnlineUserContext);
   const { messageFromDatabase, dispatch } = useContext(DatabaseMessageContext);
+  const { messageHistory, lastIncomingMessage } = useContext(MessageContext);
 
   const [shouldScroll, setShouldScroll] = useState(true);
   const [hidden, setHidden] = useState('hidden');
@@ -22,8 +26,15 @@ const Chat = () => {
   useEffect(() => {
     scrollGoingUp.current = false;
     refScroller.scrollTop = refScroller.scrollHeight - refScroller.clientHeight;
-    console.log(refScroller.scrollTop, refScroller.scrollHeight, refScroller.clientHeight);
+    selectedUser && resetNotificationNumber(selectedUser.userIdentity);
   }, [selectedUser]);
+
+  useEffect(() => {
+    if (shouldScroll) {
+      jumpToBottom();
+    }
+    incrementNotificationNumber(lastIncomingMessage.current);
+  }, [messageHistory]);
 
   useEffect(() => {
     if (scrollGoingUp.current) {
@@ -32,7 +43,6 @@ const Chat = () => {
   }, [messageFromDatabase]);
 
   const handleScroll = e => {
-    console.log('onscroll', refScroller.scrollTop, refScroller.scrollHeight, refScroller.clientHeight);
     const limit = refScroller.scrollHeight - refScroller.scrollTop - 125;
     if (limit < refScroller.clientHeight) {
       setShouldScroll(true);
@@ -50,6 +60,9 @@ const Chat = () => {
   };
   const jumpToBottom = () => {
     refScroller.scrollTop = refScroller.scrollHeight;
+    setTimeout(() => {
+      selectedUser && resetNotificationNumber(selectedUser.userIdentity);
+    }, 50);
   };
 
   return (

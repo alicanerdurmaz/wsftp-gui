@@ -29,6 +29,7 @@ const UserListContainer = () => {
               ipAddress={onlineUserList[index].ip}
               macAddress={onlineUserList[index].mac}
               userIdentity={onlineUserList[index].userIdentity}
+              notificationNumber={onlineUserList[index].notificationNumber}
               key={index}></UserListItem>
           ) : null;
         })}
@@ -43,6 +44,7 @@ const UserListContainer = () => {
               ipAddress={onlineUserList[index].ip}
               macAddress={onlineUserList[index].mac}
               userIdentity={onlineUserList[index].userIdentity}
+              notificationNumber={onlineUserList[index].notificationNumber}
               key={index}></UserListItem>
           ) : null;
         })}

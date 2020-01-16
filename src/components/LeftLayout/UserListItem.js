@@ -4,7 +4,7 @@ import { ReactComponent as DesktopIcon } from '../../assets/svg/desktop.svg';
 import { DatabaseMessageContext } from '../../context/DatabaseMessageContext/DatabaseMessageContext';
 import { RESET_BY_NAME } from '../../context/types';
 
-const UserListItem = ({ status, username, ipAddress, macAddress, userIdentity }) => {
+const UserListItem = ({ status, username, ipAddress, macAddress, userIdentity, notificationNumber }) => {
   const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
   const { dispatch } = useContext(DatabaseMessageContext);
 
@@ -28,6 +28,9 @@ const UserListItem = ({ status, username, ipAddress, macAddress, userIdentity })
     <li className='user-li' onClick={selectUserHandler}>
       <div className={`user-list-container ${status}`}>
         <DesktopIcon></DesktopIcon>
+        <div className='notification-number-container'>
+          {notificationNumber >= 1 ? <div className='notification-number'>{notificationNumber}</div> : null}
+        </div>
         <span className='primary-text'>{username}</span>
       </div>
     </li>

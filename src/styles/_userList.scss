@@ -68,3 +68,21 @@
     color: $gray;
   }
 }
+.notification-number-container {
+  position: absolute;
+  left: 22px;
+}
+.notification-number {
+  position: relative;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: $blueGray;
+  top: -18px;
+  width: 16px;
+  height: 16px;
+  background: #f04847;
+  border-radius: 50%;
+  border: 1px solid #f04847;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}

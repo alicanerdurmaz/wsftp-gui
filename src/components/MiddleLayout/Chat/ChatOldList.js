@@ -8,8 +8,6 @@ export const ChatOldList = () => {
   const { selectedUser } = useContext(SelectUserContext);
   const { messageFromDatabase } = useContext(DatabaseMessageContext);
 
-  console.log(messageFromDatabase);
-
   return (
     <Fragment>
       {messageFromDatabase[selectedUser.userIdentity]

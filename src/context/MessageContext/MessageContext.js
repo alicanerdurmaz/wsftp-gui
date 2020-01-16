@@ -8,6 +8,7 @@ import { msgSocket, srScoket, commanderSocket } from '../../backend/api/webSocke
 import { MESSAGE_ADDED, PROGRESS_CHANGED, PROGRESS_DONE, PROGRESS_FAIL, STATUS_CHANGED } from '../types';
 import { API_saveJson, API_getJson, API_SendMessage } from '../../backend/api/webSocketConnection';
 import { writeToDataBaseArray, writeToDataBase } from '../../backend/api/dbFunctions';
+import { playNotification } from '../../Helpers/playNotificationSound';
 
 const { ipcRenderer } = require('electron');
 
@@ -15,7 +16,7 @@ export const MessageContext = createContext();
 
 const MessageContextProvider = props => {
   const [messageHistory, dispatch] = useReducer(messageReducer, {});
-  console.log(messageHistory);
+  const lastIncomingMessage = useRef(false);
 
   useEffect(() => {
     const saveToDatabase = () => {
@@ -36,6 +37,7 @@ const MessageContextProvider = props => {
     const userIdentity = dataToJson.username + ':' + dataToJson.mac;
 
     if (dataToJson.event === 'smsg') {
+      lastIncomingMessage.current = false;
       dispatch({
         type: MESSAGE_ADDED,
         payload: {
@@ -52,6 +54,8 @@ const MessageContextProvider = props => {
       });
     }
     if (dataToJson.event === 'rmsg') {
+      lastIncomingMessage.current = userIdentity;
+      playNotification();
       dispatch({
         type: MESSAGE_ADDED,
         payload: {
@@ -71,11 +75,12 @@ const MessageContextProvider = props => {
 
   srScoket.onmessage = function(e) {
     const dataToJson = JSON.parse(e.data);
-    console.log(dataToJson);
 
     const userIdentity = dataToJson.username + ':' + dataToJson.mac;
 
     if (dataToJson.event === 'rreq') {
+      lastIncomingMessage.current = userIdentity;
+      playNotification();
       dispatch({
         type: MESSAGE_ADDED,
         payload: {
@@ -101,7 +106,7 @@ const MessageContextProvider = props => {
     }
     if (dataToJson.event === 'sreq') {
       const userIdentity = dataToJson.username + ':' + dataToJson.mac;
-
+      lastIncomingMessage.current = false;
       dispatch({
         type: MESSAGE_ADDED,
         payload: {
@@ -151,7 +156,11 @@ const MessageContextProvider = props => {
     }
   };
 
-  return <MessageContext.Provider value={{ messageHistory, dispatch }}>{props.children}</MessageContext.Provider>;
+  return (
+    <MessageContext.Provider value={{ messageHistory, dispatch, lastIncomingMessage }}>
+      {props.children}
+    </MessageContext.Provider>
+  );
 };
 
 export default MessageContextProvider;
