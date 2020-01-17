@@ -13,7 +13,7 @@ import { OnlineUserContext } from '../../../context/OnlineUserContext/OnlineUser
 const Chat = () => {
   const { selectedUser } = useContext(SelectUserContext);
   const { resetNotificationNumber, incrementNotificationNumber } = useContext(OnlineUserContext);
-  const { messageFromDatabase, dispatch } = useContext(DatabaseMessageContext);
+  const { messageFromDatabase, dispatchDbContext } = useContext(DatabaseMessageContext);
   const { messageHistory, lastIncomingMessage } = useContext(MessageContext);
 
   const [shouldScroll, setShouldScroll] = useState(true);
@@ -54,7 +54,7 @@ const Chat = () => {
     if (refScroller.scrollTop === 0) {
       scrollHeightBeforeLoad.current = refScroller.scrollHeight;
       if (selectedUser) {
-        dispatch({ type: GET_MSG_FROM_DB, userIdentity: selectedUser.userIdentity });
+        dispatchDbContext({ type: GET_MSG_FROM_DB, userIdentity: selectedUser.userIdentity });
       }
     }
   };

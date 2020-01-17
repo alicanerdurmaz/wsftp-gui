@@ -6,18 +6,20 @@ import OnlineUserContextProvider from './context/OnlineUserContext/OnlineUserCon
 import MessageContextProvider from './context/MessageContext/MessageContext';
 import './App.scss';
 import DatabaseMessageContextProvider from './context/DatabaseMessageContext/DatabaseMessageContext';
+import WriteToDatabase from './components/WriteToDatabase';
 
 const App = () => {
   return (
     <Fragment>
       <MessageContextProvider>
-        <OnlineUserContextProvider>
-          <SelectUserContextProvider>
+        <SelectUserContextProvider>
+          <OnlineUserContextProvider>
             <DatabaseMessageContextProvider>
               <MainLayout></MainLayout>
+              <WriteToDatabase></WriteToDatabase>
             </DatabaseMessageContextProvider>
-          </SelectUserContextProvider>
-        </OnlineUserContextProvider>
+          </OnlineUserContextProvider>
+        </SelectUserContextProvider>
       </MessageContextProvider>
     </Fragment>
   );

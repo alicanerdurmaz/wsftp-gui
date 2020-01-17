@@ -65,6 +65,10 @@ const writeToDataBase = (name, dir, input, done) => {
 };
 
 const writeToDataBaseArray = (name, dir, arr, done) => {
+  if (!arr.length) {
+    return done();
+  }
+
   let len = arr.length;
   let index = 0;
 
@@ -86,7 +90,58 @@ const reqSave = (name, dir, arr, len, index, done) => {
   });
 };
 
-function getFromDataBase(name, dir, start, end) {
+const getFromDataBase = (name, dir, start, end, done) => {
+  if (dir === 'desk') {
+    dir = path.join(os.homedir(), 'Desktop');
+  } else if (dir === 'down') {
+    dir = path.join(os.homedir(), 'Downloads');
+  } else if (dir === 'docu') {
+    dir = path.join(os.homedir(), 'Documents');
+  }
+  let file = path.join(dir, name);
+  fs.exists(file, err => {
+    let exists = err ? true : false;
+    let arr = [];
+    if (exists) {
+      fs.access(file, fs.constants.W_OK, err => {
+        if (err) {
+          done(err, arr, 0);
+        }
+        let reader = fs.readFileSync(file, 'utf8');
+        if (reader !== '') {
+          arr = JSON.parse(reader);
+        }
+        const slice = [];
+        const lenarr = arr.length;
+        if (start === 0 && end === 0) {
+          done(err, arr, lenarr);
+        } else {
+          if (lenarr <= start) {
+            done(err, [], -1);
+          } else {
+            let count = 0;
+            if (end > lenarr) {
+              for (let i = start; i <= lenarr - 1; i++) {
+                slice.push(arr[i]);
+                count++;
+              }
+            } else {
+              for (let i = start; i < end; i++) {
+                slice.push(arr[i]);
+                count++;
+              }
+            }
+            done(err, slice, count);
+          }
+        }
+      });
+    } else {
+      done(false, arr, 0);
+    }
+  });
+};
+
+const getFromDataBaseSync = (name, dir, start, end) => {
   if (dir === 'desk') {
     dir = path.join(os.homedir(), 'Desktop');
   } else if (dir === 'down') {
@@ -96,7 +151,6 @@ function getFromDataBase(name, dir, start, end) {
   }
   let file = path.join(dir, name);
   let exist = false;
-
   try {
     let stat = fs.statSync(file);
     exist = true;
@@ -119,12 +173,12 @@ function getFromDataBase(name, dir, start, end) {
       } else {
         let count = 0;
         if (end > lenarr) {
-          for (var i = start; i < lenarr; i++) {
+          for (let i = start; i < lenarr; i++) {
             slice.push(arr[i]);
             count++;
           }
         } else {
-          for (var i = start; i < end; i++) {
+          for (let i = start; i < end; i++) {
             slice.push(arr[i]);
             count++;
           }
@@ -133,9 +187,9 @@ function getFromDataBase(name, dir, start, end) {
       }
     }
   } else {
-    return { done: false, arr: [], len: -3 };
+    return { done: false, arr: [], len: -2 };
   }
-}
+};
 
 const deleteFromDataBase = (name, dir, key, value, done) => {
   getFromDataBase(name, dir, 0, 0, (err, arr) => {
@@ -174,8 +228,17 @@ const deleteDataBase = (name, dir, done) => {
   });
 };
 
-module.exports.writeToDataBase = writeToDataBase;
-module.exports.writeToDataBaseArray = writeToDataBaseArray;
-module.exports.getFromDataBase = getFromDataBase;
-module.exports.deleteFromDataBase = deleteFromDataBase;
-module.exports.deleteDataBase = deleteDataBase;
+const writeObject = (name, dir, data) => {
+  let file = path.join(dir, name);
+  fs.writeFileSync(file, JSON.stringify(data));
+};
+
+module.exports = {
+  writeToDataBase: writeToDataBase,
+  writeToDataBaseArray: writeToDataBaseArray,
+  getFromDataBase: getFromDataBase,
+  getFromDataBaseSync: getFromDataBaseSync,
+  deleteFromDataBase: deleteFromDataBase,
+  deleteDataBase: deleteDataBase,
+  writeObject: writeObject
+};

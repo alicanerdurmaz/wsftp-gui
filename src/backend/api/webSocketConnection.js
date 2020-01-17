@@ -62,7 +62,7 @@ export const API_SendFile = (macAddress, fileDir, uuidTemp) => {
 export const API_refreshOnlineUserList = () => {
   const data = { event: 'rshs' };
   commanderSocket.send(JSON.stringify(data));
-  console.log('clicked');
+  console.log('clicked rshs');
 };
 
 export const API_killTransaction = port => {

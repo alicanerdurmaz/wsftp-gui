@@ -43,7 +43,7 @@ const ChatFileMessage = ({
         dest: 'desk',
         uuid: uuid
       };
-      console.log(tempAcceptRequest);
+
       commanderSocket.send(JSON.stringify(tempAcceptRequest));
       dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading } });
     }

@@ -30,6 +30,7 @@ const UserListContainer = () => {
               macAddress={onlineUserList[index].mac}
               userIdentity={onlineUserList[index].userIdentity}
               notificationNumber={onlineUserList[index].notificationNumber}
+              isMuted={onlineUserList[index].isMuted}
               key={index}></UserListItem>
           ) : null;
         })}
@@ -45,6 +46,7 @@ const UserListContainer = () => {
               macAddress={onlineUserList[index].mac}
               userIdentity={onlineUserList[index].userIdentity}
               notificationNumber={onlineUserList[index].notificationNumber}
+              isMuted={onlineUserList[index].isMuted}
               key={index}></UserListItem>
           ) : null;
         })}

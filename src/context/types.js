@@ -9,3 +9,4 @@ export const PROGRESS_FAIL = 5;
 
 export const GET_MSG_FROM_DB = 6;
 export const RESET_BY_NAME = 7;
+export const USER_DELETED = 8;

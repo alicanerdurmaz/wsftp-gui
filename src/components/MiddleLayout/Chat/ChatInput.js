@@ -9,6 +9,7 @@ const { dialog } = window.require('electron').remote;
 
 const ChatInput = () => {
   const { selectedUser } = useContext(SelectUserContext);
+
   const [text, setText] = useState('');
   const root = useRef(document.documentElement);
 
@@ -43,7 +44,7 @@ const ChatInput = () => {
   };
   return (
     <div className='chat-input-area'>
-      {selectedUser ? (
+      {selectedUser && selectedUser.status === 'online' ? (
         <Fragment>
           <FileUploadIcon onClick={() => openFileExplorer()}></FileUploadIcon>
           <TextareaAutosize

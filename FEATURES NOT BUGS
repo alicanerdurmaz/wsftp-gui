@@ -18,3 +18,4 @@ update,patch ->
 save messagehistory on close -> history should not empty 
 
 
+when user offline. notifications deleted

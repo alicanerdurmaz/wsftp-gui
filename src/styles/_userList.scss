@@ -4,10 +4,19 @@
   cursor: pointer;
   &:hover {
     background-color: lighten($color: $primarycolor, $amount: 10);
-    transform: scale(1.06);
+    .svg-angle-right {
+      bottom: -5px;
+      visibility: visible;
+    }
+    .svg-volume-mute {
+      bottom: -10px;
+      visibility: hidden;
+    }
   }
 }
-
+.selected {
+  background-color: lighten($color: $primarycolor, $amount: 10);
+}
 .user-list-container {
   display: flex;
   justify-content: center;
@@ -24,7 +33,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  width: 100%;
+  width: 99%;
   margin-left: 8px;
 }
 
@@ -85,4 +94,33 @@
   border-radius: 50%;
   border: 1px solid #f04847;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.user-list-rightinfo-container {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  margin-right: 6px;
+  margin-bottom: 10px;
+}
+.svg-angle-right {
+  position: relative;
+  width: 24px;
+  height: 24px;
+
+  visibility: hidden;
+  bottom: 20px;
+  transition: all 0.1s ease;
+  fill: $gray;
+  &:hover {
+    fill: $blue;
+  }
+}
+.svg-volume-mute {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  fill: $secondarycolor-light;
+  bottom: 17px;
+  transition: all 0.1s ease;
 }

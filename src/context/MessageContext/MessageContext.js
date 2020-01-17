@@ -6,32 +6,15 @@ import { messageReducer } from './messageReducer';
 import { dateNow } from '../../Helpers/newDate';
 import { msgSocket, srScoket, commanderSocket } from '../../backend/api/webSocketConnection';
 import { MESSAGE_ADDED, PROGRESS_CHANGED, PROGRESS_DONE, PROGRESS_FAIL, STATUS_CHANGED } from '../types';
-import { API_saveJson, API_getJson, API_SendMessage } from '../../backend/api/webSocketConnection';
-import { writeToDataBaseArray, writeToDataBase } from '../../backend/api/dbFunctions';
-import { playNotification } from '../../Helpers/playNotificationSound';
 
-const { ipcRenderer } = require('electron');
+import { playNotification } from '../../Helpers/playNotificationSound';
 
 export const MessageContext = createContext();
 
 const MessageContextProvider = props => {
   const [messageHistory, dispatch] = useReducer(messageReducer, {});
   const lastIncomingMessage = useRef(false);
-
-  useEffect(() => {
-    const saveToDatabase = () => {
-      for (let key in messageHistory) {
-        writeToDataBaseArray(`${key}.json`, './src/database/', messageHistory[key], () => {
-          ipcRenderer.send('save-completed');
-        });
-      }
-    };
-    ipcRenderer.on('app-close', saveToDatabase);
-    return () => {
-      ipcRenderer.removeListener('app-close', saveToDatabase);
-    };
-  }, [messageHistory]);
-
+  console.log(messageHistory);
   msgSocket.onmessage = function(e) {
     const dataToJson = JSON.parse(e.data);
     const userIdentity = dataToJson.username + ':' + dataToJson.mac;

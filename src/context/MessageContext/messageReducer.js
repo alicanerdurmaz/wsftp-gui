@@ -1,11 +1,23 @@
-import { USER_CREATED, MESSAGE_ADDED, STATUS_CHANGED, PROGRESS_CHANGED, PROGRESS_DONE, PROGRESS_FAIL } from '../types';
+import {
+  USER_CREATED,
+  MESSAGE_ADDED,
+  STATUS_CHANGED,
+  PROGRESS_CHANGED,
+  PROGRESS_DONE,
+  PROGRESS_FAIL,
+  USER_DELETED
+} from '../types';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 
 export const messageReducer = (state, action) => {
   switch (action.type) {
     case USER_CREATED:
-      console.log('user created');
       return { ...state, [action.userIdentity]: [] };
+
+    case USER_DELETED:
+      const tempState = { ...state };
+      delete tempState[action.userIdentity];
+      return { ...tempState };
 
     case MESSAGE_ADDED:
       state[action.payload.dbName].push(action.payload);
