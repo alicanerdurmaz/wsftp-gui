@@ -24,21 +24,21 @@ export const srScoket = new WebSocket(srSocketURI);
 export const hsSocket = new WebSocket(hsSocketURI);
 
 srScoket.onopen = function() {
-  console.log('connected to sr ' + srScoket);
+  console.log('connected to sr ', srScoket);
 };
 srScoket.onclose = function(e) {
-  console.log('connection closed sr ' + e);
+  console.log('connection closed sr ', e);
 };
 
 commanderSocket.onopen = function() {
-  console.log('connected to commanderSocket ' + commanderSocket);
+  console.log('connected to commanderSocket ', commanderSocket);
 };
 
 commanderSocket.onclose = function(e) {
-  console.log('connection closed commanderSocket ' + e);
+  console.log('connection closed commanderSocket ', e);
 };
 commanderSocket.onmessage = function(e) {
-  console.log('CMD : ' + e);
+  console.log('CMD : ', e);
 };
 export const API_SendMessage = (macAddress, msgContent) => {
   const data = {

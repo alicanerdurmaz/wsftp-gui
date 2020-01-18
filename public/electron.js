@@ -60,10 +60,10 @@ function startCommander() {
   commanderExe = childProc.execFile(commanderPath);
 
   commanderExe.stdout.on('data', function(data) {
-    console.log('child:' + data);
+    console.log('child:', data);
   });
   commanderExe.stderr.on('data', data => {
-    console.error('child:' + data);
+    console.error('child:', data);
   });
 }
 

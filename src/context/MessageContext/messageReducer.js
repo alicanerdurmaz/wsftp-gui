@@ -20,9 +20,15 @@ export const messageReducer = (state, action) => {
       return { ...tempState };
 
     case MESSAGE_ADDED:
-      state[action.payload.dbName].push(action.payload);
+      if (state.hasOwnProperty(action.payload.dbName)) {
+        state[action.payload.dbName].push(action.payload);
+        return { ...state };
+      } else if (!state.hasOwnProperty(action.payload.dbName)) {
+        state[action.payload.dbName] = [];
+        state[action.payload.dbName].push(action.payload);
+        return { ...state };
+      }
       return { ...state };
-
     case STATUS_CHANGED:
       state[action.payload.dbName].forEach(element => {
         if (element.uuid === action.payload.uuid) {

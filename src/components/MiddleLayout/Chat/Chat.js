@@ -2,7 +2,6 @@ import React, { Fragment, useState, useRef, useEffect, useContext } from 'react'
 import ChatHeader from '../Chat/ChatHeader';
 import ChatList from '../Chat/ChatList';
 import ChatInput from '../Chat/ChatInput';
-import { getFromDataBase } from '../../../backend/api/dbFunctions';
 import ChatOldList from '../Chat/ChatOldList';
 import { SelectUserContext } from '../../../context/SelectUserContext';
 import { DatabaseMessageContext } from '../../../context/DatabaseMessageContext/DatabaseMessageContext';
@@ -27,6 +26,7 @@ const Chat = () => {
     scrollGoingUp.current = false;
     refScroller.scrollTop = refScroller.scrollHeight - refScroller.clientHeight;
     selectedUser && resetNotificationNumber(selectedUser.userIdentity);
+    // eslint-disable-next-line
   }, [selectedUser]);
 
   useEffect(() => {
@@ -34,6 +34,7 @@ const Chat = () => {
       jumpToBottom();
     }
     incrementNotificationNumber(lastIncomingMessage.current);
+    // eslint-disable-next-line
   }, [messageHistory]);
 
   useEffect(() => {
@@ -60,9 +61,7 @@ const Chat = () => {
   };
   const jumpToBottom = () => {
     refScroller.scrollTop = refScroller.scrollHeight;
-    setTimeout(() => {
-      selectedUser && resetNotificationNumber(selectedUser.userIdentity);
-    }, 50);
+    selectedUser && resetNotificationNumber(selectedUser.userIdentity);
   };
 
   return (

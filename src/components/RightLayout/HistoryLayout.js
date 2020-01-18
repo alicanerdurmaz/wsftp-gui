@@ -1,8 +1,6 @@
 import React, { useContext, useRef, useEffect } from 'react';
 import { SelectUserContext } from '../../context/SelectUserContext';
 
-import HistoryListItem from './HistoryListItem';
-
 const HistoryLayout = () => {
   const { selectedUser } = useContext(SelectUserContext);
   let downloadsListEnd = useRef(null);

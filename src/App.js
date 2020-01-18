@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useRef } from 'react';
+import React, { Fragment } from 'react';
 
 import MainLayout from './components/MainLayout';
 import SelectUserContextProvider from './context/SelectUserContext';
@@ -13,12 +13,12 @@ const App = () => {
     <Fragment>
       <MessageContextProvider>
         <SelectUserContextProvider>
-          <OnlineUserContextProvider>
-            <DatabaseMessageContextProvider>
+          <DatabaseMessageContextProvider>
+            <OnlineUserContextProvider>
               <MainLayout></MainLayout>
               <WriteToDatabase></WriteToDatabase>
-            </DatabaseMessageContextProvider>
-          </OnlineUserContextProvider>
+            </OnlineUserContextProvider>
+          </DatabaseMessageContextProvider>
         </SelectUserContextProvider>
       </MessageContextProvider>
     </Fragment>

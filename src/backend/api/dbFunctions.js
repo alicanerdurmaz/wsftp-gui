@@ -222,12 +222,25 @@ const deleteFromDataBase = (name, dir, key, value, done) => {
 };
 
 const deleteDataBase = (name, dir, done) => {
+  if (dir === 'desk') {
+    dir = path.join(os.homedir(), 'Desktop');
+  } else if (dir === 'down') {
+    dir = path.join(os.homedir(), 'Downloads');
+  } else if (dir === 'docu') {
+    dir = path.join(os.homedir(), 'Documents');
+  }
   let file = path.join(dir, name);
   fs.unlink(file, err => {
     done(err);
   });
 };
 
+const deleteDataBaseSync = (name, dir) => {
+  let file = path.join(dir, name);
+  try {
+    fs.unlinkSync(file);
+  } catch (error) {}
+};
 const writeObject = (name, dir, data) => {
   let file = path.join(dir, name);
   fs.writeFileSync(file, JSON.stringify(data));
@@ -240,5 +253,6 @@ module.exports = {
   getFromDataBaseSync: getFromDataBaseSync,
   deleteFromDataBase: deleteFromDataBase,
   deleteDataBase: deleteDataBase,
+  deleteDataBaseSync: deleteDataBaseSync,
   writeObject: writeObject
 };

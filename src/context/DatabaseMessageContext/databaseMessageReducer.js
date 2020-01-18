@@ -1,4 +1,4 @@
-import { GET_MSG_FROM_DB, RESET_BY_NAME } from '../types';
+import { GET_MSG_FROM_DB, RESET_BY_NAME, DELETE_DB } from '../types';
 import { getFromDataBaseSync } from '../../backend/api/dbFunctions';
 export const databaseMessageReducer = (state, action) => {
   switch (action.type) {
@@ -15,7 +15,10 @@ export const databaseMessageReducer = (state, action) => {
       state[action.userIdentity] = [];
       state[action.userIdentity].push(...result2.arr.reverse());
       return { ...state };
-
+    case DELETE_DB:
+      const tempState = { ...state };
+      delete tempState[action.userIdentity];
+      return { ...tempState };
     default:
       break;
   }

@@ -1,10 +1,10 @@
-import React, { createContext, useReducer, useRef, useEffect } from 'react';
+import React, { createContext, useReducer, useRef, useState } from 'react';
 import uuid from 'uuid/v4';
 
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import { messageReducer } from './messageReducer';
 import { dateNow } from '../../Helpers/newDate';
-import { msgSocket, srScoket, commanderSocket } from '../../backend/api/webSocketConnection';
+import { msgSocket, srScoket } from '../../backend/api/webSocketConnection';
 import { MESSAGE_ADDED, PROGRESS_CHANGED, PROGRESS_DONE, PROGRESS_FAIL, STATUS_CHANGED } from '../types';
 
 import { playNotification } from '../../Helpers/playNotificationSound';
@@ -13,12 +13,18 @@ export const MessageContext = createContext();
 
 const MessageContextProvider = props => {
   const [messageHistory, dispatch] = useReducer(messageReducer, {});
+  const [newUser, setNewUser] = useState(false);
   const lastIncomingMessage = useRef(false);
-  console.log(messageHistory);
+
+  const isThisNewUser = userIdentity => {
+    if (!messageHistory.hasOwnProperty(userIdentity)) {
+      setNewUser(userIdentity);
+    }
+  };
   msgSocket.onmessage = function(e) {
     const dataToJson = JSON.parse(e.data);
     const userIdentity = dataToJson.username + ':' + dataToJson.mac;
-
+    isThisNewUser(userIdentity);
     if (dataToJson.event === 'smsg') {
       lastIncomingMessage.current = false;
       dispatch({
@@ -140,7 +146,7 @@ const MessageContextProvider = props => {
   };
 
   return (
-    <MessageContext.Provider value={{ messageHistory, dispatch, lastIncomingMessage }}>
+    <MessageContext.Provider value={{ messageHistory, dispatch, lastIncomingMessage, newUser }}>
       {props.children}
     </MessageContext.Provider>
   );
