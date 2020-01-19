@@ -27,3 +27,12 @@ $red: #f44336;
     color: lighten($color: $green, $amount: 15);
   }
 }
+.bg-colorGreen {
+  background-color: $green;
+}
+.bg-colorRed {
+  background-color: $red;
+}
+.bg-colorBlue {
+  background-color: $blue;
+}

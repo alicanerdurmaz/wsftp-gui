@@ -241,11 +241,28 @@ const deleteDataBaseSync = (name, dir) => {
     fs.unlinkSync(file);
   } catch (error) {}
 };
+
 const writeObject = (name, dir, data) => {
+  if (dir === 'desk') {
+    dir = path.join(os.homedir(), 'Desktop');
+  } else if (dir === 'down') {
+    dir = path.join(os.homedir(), 'Downloads');
+  } else if (dir === 'docu') {
+    dir = path.join(os.homedir(), 'Documents');
+  }
   let file = path.join(dir, name);
   fs.writeFileSync(file, JSON.stringify(data));
 };
 
+const getSettings = (name, dir) => {
+  dir = path.join(os.homedir(), 'Documents');
+  let file = path.join(dir, 'wsftp-settings.json');
+  if (fs.existsSync(file)) {
+    const data = fs.readFileSync(file);
+    return data;
+  }
+  return {};
+};
 module.exports = {
   writeToDataBase: writeToDataBase,
   writeToDataBaseArray: writeToDataBaseArray,
@@ -254,5 +271,6 @@ module.exports = {
   deleteFromDataBase: deleteFromDataBase,
   deleteDataBase: deleteDataBase,
   deleteDataBaseSync: deleteDataBaseSync,
-  writeObject: writeObject
+  writeObject: writeObject,
+  getSettings: getSettings
 };

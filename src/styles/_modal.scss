@@ -1,0 +1,165 @@
+.MuiBackdrop-root {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+.makeStyles-paper-2 {
+  background-color: $secondarycolor !important;
+  width: 90%;
+  height: 90%;
+  border-radius: 4px;
+  padding: 0px !important;
+  &:focus {
+    outline: none;
+  }
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-close-btn {
+  position: fixed;
+  top: 7%;
+  right: 6%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: 600;
+  font-size: 12px;
+  width: 50px;
+  height: 50px;
+  color: $blueGray-darken;
+}
+
+.modal-close-icon {
+  cursor: pointer;
+  padding: 8px;
+  width: 16px;
+  height: 16px;
+  fill: $blueGray-darken;
+  border-radius: 50%;
+  border: 2px solid $secondarycolor-light;
+  &:hover {
+    background-color: $primarycolor-light;
+  }
+}
+.modal-my-account-container {
+  width: 80%;
+  height: 160px;
+  padding: 16px 36px;
+
+  display: flex;
+  flex-direction: column;
+}
+.modal-my-account-info-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: $primarycolor;
+  border: 1px solid #000000a4;
+  border-radius: 6px;
+  padding: 16px 24px;
+}
+.modal-section-title {
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  color: $white;
+  font-weight: bolder;
+}
+.modal-modal-my-account-title {
+  margin-bottom: 2px;
+  font-weight: bolder;
+  font-size: 13px;
+  color: #797d82;
+}
+.modal-modal-my-account-text {
+  font-weight: 500;
+  font-size: 16px;
+  color: #b0b2b4;
+}
+.modal-my-account-info-section {
+  display: flex;
+  flex-direction: column;
+  margin: 8px;
+}
+
+.two-text-group {
+  display: flex;
+}
+
+.btn-edit {
+  cursor: pointer;
+  margin-left: 2px;
+  padding: 8px;
+}
+.edit-icon {
+  position: relative;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  fill: $blueGray;
+  &:hover {
+    fill: $blue;
+  }
+}
+.clickable {
+  cursor: pointer;
+  &:hover {
+    color: $blue;
+  }
+}
+
+.username-edit-area {
+  display: flex;
+  width: 100%;
+  margin-top: 4px;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  align-items: center;
+}
+.username-input {
+  background-color: $primarycolor-light;
+  border: 1px solid #000000a4;
+  width: 70%;
+  margin-left: -3px;
+}
+
+.modal-btn-group {
+  display: flex;
+  margin-left: 24px;
+  justify-content: space-around;
+  width: 30%;
+}
+.modal-btn {
+  margin: 0px 4px;
+  margin-top: -3px;
+  height: 28px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 400;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  outline: none;
+}
+
+.modal-changedir-container {
+  width: 80%;
+  height: 60px;
+  padding: 16px 36px;
+  display: flex;
+  flex-direction: column;
+}
+.modal-changedir-section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: $primarycolor;
+  border: 1px solid #000000a4;
+  border-radius: 6px;
+  padding: 16px 24px;
+}

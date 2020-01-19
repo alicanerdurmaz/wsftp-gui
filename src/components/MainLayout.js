@@ -3,10 +3,13 @@ import React, { useState } from 'react';
 import LeftLayout from './LeftLayout/LeftLayout';
 import MiddleLayout from './MiddleLayout/MiddleLayout';
 import RightLayout from './RightLayout/RightLayout';
+import Settings from './Settings';
 
 const MainLayout = () => {
   const [showDnd, setShowDnd] = useState('');
   const [counter, setCounter] = useState(0);
+  const [modalOpen, setModalOpen] = useState(true);
+
   if (counter === 0 && showDnd) {
     setShowDnd('');
   }
@@ -38,7 +41,11 @@ const MainLayout = () => {
       console.log(data[i].path);
     }
   };
-
+  const openSettingsScreen = () => {
+    console.log('openSettingsScreen');
+    setModalOpen(true);
+  };
+  console.log(modalOpen);
   return (
     <div
       className={'main-container'}
@@ -47,7 +54,8 @@ const MainLayout = () => {
       onDragOver={event => onDragOverHandler(event)}
       onDrop={event => onFileDropHandler(event)}>
       <div className={`area-hidden ${showDnd}`}></div>
-      <LeftLayout></LeftLayout>
+      <Settings modalOpen={modalOpen} setModalOpen={setModalOpen}></Settings>
+      <LeftLayout openSettingsScreen={openSettingsScreen}></LeftLayout>
       <MiddleLayout></MiddleLayout>
       <RightLayout></RightLayout>
     </div>
