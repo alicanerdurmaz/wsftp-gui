@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import LeftLayout from './LeftLayout/LeftLayout';
 import MiddleLayout from './MiddleLayout/MiddleLayout';
 import RightLayout from './RightLayout/RightLayout';
-import Settings from './Settings';
+import Settings from './SettingsLayout/Settings';
 
 const MainLayout = () => {
   const [showDnd, setShowDnd] = useState('');
   const [counter, setCounter] = useState(0);
-  const [modalOpen, setModalOpen] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
+  useEffect(() => {}, []);
   if (counter === 0 && showDnd) {
     setShowDnd('');
   }
@@ -42,10 +43,9 @@ const MainLayout = () => {
     }
   };
   const openSettingsScreen = () => {
-    console.log('openSettingsScreen');
     setModalOpen(true);
   };
-  console.log(modalOpen);
+
   return (
     <div
       className={'main-container'}

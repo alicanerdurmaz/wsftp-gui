@@ -23,6 +23,10 @@ export const msgSocket = new WebSocket(msgSocketURI);
 export const srScoket = new WebSocket(srSocketURI);
 export const hsSocket = new WebSocket(hsSocketURI);
 
+hsSocket.onopen = function() {
+  console.log('Connected to hs', srScoket);
+};
+
 srScoket.onopen = function() {
   console.log('connected to sr ', srScoket);
 };
@@ -32,6 +36,7 @@ srScoket.onclose = function(e) {
 
 commanderSocket.onopen = function() {
   console.log('connected to commanderSocket ', commanderSocket);
+  API_getMyInfo();
 };
 
 commanderSocket.onclose = function(e) {
@@ -60,9 +65,9 @@ export const API_SendFile = (macAddress, fileDir, uuidTemp) => {
 };
 
 export const API_refreshOnlineUserList = () => {
+  console.log('clicked rshs');
   const data = { event: 'rshs' };
   commanderSocket.send(JSON.stringify(data));
-  console.log('clicked rshs');
 };
 
 export const API_killTransaction = port => {
@@ -77,5 +82,10 @@ export const API_saveJson = (mac, input) => {
 
 export const API_getJson = mac => {
   const data = { event: 'get', mac: mac };
+  commanderSocket.send(JSON.stringify(data));
+};
+
+export const API_getMyInfo = () => {
+  const data = { event: 'my' };
   commanderSocket.send(JSON.stringify(data));
 };

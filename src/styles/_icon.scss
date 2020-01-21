@@ -9,39 +9,39 @@
 }
 
 .file-icon {
-  width: 48px;
-  height: 48px;
+  width: 24px;
+  height: 36px;
   margin: 12px 12px;
   color: $white;
 }
 
 .check-icon {
-  width: 36px;
-  height: 36px;
-  color: $green;
+  width: 24px;
+  height: 24px;
+  fill: $green;
   transition: all ease-in-out 60ms;
   &:hover {
     transform: scale(1.2);
   }
 }
 .ban-icon {
-  width: 36px;
-  height: 36px;
-  color: $red;
+  width: 24px;
+  height: 24px;
+  fill: $red;
   transition: all ease-in-out 60ms;
   &:hover {
     transform: scale(1.2);
   }
 }
 .times-icon {
-  width: 36px;
-  height: 36px;
-  color: $red;
+  width: 24px;
+  height: 24px;
+  fill: $red;
 }
 
 .times-icon-cancelprg {
   width: 50px;
   height: 50px;
-  color: $red;
+  fill: $red;
   transition: all ease-in-out 60ms;
 }

@@ -1,20 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useContext, Fragment } from 'react';
 import { SelectUserContext } from '../../../context/SelectUserContext';
 import { ReactComponent as AtIcon } from '../../../assets/svg/at.svg';
 const ChatHeader = () => {
   const { selectedUser } = useContext(SelectUserContext);
+
+  const changeHandler = e => {
+    console.log(e.target.value);
+  };
+
   return (
     <div className='chat-header-container'>
       <div className='chat-header-area'>
-        <ul className='user-info'>
-          <li>
-            <AtIcon></AtIcon>
-          </li>
-          <li>
-            <span className='colorBlue'>{selectedUser && selectedUser.username}</span>
-          </li>
-        </ul>
-        {/* <input type='text' className='search-message' placeholder='Search a message'></input> */}
+        {selectedUser ? (
+          <Fragment>
+            <span
+              className={
+                selectedUser.status === 'online' ? 'online-indicator bg-colorGreen' : 'online-indicator bg-colorGray'
+              }></span>
+            <div className='chat-header-username'>{selectedUser.username}</div>
+            <div className='divider'></div>
+            <input
+              type='text'
+              className='search-message'
+              placeholder='Search a message'
+              onChange={e => changeHandler(e)}></input>
+          </Fragment>
+        ) : null}
       </div>
     </div>
   );

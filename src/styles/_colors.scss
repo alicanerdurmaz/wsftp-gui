@@ -36,3 +36,11 @@ $red: #f44336;
 .bg-colorBlue {
   background-color: $blue;
 }
+.bg-colorGray {
+  background-color: $blueGray-darken;
+}
+
+.bg-colorPrimaryLight {
+  background-color: $primarycolor-light;
+  color: $blueGray;
+}

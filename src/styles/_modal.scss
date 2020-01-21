@@ -64,7 +64,8 @@
   padding: 16px 24px;
 }
 .modal-section-title {
-  margin-bottom: 8px;
+  margin-left: 3px;
+  margin-bottom: 4px;
   text-transform: uppercase;
   color: $white;
   font-weight: bolder;
@@ -150,16 +151,35 @@
 .modal-changedir-container {
   width: 80%;
   height: 60px;
-  padding: 16px 36px;
+  padding: 8px 36px;
   display: flex;
   flex-direction: column;
 }
 .modal-changedir-section {
   height: 100%;
   display: flex;
-  flex-direction: column;
+  justify-content: space-evenly;
   background-color: $primarycolor;
   border: 1px solid #000000a4;
   border-radius: 6px;
   padding: 16px 24px;
+}
+
+.modal-btn-openexplorer {
+  cursor: pointer;
+  border: none;
+  margin: 0px 4px;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  outline: none;
+  height: 28px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.directory-input {
+  background-color: $primarycolor-light;
+  border: 1px solid #000000a4;
+  width: 75%;
+  color: $blueGray-darken;
 }

@@ -1,9 +1,14 @@
 import React, { createContext, useReducer } from 'react';
-import { getFromDataBaseSync } from '../../backend/api/dbFunctions';
+import { getObject, getFromDataBaseSync } from '../../backend/api/dbFunctions';
 import { databaseMessageReducer } from './databaseMessageReducer';
 
-const rawData = getFromDataBaseSync('allUsersList.json', './src/database/', 0, 0);
-const allUsersList = rawData.len <= 0 ? {} : rawData.arr;
+import findDbDirectory from '../../Helpers/findDbDirectory';
+
+const rawData = getObject('allUsersList.json', findDbDirectory());
+let allUsersList = {};
+try {
+  allUsersList = JSON.parse(rawData);
+} catch (error) {}
 
 export const DatabaseMessageContext = createContext();
 
@@ -11,7 +16,7 @@ const DatabaseMessageContextProvider = props => {
   const [messageFromDatabase, dispatchDbContext] = useReducer(databaseMessageReducer, [], () => {
     let data = {};
     for (let key in allUsersList) {
-      const result = getFromDataBaseSync(`${key}.json`, './src/database', 0, 20);
+      const result = getFromDataBaseSync(`${key}.json`, findDbDirectory(), 0, 20);
       data[key] = result.arr.reverse();
     }
     return data;

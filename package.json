@@ -1,5 +1,5 @@
 {
-  "name": "tunnelgo",
+  "name": "wsftp",
   "version": "0.1.0",
   "private": true,
   "main": "public/electron.js",

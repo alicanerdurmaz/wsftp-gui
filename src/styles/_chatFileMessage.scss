@@ -51,11 +51,12 @@ $border-radius: 8px;
   width: 100%;
 }
 
+.li-date {
+  margin-bottom: 8px;
+}
 .file-message-createdAt {
   font-size: 12px;
-  margin-bottom: 4px;
   color: $blueGray-darken;
-
   &.user {
     .createdAt-f {
       float: right;
@@ -64,7 +65,6 @@ $border-radius: 8px;
   &.other {
     .createdAt-f {
       float: left;
-      margin-left: 2px;
     }
   }
 }
@@ -98,4 +98,7 @@ $border-radius: 8px;
   font-weight: bold;
   margin-top: 25%;
   color: $blueGray;
+}
+.file-size {
+  font-size: 14px;
 }

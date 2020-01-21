@@ -1,14 +1,20 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { MessageContext } from '../MessageContext/MessageContext';
 import { hsSocket } from '../../backend/api/webSocketConnection';
-import { USER_CREATED, USER_DELETED, DELETE_DB } from '../types';
+import { USER_CREATED, USER_DELETED, DELETE_DB, MEDIA_USER_CREATED } from '../types';
 
-import { getFromDataBaseSync, deleteDataBaseSync } from '../../backend/api/dbFunctions';
+import { getObject, deleteDataBaseSync } from '../../backend/api/dbFunctions';
 import { SelectUserContext } from '../SelectUserContext';
 import { DatabaseMessageContext } from '../DatabaseMessageContext/DatabaseMessageContext';
+import findDbDirectory from '../../Helpers/findDbDirectory';
+import { MediaContext } from '../MediaContext/MediaContext';
+const { app } = require('electron').remote;
 
-const rawData = getFromDataBaseSync('allUsersList.json', './src/database/', 0, 0);
-const allUsersList = rawData.len <= 0 ? {} : rawData.arr;
+const rawData = getObject('allUsersList.json', findDbDirectory());
+let allUsersList = {};
+try {
+  allUsersList = JSON.parse(rawData);
+} catch (error) {}
 
 export const OnlineUserContext = createContext();
 
@@ -17,6 +23,7 @@ const OnlineUserContextProvider = props => {
     return allUsersList;
   });
   const { messageHistory, newUser, dispatch } = useContext(MessageContext);
+  const { mediaList, dispatchMediaContext } = useContext(MediaContext);
   const { dispatchDbContext } = useContext(DatabaseMessageContext);
   const { setSelectedUser } = useContext(SelectUserContext);
 
@@ -26,6 +33,7 @@ const OnlineUserContextProvider = props => {
   }, [newUser]);
 
   hsSocket.onmessage = msg => {
+    console.log(msg.data);
     const toJson = JSON.parse(msg.data);
     toJson.userIdentity = toJson.username + ':' + toJson.mac;
 
@@ -37,14 +45,22 @@ const OnlineUserContextProvider = props => {
         userIdentity: toJson.userIdentity
       });
     }
+    if (mediaList.hasOwnProperty('media:' + toJson.userIdentity) === false && toJson.event === 'online') {
+      dispatchMediaContext({
+        type: MEDIA_USER_CREATED,
+        userIdentity: toJson.userIdentity
+      });
+    }
     if (onlineUserList.hasOwnProperty(toJson.userIdentity)) {
       const tempObject = { ...onlineUserList };
       tempObject[toJson.userIdentity].event = toJson.event;
       setOnlineUserList(tempObject);
-    } else if (!onlineUserList.hasOwnProperty(toJson.userIdentity)) {
+    }
+    if (!onlineUserList.hasOwnProperty(toJson.userIdentity)) {
       const tempObject = { ...onlineUserList };
       tempObject[toJson.userIdentity] = toJson;
       tempObject[toJson.userIdentity].notificationNumber = 0;
+      tempObject[toJson.userIdentity].muted = false;
       setOnlineUserList(tempObject);
     }
   };

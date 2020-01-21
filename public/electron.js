@@ -6,19 +6,28 @@ const isDev = require('electron-is-dev');
 
 const childProc = require('child_process');
 const commanderPath = path.join(__dirname, '/commander');
+const { getObject } = require('../src/backend/api/dbFunctions');
 
 // Create MainWindow and set settings
 let mainWindow;
+const settingsRaw = getObject('settings.json', path.join(app.getPath('userData'), path.sep, 'custom-db'));
+let settingsJson = {};
+try {
+  settingsJson = JSON.parse(settingsRaw);
+} catch (error) {}
 
 function createWindow() {
   startCommander();
   mainWindow = new BrowserWindow({
-    width: 975,
-    height: 650,
+    width: settingsJson.windowSize ? settingsJson.windowSize.width : 975,
+    height: settingsJson.windowSize ? settingsJson.windowSize.height : 650,
+    minWidth: 975,
+    minHeight: 650,
     webPreferences: {
       nodeIntegration: true
     }
   });
+
   mainWindow.on('close', e => {
     if (mainWindow) {
       e.preventDefault();

@@ -1,8 +1,10 @@
 import React, { useContext, useRef, useEffect } from 'react';
 import { SelectUserContext } from '../../context/SelectUserContext';
-
+import { MediaContext } from '../../context/MediaContext/MediaContext';
+import HistoryListItem from './HistoryListItem';
 const HistoryLayout = () => {
   const { selectedUser } = useContext(SelectUserContext);
+  const { mediaList } = useContext(MediaContext);
   let downloadsListEnd = useRef(null);
   let uploadsListEnd = useRef(null);
 
@@ -21,46 +23,56 @@ const HistoryLayout = () => {
   };
   return (
     <div className='history-container'>
-      <div className='border-bottom'>
-        <div className='history-title padding-top-2'>Uploads</div>
+      <div className='history-title-container'>
+        <div className='history-title'>Uploads</div>
+        <input type='text' className='history-search'></input>
       </div>
       <ul className='history-list'>
-        {/* {fakeData['08:00:27:fc:3d:f2'].forEach(e => {
-          if (e.from === '*MYPC*') {
-            return (
-              <HistoryListItem
-                key={e.uuid}
-                fileName={e.fileName}
-                createdAt={e.createdAt}
-                fileSize={e.fileSize}
-                fileType={e.fileType}
-                fileDir={e.dir}></HistoryListItem>
-            );
-          } else return null;
-        })} */}
+        {selectedUser &&
+          mediaList['media:' + selectedUser.userIdentity] &&
+          mediaList['media:' + selectedUser.userIdentity].map(e => {
+            if (e.from === '*MYPC*') {
+              return (
+                <HistoryListItem
+                  key={e.uuid}
+                  fileName={e.fileName}
+                  createdAt={e.createdAt}
+                  fileSize={e.fileSize}
+                  fileType={e.fileType}
+                  fileDir={e.dir}
+                  progress={e.progress}
+                  fileStatus={e.fileStatus}></HistoryListItem>
+              );
+            } else return null;
+          })}
         <div
           ref={el => {
             uploadsListEnd = el;
           }}></div>
       </ul>
 
-      <div className='border-top border-bottom '>
+      <div className='history-title-container'>
         <div className='history-title'>Downloads</div>
+        <input type='text' className='history-search'></input>
       </div>
       <ul className='history-list'>
-        {/* {fakeData['08:00:27:fc:3d:f2'].forEach(e => {
-          if (e.from !== '*MYPC*') {
-            return (
-              <HistoryListItem
-                key={e.uuid}
-                fileType={e.fileType}
-                fileName={e.fileName}
-                createdAt={e.createdAt}
-                fileSize={e.fileSize}
-                fileDir={e.dir}></HistoryListItem>
-            );
-          } else return null;
-        })} */}
+        {selectedUser &&
+          mediaList['media:' + selectedUser.userIdentity] &&
+          mediaList['media:' + selectedUser.userIdentity].map(el => {
+            if (el.from !== '*MYPC*') {
+              return (
+                <HistoryListItem
+                  key={el.uuid}
+                  fileName={el.fileName}
+                  createdAt={el.createdAt}
+                  fileSize={el.fileSize}
+                  fileType={el.fileType}
+                  fileDir={el.dir}
+                  progress={el.progress}
+                  fileStatus={el.fileStatus}></HistoryListItem>
+              );
+            } else return null;
+          })}
         <div
           ref={el => {
             downloadsListEnd = el;

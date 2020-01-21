@@ -46,13 +46,12 @@
   border-bottom: 1px solid $border-color;
   &:hover {
     background-color: $primarycolor;
-    transform: scale(1);
   }
 }
 .search-user {
   position: relative;
   top: 10px;
-  left: 13px;
+  left: 4px;
   height: 16px;
   color: $blueGray;
 }

@@ -9,6 +9,7 @@ import { ReactComponent as BanIcon } from '../../../assets/svg/ban-solid.svg';
 import { ReactComponent as CheckIcon } from '../../../assets/svg/check-circle-solid.svg';
 import { ReactComponent as TimesIcon } from '../../../assets/svg/times-solid.svg';
 import { API_killTransaction, commanderSocket } from '../../../backend/api/webSocketConnection';
+import { SettingsContext } from '../../../context/SettingsContext';
 
 const ChatFileMessage = ({
   fileStatus,
@@ -26,6 +27,7 @@ const ChatFileMessage = ({
   port
 }) => {
   const { dispatch } = useContext(MessageContext);
+  const { settings } = useContext(SettingsContext);
   const [showCancel, setShowCancel] = useState(false);
 
   let tempFrom = 'user';
@@ -40,7 +42,7 @@ const ChatFileMessage = ({
         event: 'cacp',
         mac: mac,
         dir: dir,
-        dest: 'desk',
+        dest: settings.downloadDirectory || 'desk',
         uuid: uuid
       };
 
@@ -63,18 +65,12 @@ const ChatFileMessage = ({
       return (
         <div className='btn-group'>
           <CheckIcon className='check-icon' onClick={() => setAccepted(true)}></CheckIcon>
-          <BanIcon className='ban-icon' onClick={() => setAccepted(false)}>
-            >
-          </BanIcon>
+          <BanIcon className='ban-icon' onClick={() => setAccepted(false)}></BanIcon>
         </div>
       );
     }
     if (fileStatus === FILE_STATUS.rejected) {
-      return (
-        <div className='btn-group'>
-          <TimesIcon className='times-icon disabled'></TimesIcon>
-        </div>
-      );
+      return <TimesIcon className='times-icon disabled'></TimesIcon>;
     }
     if (fileStatus === FILE_STATUS.loading && !showCancel) {
       return (
@@ -111,10 +107,11 @@ const ChatFileMessage = ({
           {fileInformation()}
         </div>
       </li>
-
-      <span className={`file-message-createdAt ${tempFrom}`}>
-        <span className='createdAt-f'>{createdAt}</span>
-      </span>
+      <li className='li-date'>
+        <span className={`file-message-createdAt ${tempFrom}`}>
+          <span className='createdAt-f'>{createdAt}</span>
+        </span>
+      </li>
     </Fragment>
   );
 };

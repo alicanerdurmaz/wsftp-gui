@@ -12,8 +12,10 @@
   }
   &.other {
     border-left: 2px solid $blue;
+
     .message-p {
       float: left;
+      background-color: pink;
     }
   }
 }

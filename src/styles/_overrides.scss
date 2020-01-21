@@ -68,3 +68,13 @@ p {
 .hidden {
   display: none !important;
 }
+
+.r-border {
+  border: none !important;
+}
+.r-hover {
+  cursor: auto;
+  &:hover {
+    background-color: $primarycolor;
+  }
+}
