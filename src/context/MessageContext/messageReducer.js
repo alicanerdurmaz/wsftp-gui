@@ -5,7 +5,8 @@ import {
   PROGRESS_CHANGED,
   PROGRESS_DONE,
   PROGRESS_FAIL,
-  USER_DELETED
+  USER_DELETED,
+  MESSAGE_DELETED_BY_ID
 } from '../types';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 

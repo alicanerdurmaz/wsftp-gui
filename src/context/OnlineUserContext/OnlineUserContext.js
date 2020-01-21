@@ -66,18 +66,18 @@ const OnlineUserContextProvider = props => {
   };
 
   const incrementNotificationNumber = userIdentity => {
-    if (!userIdentity) return;
+    if (!userIdentity.current) return;
+    if (typeof userIdentity.current === 'undefined') return;
 
-    if (onlineUserList.hasOwnProperty(userIdentity)) {
+    if (onlineUserList.hasOwnProperty(userIdentity.current)) {
       const tempObject = { ...onlineUserList };
-      tempObject[userIdentity].notificationNumber++;
+      tempObject[userIdentity.current].notificationNumber++;
       setOnlineUserList(tempObject);
     }
   };
 
   const resetNotificationNumber = userIdentity => {
     if (!userIdentity) return;
-
     const tempObject = { ...onlineUserList };
     tempObject[userIdentity].notificationNumber = 0;
     setOnlineUserList(tempObject);
@@ -139,16 +139,3 @@ const OnlineUserContextProvider = props => {
 };
 
 export default OnlineUserContextProvider;
-
-// {
-//   "virtualmint:08:00:27:fc:3d:f2": {
-//     "event": "offline",
-//     "ip": "192.168.1.23",
-//     "username": "virtualmint",
-//     "mac": "08:00:27:fc:3d:f2",
-//     "userIdentity": "virtualmint:08:00:27:fc:3d:f2",
-//     "isMuted": false,
-//     "notificationNumber": 6,
-//
-//   }
-// }

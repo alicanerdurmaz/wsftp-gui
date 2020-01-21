@@ -1,17 +1,36 @@
-import React, { useContext, Fragment } from 'react';
+import React, { useContext, Fragment, useRef, useEffect } from 'react';
 import ChatTextMessage from './ChatTextMessage';
 import ChatFileMessage from './ChatFileMessage';
 import { SelectUserContext } from '../../../context/SelectUserContext';
 import { MessageContext } from '../../../context/MessageContext/MessageContext';
+import useOnScreen from '../../hooks/useOnScreen';
+import { OnlineUserContext } from '../../../context/OnlineUserContext/OnlineUserContext';
 
-const ChatList = ({ shouldScroll }) => {
+const ChatList = ({ setHidden, jumpToBottom }) => {
   const { selectedUser } = useContext(SelectUserContext);
-  const { messageHistory } = useContext(MessageContext);
+  const { messageHistory, lastIncomingMessage } = useContext(MessageContext);
+  const refListStart = useRef(null);
+  const onScreen = useOnScreen(refListStart);
 
+  useEffect(() => {
+    if (!onScreen) {
+      return;
+    } else {
+      jumpToBottom('smooth');
+    }
+  }, [messageHistory]);
+
+  useEffect(() => {
+    if (!onScreen) {
+      setHidden('');
+    } else {
+      setHidden('hidden');
+    }
+  }, [onScreen]);
   return (
     <Fragment>
       {messageHistory[selectedUser.userIdentity]
-        ? messageHistory[selectedUser.userIdentity].map(message => {
+        ? messageHistory[selectedUser.userIdentity].map((message, index) => {
             if (message.contentType === 'text') {
               return (
                 <ChatTextMessage
@@ -43,6 +62,7 @@ const ChatList = ({ shouldScroll }) => {
             }
           })
         : null}
+      <span className='ref-list-start' ref={refListStart}></span>
     </Fragment>
   );
 };

@@ -6,6 +6,7 @@ const { app } = require('electron').remote;
 export const databaseMessageReducer = (state, action) => {
   switch (action.type) {
     case GET_MSG_FROM_DB:
+      if (typeof state[action.userIdentity].length === 'undefined') return;
       const start = state[action.userIdentity].length;
       const end = start + 20;
       const result = getFromDataBaseSync(`${action.userIdentity}.json`, findDbDirectory(), start, end);

@@ -32,7 +32,9 @@ const UserListItem = ({ status, username, ipAddress, macAddress, userIdentity, n
       username: username,
       ipAddress: ipAddress,
       macAddress: macAddress,
-      userIdentity: userIdentity
+      userIdentity: userIdentity,
+      notificationNumber: notificationNumber,
+      isMuted: isMuted
     });
   };
 
