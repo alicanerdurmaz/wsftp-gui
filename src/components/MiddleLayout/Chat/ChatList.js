@@ -8,6 +8,7 @@ import { OnlineUserContext } from '../../../context/OnlineUserContext/OnlineUser
 
 const ChatList = ({ setHidden, jumpToBottom }) => {
   const { selectedUser } = useContext(SelectUserContext);
+  const { onlineUserList } = useContext(OnlineUserContext);
   const { messageHistory, lastIncomingMessage } = useContext(MessageContext);
   const refListStart = useRef(null);
   const onScreen = useOnScreen(refListStart);

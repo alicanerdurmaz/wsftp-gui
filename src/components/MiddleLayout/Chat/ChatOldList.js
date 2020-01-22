@@ -1,6 +1,6 @@
 import React, { useContext, Fragment, useRef, useEffect } from 'react';
-import ChatTextMessage from './ChatTextMessage';
-import ChatFileMessage from './ChatFileMessage';
+import ChatOldListTextMessage from './ChatOldListTextMessage';
+import ChatOldListFileMessage from './ChatOldListFileMessage';
 import { SelectUserContext } from '../../../context/SelectUserContext';
 import { DatabaseMessageContext } from '../../../context/DatabaseMessageContext/DatabaseMessageContext';
 import useOnScreen from '../../hooks/useOnScreen';
@@ -24,29 +24,22 @@ const ChatOldList = () => {
         ? messageFromDatabase[selectedUser.userIdentity].map((message, index) => {
             if (message.contentType === 'text') {
               return (
-                <ChatTextMessage
+                <ChatOldListTextMessage
                   key={message.uuid}
                   content={message.content}
                   createdAt={message.createdAt}
-                  sender={message.from}></ChatTextMessage>
+                  sender={message.from}></ChatOldListTextMessage>
               );
             } else if (message.contentType === 'file') {
               return (
-                <ChatFileMessage
-                  port={message.port}
-                  progress={message.progress}
+                <ChatOldListFileMessage
                   key={message.uuid}
-                  mac={message.mac}
                   fileStatus={message.fileStatus}
                   from={message.from}
-                  dbName={message.dbName}
                   createdAt={message.createdAt}
-                  fileType={message.fileType}
                   fileSize={message.fileSize}
                   fileName={message.fileName}
-                  dir={message.dir}
-                  ip={message.ip}
-                  uuid={message.uuid}></ChatFileMessage>
+                  uuid={message.uuid}></ChatOldListFileMessage>
               );
             } else {
               return null;

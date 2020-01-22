@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ChatTextMessage = ({ content, sender, createdAt }) => {
+const ChatOldListTextMessage = ({ content, sender, createdAt }) => {
   let user = 'other';
   if (sender === '*MYPC*') {
     user = 'user';
@@ -17,4 +17,4 @@ const ChatTextMessage = ({ content, sender, createdAt }) => {
   );
 };
 
-export default ChatTextMessage;
+export default ChatOldListTextMessage;
