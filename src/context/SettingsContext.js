@@ -23,7 +23,7 @@ const SettingsContextProvider = props => {
     };
     return tempObject;
   });
-  console.log(settings);
+
   useEffect(() => {
     window.addEventListener('resize', reportWindowSize);
     return () => {

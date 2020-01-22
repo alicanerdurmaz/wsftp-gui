@@ -4,14 +4,16 @@ import { MessageContext } from '../context/MessageContext/MessageContext';
 import { OnlineUserContext } from '../context/OnlineUserContext/OnlineUserContext';
 import { SettingsContext } from '../context/SettingsContext';
 import findDbDirectory from '../Helpers/findDbDirectory';
-import { MediaContext } from '../context/MediaContext/MediaContext';
+import { UploadMediaContext } from '../context/MediaContext/UploadMediaContext';
+import { DownloadMediaContext } from '../context/MediaContext/DownloadMediaContext';
 
 const { ipcRenderer } = require('electron');
 
 const WriteToDatabase = () => {
   const { messageHistory } = useContext(MessageContext);
   const { onlineUserList } = useContext(OnlineUserContext);
-  const { mediaList } = useContext(MediaContext);
+  const { uploadMediaList } = useContext(UploadMediaContext);
+  const { downloadMediaList } = useContext(DownloadMediaContext);
   const { settings } = useContext(SettingsContext);
 
   useEffect(() => {
@@ -23,14 +25,23 @@ const WriteToDatabase = () => {
       });
       writeObject('settings.json', findDbDirectory(), settingsJson);
       writeObject('allUsersList.json', findDbDirectory(), allUsersListJson);
+
+      // message history
       Object.keys(messageHistory).length
         ? Object.keys(messageHistory).forEach(key => {
             writeToDataBaseArray(`${key}.json`, findDbDirectory(), messageHistory[key], () => {
-              ////
-              Object.keys(mediaList).length
-                ? Object.keys(mediaList).forEach(key => {
-                    writeToDataBaseArray(`${key}.json`, findDbDirectory(), mediaList[key], () => {
-                      ipcRenderer.send('save-completed');
+              /// upload media list
+              Object.keys(uploadMediaList).length
+                ? Object.keys(uploadMediaList).forEach(key => {
+                    writeToDataBaseArray(`${key}.json`, findDbDirectory(), uploadMediaList[key], () => {
+                      // download media list
+                      Object.keys(downloadMediaList).length
+                        ? Object.keys(downloadMediaList).forEach(key => {
+                            writeToDataBaseArray(`${key}.json`, findDbDirectory(), downloadMediaList[key], () => {
+                              ipcRenderer.send('save-completed');
+                            });
+                          })
+                        : ipcRenderer.send('save-completed');
                     });
                   })
                 : ipcRenderer.send('save-completed');

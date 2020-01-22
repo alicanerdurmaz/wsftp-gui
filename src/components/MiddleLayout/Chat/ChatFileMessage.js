@@ -2,7 +2,7 @@ import React, { useContext, Fragment, useState } from 'react';
 
 import FILE_STATUS from '../../../config/CONFIG_FILE_STATUS';
 import { MessageContext } from '../../../context/MessageContext/MessageContext';
-import { STATUS_CHANGED } from '../../../context/types';
+import { STATUS_CHANGED, MEDIA_STATUS_CHANGED, DOWNLOAD_MEDIA_STATUS_CHANGED } from '../../../context/types';
 import { byteConverter } from '../../../Helpers/byteConverter';
 import { ReactComponent as FileIcon } from '../../../assets/svg/file-solid.svg';
 import { ReactComponent as BanIcon } from '../../../assets/svg/ban-solid.svg';
@@ -10,21 +10,13 @@ import { ReactComponent as CheckIcon } from '../../../assets/svg/check-circle-so
 import { ReactComponent as TimesIcon } from '../../../assets/svg/times-solid.svg';
 import { API_killTransaction, commanderSocket } from '../../../backend/api/webSocketConnection';
 import { SettingsContext } from '../../../context/SettingsContext';
+import { UploadMediaContext } from '../../../context/MediaContext/UploadMediaContext';
+import { DownloadMediaContext } from '../../../context/MediaContext/DownloadMediaContext';
 
-const ChatFileMessage = ({
-  fileStatus,
-  from,
-  createdAt,
-  fileSize,
-  fileName,
-  dir,
-  uuid,
-  dbName,
-  progress,
-  mac,
-  port
-}) => {
+const ChatFileMessage = ({ fileStatus, from, createdAt, fileSize, fileName, dir, uuid, dbName, progress, mac, port }) => {
   const { dispatch } = useContext(MessageContext);
+  const { dispatchUploadMediaContext } = useContext(UploadMediaContext);
+  const { dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
   const { settings } = useContext(SettingsContext);
   const [showCancel, setShowCancel] = useState(false);
 
@@ -46,6 +38,16 @@ const ChatFileMessage = ({
 
       commanderSocket.send(JSON.stringify(tempAcceptRequest));
       dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading } });
+      if (from === '*MYPC*')
+        dispatchUploadMediaContext({
+          type: MEDIA_STATUS_CHANGED,
+          payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
+        });
+      if (from !== '*MYPC*')
+        dispatchDownloadMediaContext({
+          type: DOWNLOAD_MEDIA_STATUS_CHANGED,
+          payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
+        });
     }
     if (!action) {
       const tempRejectRequest = {
@@ -56,6 +58,16 @@ const ChatFileMessage = ({
       };
       commanderSocket.send(JSON.stringify(tempRejectRequest));
       dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected } });
+      if (from === '*MYPC*')
+        dispatchUploadMediaContext({
+          type: MEDIA_STATUS_CHANGED,
+          payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
+        });
+      if (from !== '*MYPC*')
+        dispatchDownloadMediaContext({
+          type: DOWNLOAD_MEDIA_STATUS_CHANGED,
+          payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
+        });
     }
   };
   const fileInformation = () => {
@@ -89,13 +101,12 @@ const ChatFileMessage = ({
     <Fragment>
       <li
         className={`file-message-container ${tempFrom}`}
-        onMouseEnter={tempFrom === 'other' ? e => setShowCancel(true) : null}
-        onMouseLeave={tempFrom === 'other' ? e => setShowCancel(false) : null}>
+        onMouseEnter={port ? e => setShowCancel(true) : null}
+        onMouseLeave={port ? e => setShowCancel(false) : null}>
         <div
           className={`file-message-content ${tempFrom}`}
           style={{
-            background:
-              fileStatus === FILE_STATUS.loading ? `linear-gradient(90deg, #6ab8959c ${progress}%, #2f3136 1%)` : null
+            background: fileStatus === FILE_STATUS.loading ? `linear-gradient(90deg, #6ab8959c ${progress}%, #2f3136 1%)` : null
           }}>
           <FileIcon className='file-icon'></FileIcon>
           <div className='file-info'>

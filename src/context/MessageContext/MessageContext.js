@@ -15,18 +15,26 @@ import {
   MEDIA_STATUS_CHANGED,
   MEDIA_PROGRESS_CHANGED,
   MEDIA_PROGRESS_DONE,
-  MEDIA_PROGRESS_FAIL
+  MEDIA_PROGRESS_FAIL,
+  DOWNLOAD_MEDIA_MSG_ADDED,
+  DOWNLOAD_ADD_DOWNLOAD_DIR,
+  DOWNLOAD_MEDIA_PROGRESS_CHANGED,
+  DOWNLOAD_MEDIA_PROGRESS_DONE,
+  DOWNLOAD_MEDIA_PROGRESS_FAIL,
+  DOWNLOAD_MEDIA_STATUS_CHANGED
 } from '../types';
 
 import { playNotification } from '../../Helpers/playNotificationSound';
 import { SettingsContext } from '../SettingsContext';
-import { MediaContext } from '../MediaContext/MediaContext';
+import { UploadMediaContext } from '../MediaContext/UploadMediaContext';
+import { DownloadMediaContext } from '../MediaContext/DownloadMediaContext';
 
 export const MessageContext = createContext();
 
 const MessageContextProvider = props => {
   const { settings, setSettings } = useContext(SettingsContext);
-  const { dispatchMediaContext } = useContext(MediaContext);
+  const { dispatchUploadMediaContext } = useContext(UploadMediaContext);
+  const { dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
   const [messageHistory, dispatch] = useReducer(messageReducer, {});
   const [newUser, setNewUser] = useState(false);
   const lastIncomingMessage = useRef(false);
@@ -79,6 +87,7 @@ const MessageContextProvider = props => {
 
   srScoket.onmessage = function(e) {
     const dataToJson = JSON.parse(e.data);
+
     if (dataToJson.event === 'my') {
       const temp = { ...settings };
       temp.myInfo = dataToJson;
@@ -111,8 +120,8 @@ const MessageContextProvider = props => {
           uuid: dataToJson.uuid
         }
       });
-      dispatchMediaContext({
-        type: MEDIA_MSG_ADDED,
+      dispatchDownloadMediaContext({
+        type: DOWNLOAD_MEDIA_MSG_ADDED,
         payload: {
           mac: dataToJson.mac,
           fileStatus: FILE_STATUS.waiting,
@@ -159,7 +168,7 @@ const MessageContextProvider = props => {
           uuid: dataToJson.uuid
         }
       });
-      dispatchMediaContext({
+      dispatchUploadMediaContext({
         type: MEDIA_MSG_ADDED,
         payload: {
           mac: dataToJson.mac,
@@ -183,22 +192,32 @@ const MessageContextProvider = props => {
       });
     }
     if (dataToJson.event === 'rrej') {
+      console.log(dataToJson);
       dispatch({
         type: STATUS_CHANGED,
         payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
       });
-      dispatchMediaContext({
+      dispatchUploadMediaContext({
         type: MEDIA_STATUS_CHANGED,
+        payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
+      });
+      dispatchDownloadMediaContext({
+        type: DOWNLOAD_MEDIA_STATUS_CHANGED,
         payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
       });
     }
     if (dataToJson.event === 'prg') {
+      console.log(dataToJson);
       dispatch({
         type: PROGRESS_CHANGED,
         payload: dataToJson
       });
-      dispatchMediaContext({
+      dispatchUploadMediaContext({
         type: MEDIA_PROGRESS_CHANGED,
+        payload: dataToJson
+      });
+      dispatchDownloadMediaContext({
+        type: DOWNLOAD_MEDIA_PROGRESS_CHANGED,
         payload: dataToJson
       });
     }
@@ -207,8 +226,12 @@ const MessageContextProvider = props => {
         type: PROGRESS_DONE,
         payload: dataToJson
       });
-      dispatchMediaContext({
+      dispatchUploadMediaContext({
         type: MEDIA_PROGRESS_DONE,
+        payload: dataToJson
+      });
+      dispatchDownloadMediaContext({
+        type: DOWNLOAD_MEDIA_PROGRESS_DONE,
         payload: dataToJson
       });
     }
@@ -217,17 +240,30 @@ const MessageContextProvider = props => {
         type: PROGRESS_FAIL,
         payload: dataToJson
       });
-      dispatchMediaContext({
+      dispatchUploadMediaContext({
         type: MEDIA_PROGRESS_FAIL,
         payload: dataToJson
+      });
+      dispatchDownloadMediaContext({
+        type: DOWNLOAD_MEDIA_PROGRESS_FAIL,
+        payload: dataToJson
+      });
+    }
+    if (dataToJson.event === 'sacp') {
+      dispatchDownloadMediaContext({
+        type: DOWNLOAD_ADD_DOWNLOAD_DIR,
+        payload: {
+          username: dataToJson.username,
+          mac: dataToJson.mac,
+          destination: dataToJson.destination,
+          uuid: dataToJson.uuid
+        }
       });
     }
   };
 
   return (
-    <MessageContext.Provider value={{ messageHistory, dispatch, lastIncomingMessage, newUser }}>
-      {props.children}
-    </MessageContext.Provider>
+    <MessageContext.Provider value={{ messageHistory, dispatch, lastIncomingMessage, newUser }}>{props.children}</MessageContext.Provider>
   );
 };
 

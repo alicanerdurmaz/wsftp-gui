@@ -1,13 +1,14 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { MessageContext } from '../MessageContext/MessageContext';
 import { hsSocket } from '../../backend/api/webSocketConnection';
-import { USER_CREATED, USER_DELETED, DELETE_DB, MEDIA_USER_CREATED } from '../types';
+import { USER_CREATED, USER_DELETED, DELETE_DB, MEDIA_USER_CREATED, DOWNLOAD_MEDIA_USER_CREATED } from '../types';
 
 import { getObject, deleteDataBaseSync } from '../../backend/api/dbFunctions';
 import { SelectUserContext } from '../SelectUserContext';
 import { DatabaseMessageContext } from '../DatabaseMessageContext/DatabaseMessageContext';
 import findDbDirectory from '../../Helpers/findDbDirectory';
-import { MediaContext } from '../MediaContext/MediaContext';
+import { UploadMediaContext } from '../MediaContext/UploadMediaContext';
+import { DownloadMediaContext } from '../MediaContext/DownloadMediaContext';
 const { app } = require('electron').remote;
 
 const rawData = getObject('allUsersList.json', findDbDirectory());
@@ -23,7 +24,8 @@ const OnlineUserContextProvider = props => {
     return allUsersList;
   });
   const { messageHistory, newUser, dispatch } = useContext(MessageContext);
-  const { mediaList, dispatchMediaContext } = useContext(MediaContext);
+  const { uploadMediaList, dispatchUploadMediaContext } = useContext(UploadMediaContext);
+  const { downloadMediaList, dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
   const { dispatchDbContext } = useContext(DatabaseMessageContext);
   const { setSelectedUser } = useContext(SelectUserContext);
 
@@ -33,7 +35,6 @@ const OnlineUserContextProvider = props => {
   }, [newUser]);
 
   hsSocket.onmessage = msg => {
-    console.log(msg.data);
     const toJson = JSON.parse(msg.data);
     toJson.userIdentity = toJson.username + ':' + toJson.mac;
 
@@ -45,17 +46,25 @@ const OnlineUserContextProvider = props => {
         userIdentity: toJson.userIdentity
       });
     }
-    if (mediaList.hasOwnProperty('media:' + toJson.userIdentity) === false && toJson.event === 'online') {
-      dispatchMediaContext({
+    if (uploadMediaList.hasOwnProperty('media:upload:' + toJson.userIdentity) === false && toJson.event === 'online') {
+      dispatchUploadMediaContext({
         type: MEDIA_USER_CREATED,
         userIdentity: toJson.userIdentity
       });
     }
+    if (downloadMediaList.hasOwnProperty('media:download:' + toJson.userIdentity) === false && toJson.event === 'online') {
+      dispatchDownloadMediaContext({
+        type: DOWNLOAD_MEDIA_USER_CREATED,
+        userIdentity: toJson.userIdentity
+      });
+    }
+
     if (onlineUserList.hasOwnProperty(toJson.userIdentity)) {
       const tempObject = { ...onlineUserList };
       tempObject[toJson.userIdentity].event = toJson.event;
       setOnlineUserList(tempObject);
     }
+
     if (!onlineUserList.hasOwnProperty(toJson.userIdentity)) {
       const tempObject = { ...onlineUserList };
       tempObject[toJson.userIdentity] = toJson;

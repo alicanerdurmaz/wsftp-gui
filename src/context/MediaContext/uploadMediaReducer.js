@@ -9,19 +9,19 @@ import {
 } from '../types';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 
-export const mediaReducer = (state, action) => {
+export const uploadMediaReducer = (state, action) => {
+  console.log('UPLOAD REDUCER WORKED', action);
   switch (action.type) {
     case MEDIA_USER_CREATED:
-      return { ...state, ['media:' + action.userIdentity]: [] };
+      return { ...state, ['media:upload:' + action.userIdentity]: [] };
 
     case MEDIA_USER_DELETED:
       const tempState = { ...state };
-      delete tempState['media:' + action.userIdentity];
+      delete tempState['media:upload:' + action.userIdentity];
       return { ...tempState };
 
     case MEDIA_MSG_ADDED:
-      const dbName = 'media:' + action.payload.dbName;
-      console.log(action.payload.dbName);
+      const dbName = 'media:upload:' + action.payload.dbName;
       if (state.hasOwnProperty(dbName)) {
         state[dbName].push(action.payload);
         return { ...state };
@@ -33,7 +33,7 @@ export const mediaReducer = (state, action) => {
       return { ...state };
 
     case MEDIA_STATUS_CHANGED:
-      state['media:' + action.payload.dbName].forEach(element => {
+      state[`media:upload:${action.payload.dbName}`].forEach(element => {
         if (element.uuid === action.payload.uuid) {
           element.fileStatus = action.payload.fileStatus;
         }
@@ -41,7 +41,7 @@ export const mediaReducer = (state, action) => {
       return { ...state };
 
     case MEDIA_PROGRESS_CHANGED:
-      state[`media:${action.payload.username}:${action.payload.mac}`].forEach(element => {
+      state[`media:upload:${action.payload.username}:${action.payload.mac}`].forEach(element => {
         if (element.uuid === action.payload.uuid) {
           const tempProgress = parseInt(action.payload.current) / parseInt(action.payload.total);
           element.progress = Math.round(tempProgress * 100);
@@ -52,14 +52,14 @@ export const mediaReducer = (state, action) => {
       return { ...state };
 
     case MEDIA_PROGRESS_DONE:
-      state[`media:${action.payload.username}:${action.payload.mac}`].forEach(element => {
+      state[`media:upload:${action.payload.username}:${action.payload.mac}`].forEach(element => {
         if (element.uuid === action.payload.uuid) {
           element.fileStatus = FILE_STATUS.sent;
         }
       });
       return { ...state };
     case MEDIA_PROGRESS_FAIL:
-      state[`media:${action.payload.username}:${action.payload.mac}`].forEach(element => {
+      state[`media:upload:${action.payload.username}:${action.payload.mac}`].forEach(element => {
         if (element.uuid === action.payload.uuid) {
           element.fileStatus = FILE_STATUS.rejected;
         }

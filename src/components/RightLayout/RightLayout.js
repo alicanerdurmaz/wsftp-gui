@@ -1,11 +1,13 @@
 import React from 'react';
-import HistoryLayout from './HistoryLayout';
+import MediaHistoryLayout from './MediaHistoryLayout';
 
 const RightLayout = () => {
   return (
     <div className='right-area'>
       <div className='right-container'>
-        <HistoryLayout></HistoryLayout>
+        <div className='media-container'>
+          <MediaHistoryLayout></MediaHistoryLayout>
+        </div>
       </div>
     </div>
   );

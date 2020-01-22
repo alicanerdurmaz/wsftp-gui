@@ -1,7 +1,6 @@
 import { GET_MSG_FROM_DB, RESET_BY_NAME, DELETE_DB } from '../types';
 import { getFromDataBaseSync } from '../../backend/api/dbFunctions';
 import findDbDirectory from '../../Helpers/findDbDirectory';
-const { app } = require('electron').remote;
 
 export const databaseMessageReducer = (state, action) => {
   switch (action.type) {

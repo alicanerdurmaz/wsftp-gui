@@ -15,7 +15,7 @@ const Chat = () => {
   const { selectedUser } = useContext(SelectUserContext);
   const { onlineUserList } = useContext(OnlineUserContext);
   const { resetNotificationNumber, incrementNotificationNumber } = useContext(OnlineUserContext);
-  const { messageFromDatabase, dispatchDbContext } = useContext(DatabaseMessageContext);
+  const { dispatchDbContext } = useContext(DatabaseMessageContext);
   const { messageHistory, lastIncomingMessage } = useContext(MessageContext);
 
   const [hidden, setHidden] = useState('hidden');
