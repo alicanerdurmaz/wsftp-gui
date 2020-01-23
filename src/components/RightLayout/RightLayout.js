@@ -5,9 +5,7 @@ const RightLayout = () => {
   return (
     <div className='right-area'>
       <div className='right-container'>
-        <div className='media-container'>
-          <MediaHistoryLayout></MediaHistoryLayout>
-        </div>
+        <MediaHistoryLayout></MediaHistoryLayout>
       </div>
     </div>
   );

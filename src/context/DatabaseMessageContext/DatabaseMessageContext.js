@@ -23,9 +23,7 @@ const DatabaseMessageContextProvider = props => {
   });
 
   return (
-    <DatabaseMessageContext.Provider value={{ messageFromDatabase, dispatchDbContext }}>
-      {props.children}
-    </DatabaseMessageContext.Provider>
+    <DatabaseMessageContext.Provider value={{ messageFromDatabase, dispatchDbContext }}>{props.children}</DatabaseMessageContext.Provider>
   );
 };
 

@@ -1,11 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useContext, useEffect, Fragment } from 'react';
 
 import LeftLayout from './LeftLayout/LeftLayout';
 import MiddleLayout from './MiddleLayout/MiddleLayout';
 import RightLayout from './RightLayout/RightLayout';
 import Settings from './SettingsLayout/Settings';
+import { SelectUserContext } from '../context/SelectUserContext';
 
 const MainLayout = () => {
+  const { selectedUser } = useContext(SelectUserContext);
   const [showDnd, setShowDnd] = useState('');
   const [counter, setCounter] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
@@ -56,8 +58,14 @@ const MainLayout = () => {
       <div className={`area-hidden ${showDnd}`}></div>
       <Settings modalOpen={modalOpen} setModalOpen={setModalOpen}></Settings>
       <LeftLayout openSettingsScreen={openSettingsScreen}></LeftLayout>
-      <MiddleLayout></MiddleLayout>
-      <RightLayout></RightLayout>
+      {selectedUser ? (
+        <Fragment>
+          <MiddleLayout></MiddleLayout>
+          <RightLayout></RightLayout>
+        </Fragment>
+      ) : (
+        <h1>SELECT USER FROM LEFT</h1>
+      )}
     </div>
   );
 };

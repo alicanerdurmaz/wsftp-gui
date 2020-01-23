@@ -23,11 +23,10 @@
   grid-template-rows: 1fr 53px;
   overflow-x: hidden;
 }
-.middle-area {
-  grid-area: middlearea;
-}
 
 .right-area {
   grid-area: rightarea;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
 }

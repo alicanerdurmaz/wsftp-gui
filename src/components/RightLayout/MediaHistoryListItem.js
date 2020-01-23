@@ -10,7 +10,7 @@ import ChooseIcon from './ChooseIcon';
 import { SettingsContext } from '../../context/SettingsContext';
 import { MessageContext } from '../../context/MessageContext/MessageContext';
 import { UploadMediaContext } from '../../context/MediaContext/UploadMediaContext';
-import { STATUS_CHANGED, MEDIA_STATUS_CHANGED, DOWNLOAD_MEDIA_STATUS_CHANGED } from '../../context/types';
+import { STATUS_CHANGED, UPLOAD_MEDIA_STATUS_CHANGED, DOWNLOAD_MEDIA_STATUS_CHANGED } from '../../context/types';
 import { DownloadMediaContext } from '../../context/MediaContext/DownloadMediaContext';
 const { shell } = require('electron');
 
@@ -60,7 +60,7 @@ const MediaHistoryListItem = ({
 
     if (from !== '*MYPC*')
       dispatchUploadMediaContext({
-        type: MEDIA_STATUS_CHANGED,
+        type: UPLOAD_MEDIA_STATUS_CHANGED,
         payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
       });
 
@@ -85,7 +85,7 @@ const MediaHistoryListItem = ({
 
     if (from !== '*MYPC*')
       dispatchUploadMediaContext({
-        type: MEDIA_STATUS_CHANGED,
+        type: UPLOAD_MEDIA_STATUS_CHANGED,
         payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
       });
 

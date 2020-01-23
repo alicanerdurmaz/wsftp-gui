@@ -2,7 +2,10 @@ import React, { useContext, useRef, useEffect, Fragment } from 'react';
 import { SelectUserContext } from '../../context/SelectUserContext';
 import { UploadMediaContext } from '../../context/MediaContext/UploadMediaContext';
 import { DownloadMediaContext } from '../../context/MediaContext/DownloadMediaContext';
+
 import MediaHistoryListItem from './MediaHistoryListItem';
+import OldUploadMediaLayout from './OldUploadMediaLayout';
+import OldDownloadMediaLayout from './OldDownloadMediaLayout';
 
 const MediaHistoryLayout = () => {
   const { selectedUser } = useContext(SelectUserContext);
@@ -13,91 +16,88 @@ const MediaHistoryLayout = () => {
   let uploadsListEnd = useRef(null);
 
   useEffect(() => {
+    scrollToUploadList();
     scrollToDownloadList();
   }, [selectedUser]);
 
-  useEffect(() => {
-    scrollToUploadList();
-  }, [selectedUser]);
   const scrollToUploadList = () => {
     uploadsListEnd.scrollIntoView({ behavior: 'auto' });
   };
   const scrollToDownloadList = () => {
     downloadsListEnd.scrollIntoView({ behavior: 'auto' });
   };
+
   return (
     <Fragment>
-      <div className='media-title-container'>
+      <div className='media-title-container-upload'>
         <div className='media-title'>Uploads</div>
-        <input type='text' className='media-search'></input>
+        <input type='text' className='media-search' placeholder='search by filename'></input>
       </div>
 
-      <div className='media-list-container'>
-        <ul className='media-list'>
+      <div className='media-list-container-upload'>
+        <ul className='media-list-upload' ref={e => (uploadListScroll = e)}>
+          <OldUploadMediaLayout></OldUploadMediaLayout>
           {selectedUser &&
             uploadMediaList['media:upload:' + selectedUser.userIdentity] &&
             uploadMediaList['media:upload:' + selectedUser.userIdentity].map(e => {
-              if (e.from === '*MYPC*') {
-                return (
-                  <MediaHistoryListItem
-                    key={e.uuid}
-                    fileName={e.fileName}
-                    createdAt={e.createdAt}
-                    fileSize={e.fileSize}
-                    fileType={e.fileType}
-                    fileDir={e.dir}
-                    progress={e.progress}
-                    fileStatus={e.fileStatus}
-                    downloadDir={e.downloadDir || false}
-                    from={e.from}
-                    mac={e.mac}
-                    uuid={e.uuid}
-                    dbName={e.dbName}
-                    port={e.port}></MediaHistoryListItem>
-                );
-              } else return null;
+              return (
+                <MediaHistoryListItem
+                  key={e.uuid}
+                  fileName={e.fileName}
+                  createdAt={e.createdAt}
+                  fileSize={e.fileSize}
+                  fileType={e.fileType}
+                  fileDir={e.dir}
+                  progress={e.progress}
+                  fileStatus={e.fileStatus}
+                  downloadDir={e.downloadDir || false}
+                  from={e.from}
+                  mac={e.mac}
+                  uuid={e.uuid}
+                  dbName={e.dbName}
+                  port={e.port}></MediaHistoryListItem>
+              );
             })}
-          <div
+          <li
             ref={el => {
               uploadsListEnd = el;
-            }}></div>
+            }}></li>
         </ul>
       </div>
 
-      <div className='media-title-container'>
-        <div className='media-title'>Downloads</div>
-        <input type='text' className='media-search'></input>
+      <div className='media-title-container-download'>
+        <div className='media-title-download'>Downloads</div>
+        <input type='text' className='media-search' placeholder='search by filename'></input>
       </div>
 
-      <div className='media-list-container'>
-        <ul className='media-list'>
+      <div className='media-list-container-download'>
+        <ul className='media-list-download'>
+          <OldDownloadMediaLayout></OldDownloadMediaLayout>
           {selectedUser &&
             downloadMediaList['media:download:' + selectedUser.userIdentity] &&
             downloadMediaList['media:download:' + selectedUser.userIdentity].map(el => {
-              if (el.from !== '*MYPC*') {
-                return (
-                  <MediaHistoryListItem
-                    key={el.uuid}
-                    fileName={el.fileName}
-                    createdAt={el.createdAt}
-                    fileSize={el.fileSize}
-                    fileType={el.fileType}
-                    fileDir={el.dir}
-                    progress={el.progress}
-                    fileStatus={el.fileStatus}
-                    downloadDir={el.downloadDir || false}
-                    from={el.from}
-                    mac={el.mac}
-                    uuid={el.uuid}
-                    dbName={el.dbName}
-                    port={el.port}></MediaHistoryListItem>
-                );
-              } else return null;
+              return (
+                <MediaHistoryListItem
+                  key={el.uuid}
+                  fileName={el.fileName}
+                  createdAt={el.createdAt}
+                  fileSize={el.fileSize}
+                  fileType={el.fileType}
+                  fileDir={el.dir}
+                  progress={el.progress}
+                  fileStatus={el.fileStatus}
+                  downloadDir={el.downloadDir || false}
+                  from={el.from}
+                  mac={el.mac}
+                  uuid={el.uuid}
+                  dbName={el.dbName}
+                  port={el.port}></MediaHistoryListItem>
+              );
             })}
-          <div
+          <li
             ref={el => {
               downloadsListEnd = el;
-            }}></div>
+            }}></li>
         </ul>
       </div>
     </Fragment>

@@ -11,11 +11,11 @@ import {
   PROGRESS_DONE,
   PROGRESS_FAIL,
   STATUS_CHANGED,
-  MEDIA_MSG_ADDED,
-  MEDIA_STATUS_CHANGED,
-  MEDIA_PROGRESS_CHANGED,
-  MEDIA_PROGRESS_DONE,
-  MEDIA_PROGRESS_FAIL,
+  UPLOAD_MEDIA_MSG_ADDED,
+  UPLOAD_MEDIA_STATUS_CHANGED,
+  UPLOAD_MEDIA_PROGRESS_CHANGED,
+  UPLOAD_MEDIA_PROGRESS_DONE,
+  UPLOAD_MEDIA_PROGRESS_FAIL,
   DOWNLOAD_MEDIA_MSG_ADDED,
   DOWNLOAD_ADD_DOWNLOAD_DIR,
   DOWNLOAD_MEDIA_PROGRESS_CHANGED,
@@ -169,7 +169,7 @@ const MessageContextProvider = props => {
         }
       });
       dispatchUploadMediaContext({
-        type: MEDIA_MSG_ADDED,
+        type: UPLOAD_MEDIA_MSG_ADDED,
         payload: {
           mac: dataToJson.mac,
           from: '*MYPC*',
@@ -198,7 +198,7 @@ const MessageContextProvider = props => {
         payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
       });
       dispatchUploadMediaContext({
-        type: MEDIA_STATUS_CHANGED,
+        type: UPLOAD_MEDIA_STATUS_CHANGED,
         payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
       });
       dispatchDownloadMediaContext({
@@ -213,7 +213,7 @@ const MessageContextProvider = props => {
         payload: dataToJson
       });
       dispatchUploadMediaContext({
-        type: MEDIA_PROGRESS_CHANGED,
+        type: UPLOAD_MEDIA_PROGRESS_CHANGED,
         payload: dataToJson
       });
       dispatchDownloadMediaContext({
@@ -227,7 +227,7 @@ const MessageContextProvider = props => {
         payload: dataToJson
       });
       dispatchUploadMediaContext({
-        type: MEDIA_PROGRESS_DONE,
+        type: UPLOAD_MEDIA_PROGRESS_DONE,
         payload: dataToJson
       });
       dispatchDownloadMediaContext({
@@ -241,7 +241,7 @@ const MessageContextProvider = props => {
         payload: dataToJson
       });
       dispatchUploadMediaContext({
-        type: MEDIA_PROGRESS_FAIL,
+        type: UPLOAD_MEDIA_PROGRESS_FAIL,
         payload: dataToJson
       });
       dispatchDownloadMediaContext({

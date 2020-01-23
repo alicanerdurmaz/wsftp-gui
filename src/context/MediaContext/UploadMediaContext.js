@@ -11,16 +11,7 @@ try {
 
 export const UploadMediaContext = createContext();
 const UploadMediaContextProvider = props => {
-  const [uploadMediaList, dispatchUploadMediaContext] = useReducer(uploadMediaReducer, [], () => {
-    let data = {};
-    for (let key in allUsersList) {
-      const result = getFromDataBaseSync(`media:upload:${key}.json`, findDbDirectory(), 0, 20);
-      console.log(result);
-      data[`media:upload:${key}`] = result.arr.reverse();
-    }
-
-    return data;
-  });
+  const [uploadMediaList, dispatchUploadMediaContext] = useReducer(uploadMediaReducer, {});
 
   return (
     <UploadMediaContext.Provider value={{ uploadMediaList, dispatchUploadMediaContext }}>{props.children}</UploadMediaContext.Provider>

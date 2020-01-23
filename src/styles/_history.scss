@@ -1,19 +1,18 @@
 .right-container {
   height: 100%;
   width: 100%;
-}
-.media-container {
-  height: 100%;
-
   display: grid;
   grid-template-rows: 44px 1fr 44px 1fr;
+  grid-template-areas:
+    'title-upload'
+    'list-upload'
+    'title-download'
+    'list-download';
   background-color: $primarycolor-light;
 }
-.media-list-container {
-  height: 100%;
-  overflow: auto;
-}
-.media-title-container {
+
+.media-title-container-upload {
+  grid-area: title-upload;
   display: flex;
   justify-content: center;
   justify-items: center;
@@ -25,23 +24,43 @@
   border-radius: 4px;
   height: 45px;
 }
-.media-title {
-  width: 120px;
-  margin-left: 8px;
+.media-title-container-download {
+  grid-area: title-download;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  border-bottom: 2px solid $primarycolor;
+  border-top: 2px solid $primarycolor;
+  margin: 0px 4px;
+  border-radius: 4px;
+  height: 45px;
 }
-.media-search {
-  margin-right: 8px;
+.media-list-container-upload {
+  grid-area: list-upload;
+  overflow: hidden;
 }
-
-.media-list {
+.media-list-container-download {
+  grid-area: list-download;
+  overflow: hidden;
+}
+.media-list-upload {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  padding: 4px 8px;
+  height: 100%;
+  overflow: auto;
 }
+.media-list-download {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+}
+
 .media-list-item {
   cursor: pointer;
-  height: 35px;
+  min-height: 35px;
   padding: 8px 8px;
   border-right: 1px solid $secondarycolor;
   border-left: 1px solid $secondarycolor;
@@ -49,20 +68,30 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-
   justify-content: flex-start;
   align-items: flex-start;
   justify-items: flex-start;
   align-content: flex-start;
 
-  transition: height ease-in-out 120ms;
+  transition: min-height ease-in-out 120ms;
   &:hover {
     background-color: $primarycolor;
     border-radius: 8px;
   }
 }
+.media-title {
+  width: 120px;
+  margin-left: 8px;
+}
+.media-search {
+  margin-right: 8px;
+  &::placeholder {
+    font-size: 14px;
+  }
+}
+
 .expanded {
-  height: 90px;
+  min-height: 90px;
 
   background-color: $primarycolor;
   border-radius: 8px;
@@ -194,4 +223,32 @@
   width: 16px;
   height: 16px;
   fill: $red;
+}
+
+.load-more {
+  position: relative;
+  text-align: center;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  height: 40px;
+  &:hover {
+    background-color: $primarycolor;
+    border-radius: 0px;
+  }
+  margin-top: 10px;
+}
+.load-more-text {
+  color: $blue;
+  font-weight: bolder;
+}
+
+.upload-list-top {
+  position: absolute;
+  min-height: 50px;
+  min-width: 100%;
+  margin-top: 205px;
 }

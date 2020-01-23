@@ -1,13 +1,4 @@
-import {
-  USER_CREATED,
-  MESSAGE_ADDED,
-  STATUS_CHANGED,
-  PROGRESS_CHANGED,
-  PROGRESS_DONE,
-  PROGRESS_FAIL,
-  USER_DELETED,
-  MESSAGE_DELETED_BY_ID
-} from '../types';
+import { USER_CREATED, MESSAGE_ADDED, STATUS_CHANGED, PROGRESS_CHANGED, PROGRESS_DONE, PROGRESS_FAIL, USER_DELETED } from '../types';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 
 export const messageReducer = (state, action) => {

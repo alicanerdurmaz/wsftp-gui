@@ -20,6 +20,7 @@ const Chat = () => {
 
   const [hidden, setHidden] = useState('hidden');
   let refScroller = useRef(false);
+
   const [snackbarOptions, setsnackbarOptions] = useState({
     open: false,
     vertical: 'top',
@@ -27,6 +28,7 @@ const Chat = () => {
     message: ''
   });
   const { vertical, horizontal, open, message } = snackbarOptions;
+
   useEffect(() => {
     if (selectedUser && selectedUser.userIdentity === lastIncomingMessage.current) {
       if (hidden === 'hidden') {
@@ -73,14 +75,10 @@ const Chat = () => {
       <ChatHeader></ChatHeader>
       <div className={`chat-read-container`} ref={e => (refScroller = e)}>
         <ul className='chat-list'>
-          {selectedUser ? (
-            <Fragment>
-              <ChatOldList></ChatOldList>
-              <ChatList setHidden={setHidden} jumpToBottom={jumpToBottom}></ChatList>
-            </Fragment>
-          ) : (
-            <div className='no-selected-user-info'>Select user from left.</div>
-          )}
+          <Fragment>
+            <ChatOldList></ChatOldList>
+            <ChatList setHidden={setHidden} jumpToBottom={jumpToBottom}></ChatList>
+          </Fragment>
         </ul>
       </div>
       <button className={`btn-jumpToPresent ${hidden}`} onClick={e => jumpToBottom('auto')}>

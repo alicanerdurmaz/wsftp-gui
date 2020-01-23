@@ -10,6 +10,8 @@ import WriteToDatabase from './components/WriteToDatabase';
 import SettingsContextProvider from './context/SettingsContext';
 import UploadMediaContextProvider from './context/MediaContext/UploadMediaContext';
 import DownloadMediaContextProvider from './context/MediaContext/DownloadMediaContext';
+import OldDownloadMediaContextProvider from './context/MediaContext/OldDownloadMediaContext';
+import OldUploadMediaContextProvider from './context/MediaContext/OldUploadMediaContext';
 
 const App = () => {
   return (
@@ -17,16 +19,20 @@ const App = () => {
       <SettingsContextProvider>
         <UploadMediaContextProvider>
           <DownloadMediaContextProvider>
-            <MessageContextProvider>
-              <SelectUserContextProvider>
-                <DatabaseMessageContextProvider>
-                  <OnlineUserContextProvider>
-                    <MainLayout></MainLayout>
-                    <WriteToDatabase></WriteToDatabase>
-                  </OnlineUserContextProvider>
-                </DatabaseMessageContextProvider>
-              </SelectUserContextProvider>
-            </MessageContextProvider>
+            <OldDownloadMediaContextProvider>
+              <OldUploadMediaContextProvider>
+                <MessageContextProvider>
+                  <SelectUserContextProvider>
+                    <DatabaseMessageContextProvider>
+                      <OnlineUserContextProvider>
+                        <MainLayout></MainLayout>
+                        <WriteToDatabase></WriteToDatabase>
+                      </OnlineUserContextProvider>
+                    </DatabaseMessageContextProvider>
+                  </SelectUserContextProvider>
+                </MessageContextProvider>
+              </OldUploadMediaContextProvider>
+            </OldDownloadMediaContextProvider>
           </DownloadMediaContextProvider>
         </UploadMediaContextProvider>
       </SettingsContextProvider>

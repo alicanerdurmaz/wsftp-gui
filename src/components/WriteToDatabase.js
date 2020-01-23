@@ -53,7 +53,7 @@ const WriteToDatabase = () => {
     return () => {
       ipcRenderer.removeListener('app-close', saveToDatabase);
     };
-  }, [messageHistory, onlineUserList, settings]);
+  }, [messageHistory, onlineUserList, settings, uploadMediaList, downloadMediaList]);
 
   return <Fragment></Fragment>;
 };

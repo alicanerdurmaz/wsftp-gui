@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { MessageContext } from '../MessageContext/MessageContext';
 import { hsSocket } from '../../backend/api/webSocketConnection';
-import { USER_CREATED, USER_DELETED, DELETE_DB, MEDIA_USER_CREATED, DOWNLOAD_MEDIA_USER_CREATED } from '../types';
+import { USER_CREATED, USER_DELETED, DELETE_DB, UPLOAD_MEDIA_USER_CREATED, DOWNLOAD_MEDIA_USER_CREATED } from '../types';
 
 import { getObject, deleteDataBaseSync } from '../../backend/api/dbFunctions';
 import { SelectUserContext } from '../SelectUserContext';
@@ -48,7 +48,7 @@ const OnlineUserContextProvider = props => {
     }
     if (uploadMediaList.hasOwnProperty('media:upload:' + toJson.userIdentity) === false && toJson.event === 'online') {
       dispatchUploadMediaContext({
-        type: MEDIA_USER_CREATED,
+        type: UPLOAD_MEDIA_USER_CREATED,
         userIdentity: toJson.userIdentity
       });
     }

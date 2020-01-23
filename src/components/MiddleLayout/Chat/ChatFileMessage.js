@@ -2,7 +2,7 @@ import React, { useContext, Fragment, useState } from 'react';
 
 import FILE_STATUS from '../../../config/CONFIG_FILE_STATUS';
 import { MessageContext } from '../../../context/MessageContext/MessageContext';
-import { STATUS_CHANGED, MEDIA_STATUS_CHANGED, DOWNLOAD_MEDIA_STATUS_CHANGED } from '../../../context/types';
+import { STATUS_CHANGED, UPLOAD_MEDIA_STATUS_CHANGED, DOWNLOAD_MEDIA_STATUS_CHANGED } from '../../../context/types';
 import { byteConverter } from '../../../Helpers/byteConverter';
 import { ReactComponent as FileIcon } from '../../../assets/svg/file-solid.svg';
 import { ReactComponent as BanIcon } from '../../../assets/svg/ban-solid.svg';
@@ -40,7 +40,7 @@ const ChatFileMessage = ({ fileStatus, from, createdAt, fileSize, fileName, dir,
       dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading } });
       if (from === '*MYPC*')
         dispatchUploadMediaContext({
-          type: MEDIA_STATUS_CHANGED,
+          type: UPLOAD_MEDIA_STATUS_CHANGED,
           payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
         });
       if (from !== '*MYPC*')
@@ -60,7 +60,7 @@ const ChatFileMessage = ({ fileStatus, from, createdAt, fileSize, fileName, dir,
       dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected } });
       if (from === '*MYPC*')
         dispatchUploadMediaContext({
-          type: MEDIA_STATUS_CHANGED,
+          type: UPLOAD_MEDIA_STATUS_CHANGED,
           payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
         });
       if (from !== '*MYPC*')
