@@ -17,6 +17,18 @@
       float: left;
     }
   }
+  &.info {
+    cursor: pointer;
+    padding: 0px;
+    text-align: center;
+    font-weight: bolder;
+    .createdAt-p {
+      display: none;
+    }
+    .message-p {
+      color: $blue;
+    }
+  }
 }
 .message-content {
   color: $blueGray;

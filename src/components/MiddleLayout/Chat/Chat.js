@@ -21,6 +21,8 @@ const Chat = () => {
   const [hidden, setHidden] = useState('hidden');
   let refScroller = useRef(false);
 
+  let scrollDirection = useRef(false);
+
   const [snackbarOptions, setsnackbarOptions] = useState({
     open: false,
     vertical: 'top',
@@ -50,15 +52,14 @@ const Chat = () => {
 
     if (tempNotificationNumber > 7) openSnackbar(`${tempNotificationNumber} Unread Message`);
 
+    dispatchDbContext({
+      type: RESET_BY_NAME,
+      userIdentity: selectedUser.userIdentity
+    });
     refScroller.scrollTo({
       top: refScroller.scrollHeight - offSet,
       left: 0,
       behavior: type
-    });
-
-    dispatchDbContext({
-      type: RESET_BY_NAME,
-      userIdentity: selectedUser.userIdentity
     });
     resetNotificationNumber(selectedUser.userIdentity);
   };
@@ -69,14 +70,16 @@ const Chat = () => {
   const closeSnackbar = () => {
     setsnackbarOptions({ ...snackbarOptions, open: false });
   };
-
+  const handleWheel = e => {
+    scrollDirection.current = e.deltaY;
+  };
   return (
     <Fragment>
       <ChatHeader></ChatHeader>
       <div className={`chat-read-container`} ref={e => (refScroller = e)}>
-        <ul className='chat-list'>
+        <ul className='chat-list' onWheel={e => handleWheel(e)}>
           <Fragment>
-            <ChatOldList></ChatOldList>
+            <ChatOldList scrollDirection={scrollDirection}></ChatOldList>
             <ChatList setHidden={setHidden} jumpToBottom={jumpToBottom}></ChatList>
           </Fragment>
         </ul>

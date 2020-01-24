@@ -2,7 +2,7 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs');
 
-const writeToDataBase = (name, dir, input, done) => {
+const preProcess = dir => {
   if (dir === 'desk') {
     dir = path.join(os.homedir(), 'Desktop');
   } else if (dir === 'down') {
@@ -10,6 +10,11 @@ const writeToDataBase = (name, dir, input, done) => {
   } else if (dir === 'docu') {
     dir = path.join(os.homedir(), 'Documents');
   }
+  return dir;
+};
+
+const writeToDataBase = (name, dir, input, done) => {
+  dir = preProcess(dir);
   let file = path.join(dir, name);
   fs.exists(file, err => {
     let exists = err ? true : false;
@@ -91,13 +96,7 @@ const reqSave = (name, dir, arr, len, index, done) => {
 };
 
 const getFromDataBase = (name, dir, start, end, done) => {
-  if (dir === 'desk') {
-    dir = path.join(os.homedir(), 'Desktop');
-  } else if (dir === 'down') {
-    dir = path.join(os.homedir(), 'Downloads');
-  } else if (dir === 'docu') {
-    dir = path.join(os.homedir(), 'Documents');
-  }
+  dir = preProcess(dir);
   let file = path.join(dir, name);
   fs.exists(file, err => {
     let exists = err ? true : false;
@@ -142,13 +141,7 @@ const getFromDataBase = (name, dir, start, end, done) => {
 };
 
 const getFromDataBaseSync = (name, dir, start, end) => {
-  if (dir === 'desk') {
-    dir = path.join(os.homedir(), 'Desktop');
-  } else if (dir === 'down') {
-    dir = path.join(os.homedir(), 'Downloads');
-  } else if (dir === 'docu') {
-    dir = path.join(os.homedir(), 'Documents');
-  }
+  dir = preProcess(dir);
   let file = path.join(dir, name);
   let exist = false;
   try {
@@ -191,6 +184,122 @@ const getFromDataBaseSync = (name, dir, start, end) => {
   }
 };
 
+const getBlockFromDataBaseSync = (name, dir, key, value, up, below) => {
+  dir = preProcess(dir);
+  let file = path.join(dir, name);
+  let exist = false;
+  try {
+    let stat = fs.statSync(file);
+    exist = true;
+  } catch (err) {
+    exist = false;
+  }
+  if (exist) {
+    let arr = [];
+    let reader = fs.readFileSync(file, 'utf8');
+    if (reader !== '') {
+      arr = JSON.parse(reader);
+    }
+    let index = -1;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i][key] === value) {
+        index = i;
+        break;
+      }
+    }
+    if (index === -1) {
+      return { done: false, arr: [], lenUp: -2, lenDown: -2 };
+    }
+    const upperSlice = [];
+    const belowSlice = [];
+    for (let i = index - 1; i > -1; i--) {
+      if (i === index - up - 1) {
+        break;
+      } else {
+        upperSlice.push(arr[i]);
+      }
+    }
+    for (let i = index + 1; i < arr.length; i++) {
+      if (i === index + below + 1) {
+        break;
+      } else {
+        belowSlice.push(arr[i]);
+      }
+    }
+    return {
+      done: true,
+      arr: upperSlice
+        .reverse()
+        .concat(arr[index])
+        .concat(belowSlice),
+      lenUp: upperSlice.length,
+      lenDown: belowSlice.length
+    };
+  }
+  return { done: false, arr: [], lenUp: -1, lenDown: -1 };
+};
+
+const getBlockFromDataBaseWithKeySync = (name, dir, mainKey, mainValue, key, value, up, below) => {
+  dir = preProcess(dir);
+  let file = path.join(dir, name);
+  let exist = false;
+  try {
+    let stat = fs.statSync(file);
+    exist = true;
+  } catch (err) {
+    exist = false;
+  }
+  if (exist) {
+    let arr = [];
+    let reader = fs.readFileSync(file, 'utf8');
+    if (reader !== '') {
+      arr = JSON.parse(reader);
+    }
+    let index = -1;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i][mainKey] === mainValue) {
+        index = i;
+        break;
+      }
+    }
+    if (index === -1) {
+      return { done: false, arr: [], lenUp: -2, lenDown: -2 };
+    }
+    const upperSlice = [];
+    const belowSlice = [];
+    let upCount = 0;
+    let belowCount = 0;
+    for (let i = index - 1; i > -1; i--) {
+      if (arr[i][key] == value) {
+        upperSlice.push(arr[i]);
+        upCount++;
+        if (upCount == up) {
+          break;
+        }
+      }
+    }
+    for (let i = index + 1; i < arr.length; i++) {
+      if (arr[i][key] == value) {
+        belowSlice.push(arr[i]);
+        belowCount++;
+        if (belowCount == below) {
+          break;
+        }
+      }
+    }
+    return {
+      done: true,
+      arr: upperSlice
+        .reverse()
+        .concat(arr[index])
+        .concat(belowSlice),
+      lenUp: upperSlice.length,
+      lenDown: belowSlice.length
+    };
+  }
+  return { done: false, arr: [], lenUp: -1, lenDown: -1 };
+};
+
 const deleteFromDataBase = (name, dir, key, value, done) => {
   getFromDataBase(name, dir, 0, 0, (err, arr) => {
     const newArr = [];
@@ -222,13 +331,7 @@ const deleteFromDataBase = (name, dir, key, value, done) => {
 };
 
 const deleteDataBase = (name, dir, done) => {
-  if (dir === 'desk') {
-    dir = path.join(os.homedir(), 'Desktop');
-  } else if (dir === 'down') {
-    dir = path.join(os.homedir(), 'Downloads');
-  } else if (dir === 'docu') {
-    dir = path.join(os.homedir(), 'Documents');
-  }
+  dir = preProcess(dir);
   let file = path.join(dir, name);
   fs.unlink(file, err => {
     done(err);
@@ -236,6 +339,7 @@ const deleteDataBase = (name, dir, done) => {
 };
 
 const deleteDataBaseSync = (name, dir) => {
+  dir = preProcess(dir);
   let file = path.join(dir, name);
   try {
     fs.unlinkSync(file);
@@ -243,13 +347,9 @@ const deleteDataBaseSync = (name, dir) => {
 };
 
 const writeObject = (name, dir, data) => {
+  dir = preProcess(dir);
   let file = path.join(dir, name);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
-  }
-  if (fs.existsSync(dir)) {
-    fs.writeFileSync(file, JSON.stringify(data));
-  }
+  fs.writeFileSync(file, JSON.stringify(data));
 };
 
 const getObject = (name, dir) => {
@@ -262,6 +362,8 @@ const getObject = (name, dir) => {
 };
 
 module.exports = {
+  getBlockFromDataBaseWithKeySync: getBlockFromDataBaseWithKeySync,
+  getBlockFromDataBaseSync: getBlockFromDataBaseSync,
   writeToDataBase: writeToDataBase,
   writeToDataBaseArray: writeToDataBaseArray,
   getFromDataBase: getFromDataBase,

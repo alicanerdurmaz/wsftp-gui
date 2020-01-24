@@ -193,12 +193,9 @@ const MessageContextProvider = props => {
     }
     if (dataToJson.event === 'rrej') {
       console.log(dataToJson);
+
       dispatch({
         type: STATUS_CHANGED,
-        payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
-      });
-      dispatchUploadMediaContext({
-        type: UPLOAD_MEDIA_STATUS_CHANGED,
         payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
       });
       dispatchDownloadMediaContext({
