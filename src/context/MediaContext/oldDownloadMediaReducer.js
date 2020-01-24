@@ -6,7 +6,8 @@ export const oldDownloadMediaReducer = (state, action) => {
   switch (action.type) {
     //
     case DOWNLOAD_MEDIA_GET_MSG_FROM_DB:
-      if (typeof state[`media:download:${action.userIdentity}`].length === 'undefined') return;
+      if (!state[`media:download:${action.userIdentity}`]) return { ...state };
+
       const start = state[`media:download:${action.userIdentity}`].length;
       const end = start + 20;
       const result = getFromDataBaseSync(`media:download:${action.userIdentity}.json`, findDbDirectory(), start, end);
@@ -15,12 +16,16 @@ export const oldDownloadMediaReducer = (state, action) => {
       return { ...state };
 
     case DOWNLOAD_MEDIA_RESET_BY_NAME:
+      if (!state[`media:download:${action.userIdentity}`]) return { ...state };
+
       const result2 = getFromDataBaseSync(`media:download:${action.userIdentity}.json`, findDbDirectory(), 0, 20);
       state[`media:download:${action.userIdentity}`] = [];
       state[`media:download:${action.userIdentity}`].push(...result2.arr.reverse());
       return { ...state };
 
     case DOWNLOAD_MEDIA_DELETE_DB:
+      if (!state[`media:download:${action.userIdentity}`]) return { ...state };
+
       const tempState = { ...state };
       delete tempState[`media:download:${action.userIdentity}`];
       return { ...tempState };

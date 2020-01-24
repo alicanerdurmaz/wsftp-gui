@@ -19,7 +19,7 @@ const OldUploadMediaLayout = () => {
   return (
     <Fragment>
       <div className='load-more '>
-        <span className='load-more-text'>no more data</span>
+        <span className='load-more-text'></span>
         <span className='upload-list-top' ref={topOfUploadList}></span>
       </div>
       {oldUploadMediaList['media:upload:' + selectedUser.userIdentity] &&

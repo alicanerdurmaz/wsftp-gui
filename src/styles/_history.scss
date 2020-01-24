@@ -79,12 +79,23 @@
     border-radius: 8px;
   }
 }
-.media-title {
+.media-title-download {
   width: 120px;
   margin-left: 8px;
 }
-.media-search {
+.media-title-upload {
+  width: 120px;
+  margin-left: 8px;
+}
+.media-search-upload {
   margin-right: 8px;
+  &::placeholder {
+    font-size: 14px;
+  }
+}
+.media-search-download {
+  margin-right: 8px;
+  margin-left: 14px;
   &::placeholder {
     font-size: 14px;
   }
@@ -234,7 +245,7 @@
   align-items: center;
   justify-items: center;
   align-content: center;
-  height: 40px;
+  height: 10px;
   &:hover {
     background-color: $primarycolor;
     border-radius: 0px;
@@ -251,4 +262,12 @@
   min-height: 50px;
   min-width: 100%;
   margin-top: 205px;
+  pointer-events: none;
+}
+.download-list-top {
+  position: absolute;
+  min-height: 50px;
+  min-width: 100%;
+  margin-top: 205px;
+  pointer-events: none;
 }

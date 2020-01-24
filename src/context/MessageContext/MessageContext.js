@@ -207,7 +207,6 @@ const MessageContextProvider = props => {
       });
     }
     if (dataToJson.event === 'prg') {
-      console.log(dataToJson);
       dispatch({
         type: PROGRESS_CHANGED,
         payload: dataToJson

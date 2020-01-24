@@ -16,26 +16,34 @@ const MediaHistoryLayout = () => {
   let uploadsListEnd = useRef(null);
 
   useEffect(() => {
-    scrollToUploadList();
-    scrollToDownloadList();
+    uploadsListEnd.scrollIntoView({ behavior: 'auto' });
+    downloadsListEnd.scrollIntoView({ behavior: 'auto' });
   }, [selectedUser]);
 
+  useEffect(() => {
+    scrollToDownloadList();
+  }, [downloadMediaList]);
+
+  useEffect(() => {
+    scrollToUploadList();
+  }, [uploadMediaList]);
+
   const scrollToUploadList = () => {
-    uploadsListEnd.scrollIntoView({ behavior: 'auto' });
+    uploadsListEnd.scrollIntoView({ behavior: 'smooth' });
   };
   const scrollToDownloadList = () => {
-    downloadsListEnd.scrollIntoView({ behavior: 'auto' });
+    downloadsListEnd.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <Fragment>
       <div className='media-title-container-upload'>
-        <div className='media-title'>Uploads</div>
-        <input type='text' className='media-search' placeholder='search by filename'></input>
+        <div className='media-title-upload'>Uploads</div>
+        <input type='text' className='media-search-upload' placeholder='search by filename'></input>
       </div>
 
       <div className='media-list-container-upload'>
-        <ul className='media-list-upload' ref={e => (uploadListScroll = e)}>
+        <ul className='media-list-upload'>
           <OldUploadMediaLayout></OldUploadMediaLayout>
           {selectedUser &&
             uploadMediaList['media:upload:' + selectedUser.userIdentity] &&
@@ -67,7 +75,7 @@ const MediaHistoryLayout = () => {
 
       <div className='media-title-container-download'>
         <div className='media-title-download'>Downloads</div>
-        <input type='text' className='media-search' placeholder='search by filename'></input>
+        <input type='text' className='media-search-download' placeholder='search by filename'></input>
       </div>
 
       <div className='media-list-container-download'>

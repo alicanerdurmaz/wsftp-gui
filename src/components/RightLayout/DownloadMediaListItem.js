@@ -68,6 +68,7 @@ const DownloadMediaListItem = ({
     };
     commanderSocket.send(JSON.stringify(tempRejectRequest));
     dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected } });
+
     dispatchDownloadMediaContext({
       type: DOWNLOAD_MEDIA_STATUS_CHANGED,
       payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }

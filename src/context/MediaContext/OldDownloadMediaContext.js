@@ -22,9 +22,7 @@ const OldDownloadMediaContextProvider = props => {
     return data;
   });
 
-  useEffect(() => {
-    console.log(oldDownloadMediaList);
-  }, [oldDownloadMediaList]);
+  useEffect(() => {}, [oldDownloadMediaList]);
 
   return (
     <OldDownloadMediaContext.Provider value={{ oldDownloadMediaList, dispatchOldDownloadMediaContext }}>

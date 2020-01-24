@@ -22,11 +22,11 @@ const OldDownloadMediaLayout = () => {
       {selectedUser ? (
         <Fragment>
           <div className='load-more '>
-            <span className='load-more-text'>no more data</span>
-            <span className='upload-list-top' ref={topOfDownloadList}></span>
+            <span className='load-more-text'></span>
+            <span className='download-list-top' ref={topOfDownloadList}></span>
           </div>
-          {oldDownloadMediaList['media:download:' + selectedUser.userIdentity] &&
-            oldDownloadMediaList['media:download:' + selectedUser.userIdentity].map(e => {
+          {oldDownloadMediaList[`media:download:${selectedUser.userIdentity}`] &&
+            oldDownloadMediaList[`media:download:${selectedUser.userIdentity}`].map(e => {
               return (
                 <OldMediaListItem
                   key={e.uuid}

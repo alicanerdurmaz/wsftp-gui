@@ -36,7 +36,7 @@ const MediaHistoryListItem = ({
   }
   const { settings } = useContext(SettingsContext);
   const { dispatch } = useContext(MessageContext);
-  const { dispatchUploadMediaContext } = useContext(UploadMediaContext);
+
   const { dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -58,17 +58,10 @@ const MediaHistoryListItem = ({
     commanderSocket.send(JSON.stringify(tempAcceptRequest));
     dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading } });
 
-    if (from !== '*MYPC*')
-      dispatchUploadMediaContext({
-        type: UPLOAD_MEDIA_STATUS_CHANGED,
-        payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
-      });
-
-    if (from === '*MYPC*')
-      dispatchDownloadMediaContext({
-        type: DOWNLOAD_MEDIA_STATUS_CHANGED,
-        payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
-      });
+    dispatchDownloadMediaContext({
+      type: DOWNLOAD_MEDIA_STATUS_CHANGED,
+      payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
+    });
   };
 
   const btnRejectAcceptFile = e => {
@@ -83,17 +76,10 @@ const MediaHistoryListItem = ({
 
     dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected } });
 
-    if (from !== '*MYPC*')
-      dispatchUploadMediaContext({
-        type: UPLOAD_MEDIA_STATUS_CHANGED,
-        payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
-      });
-
-    if (from === '*MYPC*')
-      dispatchDownloadMediaContext({
-        type: DOWNLOAD_MEDIA_STATUS_CHANGED,
-        payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
-      });
+    dispatchDownloadMediaContext({
+      type: DOWNLOAD_MEDIA_STATUS_CHANGED,
+      payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
+    });
   };
   const btnKillRequest = e => {
     e.stopPropagation();

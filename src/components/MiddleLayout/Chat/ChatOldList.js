@@ -19,9 +19,7 @@ const ChatOldList = () => {
 
   return (
     <Fragment>
-      <span className='ref-old-list-top' ref={refOldListTop}>
-        no more data
-      </span>
+      <span className='ref-old-list-top' ref={refOldListTop}></span>
       {messageFromDatabase[selectedUser.userIdentity]
         ? messageFromDatabase[selectedUser.userIdentity].map(message => {
             if (message.contentType === 'text') {
