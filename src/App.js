@@ -12,32 +12,35 @@ import UploadMediaContextProvider from './context/MediaContext/UploadMediaContex
 import DownloadMediaContextProvider from './context/MediaContext/DownloadMediaContext';
 import OldDownloadMediaContextProvider from './context/MediaContext/OldDownloadMediaContext';
 import OldUploadMediaContextProvider from './context/MediaContext/OldUploadMediaContext';
+import { SnackbarProvider } from 'notistack';
 
 const App = () => {
-  return (
-    <Fragment>
-      <SettingsContextProvider>
-        <UploadMediaContextProvider>
-          <DownloadMediaContextProvider>
-            <OldDownloadMediaContextProvider>
-              <OldUploadMediaContextProvider>
-                <MessageContextProvider>
-                  <SelectUserContextProvider>
-                    <DatabaseMessageContextProvider>
-                      <OnlineUserContextProvider>
-                        <MainLayout></MainLayout>
-                        <WriteToDatabase></WriteToDatabase>
-                      </OnlineUserContextProvider>
-                    </DatabaseMessageContextProvider>
-                  </SelectUserContextProvider>
-                </MessageContextProvider>
-              </OldUploadMediaContextProvider>
-            </OldDownloadMediaContextProvider>
-          </DownloadMediaContextProvider>
-        </UploadMediaContextProvider>
-      </SettingsContextProvider>
-    </Fragment>
-  );
+	return (
+		<Fragment>
+			<SnackbarProvider maxSnack={4}>
+				<SettingsContextProvider>
+					<UploadMediaContextProvider>
+						<DownloadMediaContextProvider>
+							<OldDownloadMediaContextProvider>
+								<OldUploadMediaContextProvider>
+									<MessageContextProvider>
+										<SelectUserContextProvider>
+											<DatabaseMessageContextProvider>
+												<OnlineUserContextProvider>
+													<MainLayout></MainLayout>
+													<WriteToDatabase></WriteToDatabase>
+												</OnlineUserContextProvider>
+											</DatabaseMessageContextProvider>
+										</SelectUserContextProvider>
+									</MessageContextProvider>
+								</OldUploadMediaContextProvider>
+							</OldDownloadMediaContextProvider>
+						</DownloadMediaContextProvider>
+					</UploadMediaContextProvider>
+				</SettingsContextProvider>
+			</SnackbarProvider>
+		</Fragment>
+	);
 };
 
 export default App;

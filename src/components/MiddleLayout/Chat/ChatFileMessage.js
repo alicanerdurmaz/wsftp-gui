@@ -13,7 +13,19 @@ import { SettingsContext } from '../../../context/SettingsContext';
 import { UploadMediaContext } from '../../../context/MediaContext/UploadMediaContext';
 import { DownloadMediaContext } from '../../../context/MediaContext/DownloadMediaContext';
 
-const ChatFileMessage = ({ fileStatus, from, createdAt, fileSize, fileName, dir, uuid, dbName, progress, mac, port }) => {
+const ChatFileMessage = ({
+  fileStatus,
+  from,
+  createdAt,
+  fileSize,
+  fileName,
+  dir,
+  uuid,
+  dbName,
+  progress,
+  mac,
+  port
+}) => {
   const { dispatch } = useContext(MessageContext);
   const { dispatchUploadMediaContext } = useContext(UploadMediaContext);
   const { dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
@@ -38,16 +50,11 @@ const ChatFileMessage = ({ fileStatus, from, createdAt, fileSize, fileName, dir,
 
       commanderSocket.send(JSON.stringify(tempAcceptRequest));
       dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading } });
-      if (from === '*MYPC*')
-        dispatchUploadMediaContext({
-          type: UPLOAD_MEDIA_STATUS_CHANGED,
-          payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
-        });
-      if (from !== '*MYPC*')
-        dispatchDownloadMediaContext({
-          type: DOWNLOAD_MEDIA_STATUS_CHANGED,
-          payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
-        });
+
+      dispatchDownloadMediaContext({
+        type: DOWNLOAD_MEDIA_STATUS_CHANGED,
+        payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
+      });
     }
     if (!action) {
       const tempRejectRequest = {
@@ -58,16 +65,11 @@ const ChatFileMessage = ({ fileStatus, from, createdAt, fileSize, fileName, dir,
       };
       commanderSocket.send(JSON.stringify(tempRejectRequest));
       dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected } });
-      if (from === '*MYPC*')
-        dispatchUploadMediaContext({
-          type: UPLOAD_MEDIA_STATUS_CHANGED,
-          payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
-        });
-      if (from !== '*MYPC*')
-        dispatchDownloadMediaContext({
-          type: DOWNLOAD_MEDIA_STATUS_CHANGED,
-          payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
-        });
+
+      dispatchDownloadMediaContext({
+        type: DOWNLOAD_MEDIA_STATUS_CHANGED,
+        payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
+      });
     }
   };
   const fileInformation = () => {
@@ -106,7 +108,8 @@ const ChatFileMessage = ({ fileStatus, from, createdAt, fileSize, fileName, dir,
         <div
           className={`file-message-content ${tempFrom}`}
           style={{
-            background: fileStatus === FILE_STATUS.loading ? `linear-gradient(90deg, #6ab8959c ${progress}%, #2f3136 1%)` : null
+            background:
+              fileStatus === FILE_STATUS.loading ? `linear-gradient(90deg, #6ab8959c ${progress}%, #2f3136 1%)` : null
           }}>
           <FileIcon className='file-icon'></FileIcon>
           <div className='file-info'>

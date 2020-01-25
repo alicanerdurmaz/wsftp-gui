@@ -17,7 +17,7 @@ const ChatOldList = ({ scrollDirection }) => {
 
   const isTopOnScreen = useOnScreen(refOldListTop);
   const isBottomOnScreen = useOnScreen(refOldListBottom);
-  console.log(messageFromDatabase);
+
   useEffect(() => {
     if (!isTopOnScreen) return;
 
@@ -36,14 +36,16 @@ const ChatOldList = ({ scrollDirection }) => {
     const id = messageFromDatabase[selectedUser.userIdentity][0].uuid;
     const result = getBlockFromDataBaseSync(`${selectedUser.userIdentity}.json`, findDbDirectory(), 'uuid', id, 20, 20);
     if (result.lenDown < 0) return;
-    if (result.lenDown === 0) {
-      result.arr.push({
-        content: 'No More Data',
-        from: 'info',
-        contentType: 'text',
-        uuid: 'nomoredata'
-      });
-    }
+
+    // TODO: PUSH INFO MESSAGES
+    // if (result.lenDown === 0) {
+    //   result.arr.push({
+    //     content: 'No More Data',
+    //     from: 'info',
+    //     contentType: 'text',
+    //     uuid: 'nomoredata'
+    //   });
+    // }
     dispatchDbContext({
       type: GET_MSG_FROM_DB,
       userIdentity: selectedUser.userIdentity,

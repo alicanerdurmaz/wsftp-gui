@@ -5,9 +5,7 @@ const ChatOldListTextMessage = ({ content, sender, createdAt }) => {
   if (sender === '*MYPC*') {
     user = 'user';
   }
-  if (sender === 'info') {
-    user = 'info';
-  }
+
   return (
     <li className={`message-container ${user}`}>
       <div className={`message-content ${user}`}>
