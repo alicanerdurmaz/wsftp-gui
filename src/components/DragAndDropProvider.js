@@ -41,6 +41,7 @@ const DragAndDropProvider = props => {
 		event.preventDefault();
 
 		if (!selectedUser || selectedUser.status === 'offline') {
+			enqueueSnackbar(`${selectedUser.username} is offline`, { variant: 'error' });
 			setCounter(0);
 			return;
 		}
@@ -48,13 +49,14 @@ const DragAndDropProvider = props => {
 		const data = await event.dataTransfer.files;
 		for (let i = 0; i < data.length; i++) {
 			if (data[i].type === '') {
+				console.log(data[i].type);
 				enqueueSnackbar(`no support for folder transaction`, { variant: 'error' });
+				setCounter(0);
 				return;
 			}
 		}
 		for (let i = 0; i < data.length; i++) {
 			API_SendFile(selectedUser.macAddress, data[i].path, uuid());
-			console.log(selectedUser.macAddress, data[i].path, uuid());
 		}
 		setCounter(0);
 	};

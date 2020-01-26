@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useRef } from 'react';
 
 import './App.scss';
 import MainLayout from './components/MainLayout';
@@ -13,11 +13,18 @@ import DownloadMediaContextProvider from './context/MediaContext/DownloadMediaCo
 import OldDownloadMediaContextProvider from './context/MediaContext/OldDownloadMediaContext';
 import OldUploadMediaContextProvider from './context/MediaContext/OldUploadMediaContext';
 import { SnackbarProvider } from 'notistack';
-
+import Button from '@material-ui/core/Button';
 const App = () => {
+	const notistackRef = useRef(false);
+	const onClickDismiss = key => () => {
+		notistackRef.current.closeSnackbar(key);
+	};
 	return (
 		<Fragment>
-			<SnackbarProvider maxSnack={4}>
+			<SnackbarProvider
+				maxSnack={10}
+				ref={notistackRef}
+				action={key => <Button onClick={onClickDismiss(key)}>Dismiss</Button>}>
 				<SettingsContextProvider>
 					<UploadMediaContextProvider>
 						<DownloadMediaContextProvider>

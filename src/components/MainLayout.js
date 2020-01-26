@@ -6,29 +6,54 @@ import RightLayout from './RightLayout/RightLayout';
 import Settings from './SettingsLayout/Settings';
 import { SelectUserContext } from '../context/SelectUserContext';
 import DragAndDropProvider from './DragAndDropProvider';
+import { MessageContext } from '../context/MessageContext/MessageContext';
+import { searchFunction } from '../Helpers/searchFunction';
 
 const MainLayout = () => {
-  const { selectedUser } = useContext(SelectUserContext);
-  const [modalOpen, setModalOpen] = useState(false);
+	const { selectedUser } = useContext(SelectUserContext);
+	const { messageHistory } = useContext(MessageContext);
+	const [modalOpen, setModalOpen] = useState(false);
 
-  const openSettingsScreen = () => {
-    setModalOpen(true);
-  };
+	const [activeRightScreen, setActiveRightScreen] = useState('media');
+	const [searchLoading, setSearchLoading] = useState(false);
+	const [searchResult, setSearchResult] = useState([]);
+	const [scrollPosition, setScrollPosition] = useState(false);
+	const startSearch = async searchTerm => {
+		setActiveRightScreen('search');
+		setSearchLoading(true);
+		const tempData = await searchFunction(messageHistory[selectedUser.userIdentity], searchTerm, setSearchLoading);
+		setSearchResult(tempData);
+	};
 
-  return (
-    <DragAndDropProvider>
-      <Settings modalOpen={modalOpen} setModalOpen={setModalOpen}></Settings>
-      <LeftLayout openSettingsScreen={openSettingsScreen}></LeftLayout>
-      {selectedUser ? (
-        <Fragment>
-          <MiddleLayout></MiddleLayout>
-          <RightLayout></RightLayout>
-        </Fragment>
-      ) : (
-        <h1>SELECT USER FROM LEFT</h1>
-      )}
-    </DragAndDropProvider>
-  );
+	const openSettingsScreen = () => {
+		setModalOpen(true);
+	};
+
+	useEffect(() => {
+		setActiveRightScreen('media');
+	}, [selectedUser]);
+	useEffect(() => {
+		console.log(scrollPosition);
+	}, [scrollPosition]);
+
+	return (
+		<DragAndDropProvider>
+			<Settings modalOpen={modalOpen} setModalOpen={setModalOpen}></Settings>
+			<LeftLayout openSettingsScreen={openSettingsScreen}></LeftLayout>
+			{selectedUser ? (
+				<Fragment>
+					<MiddleLayout startSearch={startSearch} scrollPosition={scrollPosition}></MiddleLayout>
+					<RightLayout
+						activeRightScreen={activeRightScreen}
+						searchLoading={searchLoading}
+						searchResult={searchResult}
+						setScrollPosition={setScrollPosition}></RightLayout>
+				</Fragment>
+			) : (
+				<h1>SELECT USER FROM LEFT</h1>
+			)}
+		</DragAndDropProvider>
+	);
 };
 
 export default MainLayout;
