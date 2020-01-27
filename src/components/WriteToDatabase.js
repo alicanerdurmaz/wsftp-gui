@@ -10,52 +10,62 @@ import { DownloadMediaContext } from '../context/MediaContext/DownloadMediaConte
 const { ipcRenderer } = require('electron');
 
 const WriteToDatabase = () => {
-  const { messageHistory } = useContext(MessageContext);
-  const { onlineUserList } = useContext(OnlineUserContext);
-  const { uploadMediaList } = useContext(UploadMediaContext);
-  const { downloadMediaList } = useContext(DownloadMediaContext);
-  const { settings } = useContext(SettingsContext);
+	const { messageHistory } = useContext(MessageContext);
+	const { onlineUserList } = useContext(OnlineUserContext);
+	const { uploadMediaList } = useContext(UploadMediaContext);
+	const { downloadMediaList } = useContext(DownloadMediaContext);
+	const { settings } = useContext(SettingsContext);
 
-  useEffect(() => {
-    const saveToDatabase = () => {
-      const allUsersListJson = { ...onlineUserList };
-      const settingsJson = { ...settings };
-      Object.keys(allUsersListJson).forEach(key => {
-        allUsersListJson[key].event = 'offline';
-      });
-      writeObject('settings.json', findDbDirectory(), settingsJson);
-      writeObject('allUsersList.json', findDbDirectory(), allUsersListJson);
+	useEffect(() => {
+		const saveToDatabase = () => {
+			const allUsersListJson = { ...onlineUserList };
+			const settingsJson = { ...settings };
+			Object.keys(allUsersListJson).forEach(key => {
+				allUsersListJson[key].event = 'offline';
+			});
+			writeObject('settings.json', findDbDirectory(), settingsJson);
+			writeObject('allUsersList.json', findDbDirectory(), allUsersListJson);
 
-      // message history
-      Object.keys(messageHistory).length
-        ? Object.keys(messageHistory).forEach(key => {
-            writeToDataBaseArray(`${key}.json`, findDbDirectory(), messageHistory[key], () => {
-              /// upload media list
-              Object.keys(uploadMediaList).length
-                ? Object.keys(uploadMediaList).forEach(key => {
-                    writeToDataBaseArray(`${key}.json`, findDbDirectory(), uploadMediaList[key], () => {
-                      // download media list
-                      Object.keys(downloadMediaList).length
-                        ? Object.keys(downloadMediaList).forEach(key => {
-                            writeToDataBaseArray(`${key}.json`, findDbDirectory(), downloadMediaList[key], () => {
-                              ipcRenderer.send('save-completed');
-                            });
-                          })
-                        : ipcRenderer.send('save-completed');
-                    });
-                  })
-                : ipcRenderer.send('save-completed');
-            });
-          })
-        : ipcRenderer.send('save-completed');
-    };
-    ipcRenderer.on('app-close', saveToDatabase);
-    return () => {
-      ipcRenderer.removeListener('app-close', saveToDatabase);
-    };
-  }, [messageHistory, onlineUserList, settings, uploadMediaList, downloadMediaList]);
+			// message history
+			Object.keys(messageHistory).length
+				? Object.keys(messageHistory).forEach(key => {
+						writeToDataBaseArray(`${key}.json`, findDbDirectory(), messageHistory[key], () => {
+							/// upload media list
+							Object.keys(uploadMediaList).length
+								? Object.keys(uploadMediaList).forEach(key => {
+										writeToDataBaseArray(
+											`${key}.json`,
+											findDbDirectory(),
+											uploadMediaList[key],
+											() => {
+												// download media list
+												Object.keys(downloadMediaList).length
+													? Object.keys(downloadMediaList).forEach(key => {
+															writeToDataBaseArray(
+																`${key}.json`,
+																findDbDirectory(),
+																downloadMediaList[key],
+																() => {
+																	ipcRenderer.send('save-completed');
+																}
+															);
+													  })
+													: ipcRenderer.send('save-completed');
+											}
+										);
+								  })
+								: ipcRenderer.send('save-completed');
+						});
+				  })
+				: ipcRenderer.send('save-completed');
+		};
+		ipcRenderer.on('app-close', saveToDatabase);
+		return () => {
+			ipcRenderer.removeListener('app-close', saveToDatabase);
+		};
+	}, [messageHistory, onlineUserList, settings, uploadMediaList, downloadMediaList]);
 
-  return <Fragment></Fragment>;
+	return <Fragment></Fragment>;
 };
 
 export default WriteToDatabase;

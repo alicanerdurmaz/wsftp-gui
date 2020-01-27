@@ -14,128 +14,128 @@ import { DownloadMediaContext } from '../../context/MediaContext/DownloadMediaCo
 const { shell } = require('electron');
 
 const DownloadMediaListItem = ({
-  from,
-  fileName,
-  createdAt,
-  fileSize,
-  downloadDir,
-  fileDir,
-  fileType,
-  progress,
-  fileStatus,
-  mac,
-  uuid,
-  dbName,
-  port
+	from,
+	fileName,
+	createdAt,
+	fileSize,
+	downloadDir,
+	fileDir,
+	fileType,
+	progress,
+	fileStatus,
+	mac,
+	uuid,
+	dbName,
+	port
 }) => {
-  let fullPath = downloadDir && downloadDir + '/' + fileName;
-  const { settings } = useContext(SettingsContext);
-  const { dispatch } = useContext(MessageContext);
-  const { dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
+	let fullPath = downloadDir && downloadDir + '/' + fileName;
+	const { settings } = useContext(SettingsContext);
+	const { dispatch } = useContext(MessageContext);
+	const { dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
 
-  const [isExpanded, setIsExpanded] = useState(false);
+	const [isExpanded, setIsExpanded] = useState(false);
 
-  const openFileDirectory = () => {
-    shell.showItemInFolder(fullPath);
-  };
+	const openFileDirectory = () => {
+		shell.showItemInFolder(fullPath);
+	};
 
-  const btnAcceptFile = e => {
-    e.stopPropagation();
-    const tempAcceptRequest = {
-      event: 'cacp',
-      mac: mac,
-      dir: fileDir,
-      dest: settings.downloadDirectory || 'desk',
-      uuid: uuid
-    };
+	const btnAcceptFile = e => {
+		e.stopPropagation();
+		const tempAcceptRequest = {
+			event: 'cacp',
+			mac: mac,
+			dir: fileDir,
+			dest: settings.downloadDirectory || 'desk',
+			uuid: uuid
+		};
 
-    commanderSocket.send(JSON.stringify(tempAcceptRequest));
-    dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading } });
+		commanderSocket.send(JSON.stringify(tempAcceptRequest));
+		dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading } });
 
-    dispatchDownloadMediaContext({
-      type: DOWNLOAD_MEDIA_STATUS_CHANGED,
-      payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
-    });
-  };
+		dispatchDownloadMediaContext({
+			type: DOWNLOAD_MEDIA_STATUS_CHANGED,
+			payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
+		});
+	};
 
-  const btnRejectAcceptFile = e => {
-    e.stopPropagation();
-    const tempRejectRequest = {
-      event: 'crej',
-      mac: mac,
-      dir: fileDir,
-      uuid: uuid
-    };
-    commanderSocket.send(JSON.stringify(tempRejectRequest));
-    dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected } });
+	const btnRejectAcceptFile = e => {
+		e.stopPropagation();
+		const tempRejectRequest = {
+			event: 'crej',
+			mac: mac,
+			dir: fileDir,
+			uuid: uuid
+		};
+		commanderSocket.send(JSON.stringify(tempRejectRequest));
+		dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected } });
 
-    dispatchDownloadMediaContext({
-      type: DOWNLOAD_MEDIA_STATUS_CHANGED,
-      payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
-    });
-  };
+		dispatchDownloadMediaContext({
+			type: DOWNLOAD_MEDIA_STATUS_CHANGED,
+			payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
+		});
+	};
 
-  const btnKillRequest = e => {
-    e.stopPropagation();
-    API_killTransaction(port);
-  };
+	const btnKillRequest = e => {
+		e.stopPropagation();
+		API_killTransaction(port);
+	};
 
-  const btnIsExpanded = e => {
-    setIsExpanded(!isExpanded);
-  };
+	const btnIsExpanded = e => {
+		setIsExpanded(!isExpanded);
+	};
 
-  const fileInformation = () => {
-    if (fileStatus === FILE_STATUS.waiting) {
-      return (
-        <div className='media-btn-group'>
-          <CheckIcon className='media-check-icon' onClick={e => btnAcceptFile(e)}></CheckIcon>
-          <BanIcon className='media-ban-icon' onClick={e => btnRejectAcceptFile(e)}></BanIcon>
-        </div>
-      );
-    }
-    if (fileStatus === FILE_STATUS.rejected) {
-      return (
-        <div className='media-btn-group-1'>
-          <TimesIcon className='media-times-icon disabled'></TimesIcon>{' '}
-        </div>
-      );
-    }
-    if (fileStatus === FILE_STATUS.loading) {
-      return (
-        <div className='media-btn-group'>
-          <span className='media-progress'>%{progress}</span>
-          {port && <TimesIcon className='media-ban-icon ' onClick={e => btnKillRequest(e)}></TimesIcon>}
-        </div>
-      );
-    }
-  };
-  return (
-    <li className={`media-list-item ${isExpanded ? 'expanded' : ''}`} onClick={e => btnIsExpanded(e)}>
-      <div className='media-content'>
-        {ChooseIcon(fileType)}
-        <div className='media-info'>
-          <div className='media-fileName'>{fileName}</div>
-          <span className='media-fileSize'>{byteConverter(fileSize)}</span>
-        </div>
-        {fileInformation()}
-      </div>
-      {isExpanded ? (
-        <div className={`media-expanded-section`} onClick={e => e.stopPropagation(e)}>
-          <span className='media-createdAt'>
-            {createdAt}
-            {fileStatus === FILE_STATUS.loading || fileStatus === FILE_STATUS.sent ? (
-              <span className='show-in-folder' onClick={fullPath ? openFileDirectory : null}>
-                show in folder
-              </span>
-            ) : null}
-          </span>
-          <div className='media-file-dir'>
-            {fileStatus === FILE_STATUS.rejected ? 'rejected' : fullPath ? fullPath : 'waiting for accept'}
-          </div>
-        </div>
-      ) : null}
-    </li>
-  );
+	const fileInformation = () => {
+		if (fileStatus === FILE_STATUS.waiting) {
+			return (
+				<div className='media-btn-group'>
+					<CheckIcon className='media-check-icon' onClick={e => btnAcceptFile(e)}></CheckIcon>
+					<BanIcon className='media-ban-icon' onClick={e => btnRejectAcceptFile(e)}></BanIcon>
+				</div>
+			);
+		}
+		if (fileStatus === FILE_STATUS.rejected) {
+			return (
+				<div className='media-btn-group-1'>
+					<TimesIcon className='media-times-icon disabled'></TimesIcon>{' '}
+				</div>
+			);
+		}
+		if (fileStatus === FILE_STATUS.loading) {
+			return (
+				<div className='media-btn-group'>
+					<span className='media-progress'>%{progress}</span>
+					{port && <TimesIcon className='media-ban-icon ' onClick={e => btnKillRequest(e)}></TimesIcon>}
+				</div>
+			);
+		}
+	};
+	return (
+		<li className={`media-list-item ${isExpanded ? 'expanded' : ''}`} onClick={e => btnIsExpanded(e)}>
+			<div className='media-content'>
+				{ChooseIcon(fileType)}
+				<div className='media-info'>
+					<div className='media-fileName'>{fileName}</div>
+					<span className='media-fileSize'>{byteConverter(fileSize)}</span>
+				</div>
+				{fileInformation()}
+			</div>
+			{isExpanded ? (
+				<div className={`media-expanded-section`} onClick={e => e.stopPropagation(e)}>
+					<span className='media-createdAt'>
+						{createdAt}
+						{fileStatus === FILE_STATUS.loading || fileStatus === FILE_STATUS.sent ? (
+							<span className='show-in-folder' onClick={fullPath ? openFileDirectory : null}>
+								show in folder
+							</span>
+						) : null}
+					</span>
+					<div className='media-file-dir'>
+						{fileStatus === FILE_STATUS.rejected ? 'rejected' : fullPath ? fullPath : 'waiting for accept'}
+					</div>
+				</div>
+			) : null}
+		</li>
+	);
 };
 
 export default DownloadMediaListItem;
