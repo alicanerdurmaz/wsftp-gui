@@ -1,71 +1,73 @@
 {
-  "name": "wsftp",
-  "version": "0.1.0",
-  "private": true,
-  "main": "public/electron.js",
-  "author": "Alican Erdurmaz <alicanerdurmaz@gmail.com>",
-  "dependencies": {
-    "@craco/craco": "^5.5.0",
-    "@material-ui/core": "^4.8.3",
-    "electron-is-dev": "^1.1.0",
-    "node-sass": "^4.12.0",
-    "react": "^16.10.1",
-    "react-dom": "^16.10.1",
-    "react-scripts": "3.1.2",
-    "react-textarea-autosize": "^7.1.2",
-    "uuid": "^3.3.3"
-  },
-  "build": {
-    "appId": "com.emrealican.tunnelgo",
-    "files": [
-      "src/electron.js",
-      "src/assets/*",
-      "build/**/*"
-    ],
-    "mac": {
-      "target": "dmg",
-      "icon": "src/assets/logo.png"
-    },
-    "win": {
-      "target": "nsis",
-      "icon": "src/assets/logo.png"
-    },
-    "linux": {
-      "target": "deb",
-      "icon": "src/assets/logo.png",
-      "category": "Development"
-    }
-  },
-  "homepage": "./",
-  "scripts": {
-    "start": "concurrently \"cross-env BROWSER=none yarn craco start\" \"wait-on http://localhost:3000 && electron . \"",
-    "test": "craco test",
-    "eject": "craco eject",
-    "electron-build": "electron-builder -l",
-    "clean-build": "rm -rf build/ .cache dist/",
-    "build": "yarn clean-build && yarn craco build && yarn electron-build"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "concurrently": "^4.1.2",
-    "cross-env": "^6.0.0",
-    "electron": "^7.1.2",
-    "electron-builder": "^21.2.0",
-    "normalize.css": "^8.0.1",
-    "wait-on": "^3.3.0"
-  }
+	"name": "wsftp",
+	"version": "0.1.0",
+	"private": true,
+	"main": "public/electron.js",
+	"author": "Alican Erdurmaz <alicanerdurmaz@gmail.com>",
+	"dependencies": {
+		"@craco/craco": "^5.5.0",
+		"@material-ui/core": "^4.8.3",
+		"electron-is-dev": "^1.1.0",
+		"node-sass": "^4.12.0",
+		"prettier": "^1.19.1",
+		"react": "^16.10.1",
+		"react-dom": "^16.10.1",
+		"react-scripts": "3.1.2",
+		"react-textarea-autosize": "^7.1.2",
+		"uuid": "^3.3.3"
+	},
+	"build": {
+		"appId": "com.emrealican.tunnelgo",
+		"files": [
+			"src/electron.js",
+			"src/assets/*",
+			"build/**/*"
+		],
+		"mac": {
+			"target": "dmg",
+			"icon": "src/assets/logo.png"
+		},
+		"win": {
+			"target": "nsis",
+			"icon": "src/assets/logo.png"
+		},
+		"linux": {
+			"target": "deb",
+			"icon": "src/assets/logo.png",
+			"category": "Development"
+		}
+	},
+	"homepage": "./",
+	"scripts": {
+		"start": "concurrently \"cross-env BROWSER=none yarn craco start\" \"wait-on http://localhost:3000 && electron . \"",
+		"test": "craco test",
+		"eject": "craco eject",
+		"electron-build": "electron-builder -l",
+		"clean-build": "rm -rf build/ .cache dist/",
+		"build": "yarn clean-build && yarn craco build && yarn electron-build",
+		"pretty": "prettier --write \"./**/*.{js,jsx,json}\""
+	},
+	"eslintConfig": {
+		"extends": "react-app"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"concurrently": "^4.1.2",
+		"cross-env": "^6.0.0",
+		"electron": "^7.1.2",
+		"electron-builder": "^21.2.0",
+		"normalize.css": "^8.0.1",
+		"wait-on": "^3.3.0"
+	}
 }

@@ -8,37 +8,37 @@ export const SettingsContext = createContext();
 const settingsJson = getObject('settings.json', findDbDirectory());
 
 const SettingsContextProvider = props => {
-  const [settings, setSettings] = useState(() => {
-    let initialData = {};
-    try {
-      initialData = JSON.parse(settingsJson);
-    } catch (error) {}
-    const tempObject = {
-      myInfo: initialData.myInfo || {},
-      downloadDirectory: initialData.downloadDirectory || app.getPath('downloads'),
-      windowSize: {
-        width: window.innerWidth,
-        height: window.innerHeight
-      }
-    };
-    return tempObject;
-  });
+	const [settings, setSettings] = useState(() => {
+		let initialData = {};
+		try {
+			initialData = JSON.parse(settingsJson);
+		} catch (error) {}
+		const tempObject = {
+			myInfo: initialData.myInfo || {},
+			downloadDirectory: initialData.downloadDirectory || app.getPath('downloads'),
+			windowSize: {
+				width: window.innerWidth,
+				height: window.innerHeight
+			}
+		};
+		return tempObject;
+	});
 
-  useEffect(() => {
-    window.addEventListener('resize', reportWindowSize);
-    return () => {
-      window.removeEventListener('resize', reportWindowSize);
-    };
-  }, []);
+	useEffect(() => {
+		window.addEventListener('resize', reportWindowSize);
+		return () => {
+			window.removeEventListener('resize', reportWindowSize);
+		};
+	}, []);
 
-  const reportWindowSize = debounce(() => {
-    const tempObject = { ...settings };
-    tempObject.windowSize.height = window.innerHeight;
-    tempObject.windowSize.width = window.innerWidth;
-    setSettings(tempObject);
-  }, 250);
+	const reportWindowSize = debounce(() => {
+		const tempObject = { ...settings };
+		tempObject.windowSize.height = window.innerHeight;
+		tempObject.windowSize.width = window.innerWidth;
+		setSettings(tempObject);
+	}, 250);
 
-  return <SettingsContext.Provider value={{ settings, setSettings }}>{props.children}</SettingsContext.Provider>;
+	return <SettingsContext.Provider value={{ settings, setSettings }}>{props.children}</SettingsContext.Provider>;
 };
 
 export default SettingsContextProvider;

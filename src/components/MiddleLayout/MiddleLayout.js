@@ -2,13 +2,13 @@ import React from 'react';
 import Chat from './Chat/Chat';
 
 const MiddleLayout = () => {
-  return (
-    <div className='middle-area'>
-      <div className='middle-container'>
-        <Chat></Chat>
-      </div>
-    </div>
-  );
+	return (
+		<div className='middle-area'>
+			<div className='middle-container'>
+				<Chat></Chat>
+			</div>
+		</div>
+	);
 };
 
 export default MiddleLayout;

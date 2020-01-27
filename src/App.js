@@ -14,30 +14,30 @@ import OldDownloadMediaContextProvider from './context/MediaContext/OldDownloadM
 import OldUploadMediaContextProvider from './context/MediaContext/OldUploadMediaContext';
 
 const App = () => {
-  return (
-    <Fragment>
-      <SettingsContextProvider>
-        <UploadMediaContextProvider>
-          <DownloadMediaContextProvider>
-            <OldDownloadMediaContextProvider>
-              <OldUploadMediaContextProvider>
-                <MessageContextProvider>
-                  <SelectUserContextProvider>
-                    <DatabaseMessageContextProvider>
-                      <OnlineUserContextProvider>
-                        <MainLayout></MainLayout>
-                        <WriteToDatabase></WriteToDatabase>
-                      </OnlineUserContextProvider>
-                    </DatabaseMessageContextProvider>
-                  </SelectUserContextProvider>
-                </MessageContextProvider>
-              </OldUploadMediaContextProvider>
-            </OldDownloadMediaContextProvider>
-          </DownloadMediaContextProvider>
-        </UploadMediaContextProvider>
-      </SettingsContextProvider>
-    </Fragment>
-  );
+	return (
+		<Fragment>
+			<SettingsContextProvider>
+				<UploadMediaContextProvider>
+					<DownloadMediaContextProvider>
+						<OldDownloadMediaContextProvider>
+							<OldUploadMediaContextProvider>
+								<MessageContextProvider>
+									<SelectUserContextProvider>
+										<DatabaseMessageContextProvider>
+											<OnlineUserContextProvider>
+												<MainLayout></MainLayout>
+												<WriteToDatabase></WriteToDatabase>
+											</OnlineUserContextProvider>
+										</DatabaseMessageContextProvider>
+									</SelectUserContextProvider>
+								</MessageContextProvider>
+							</OldUploadMediaContextProvider>
+						</OldDownloadMediaContextProvider>
+					</DownloadMediaContextProvider>
+				</UploadMediaContextProvider>
+			</SettingsContextProvider>
+		</Fragment>
+	);
 };
 
 export default App;
