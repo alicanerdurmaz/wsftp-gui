@@ -23,7 +23,12 @@ const MainLayout = () => {
 	const startSearch = async searchTerm => {
 		setActiveRightScreen('search');
 		setSearchLoading(true);
-		const tempData = await searchFunction(searchTerm, setSearchLoading, selectedUser.userIdentity);
+		const tempData = await searchFunction(
+			messageHistory[selectedUser.userIdentity],
+			searchTerm,
+			setSearchLoading,
+			selectedUser.userIdentity
+		);
 		setSearchResult(tempData);
 	};
 

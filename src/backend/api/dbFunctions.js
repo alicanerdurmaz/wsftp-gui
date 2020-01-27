@@ -184,7 +184,7 @@ const getFromDataBaseSync = (name, dir, start, end) => {
 	}
 };
 
-const findFromDataBaseSync = (name, dir, key, value, up, below) => {
+const findFromDataBaseSync = (name, dir, keys, value) => {
 	dir = preProcess(dir);
 	let file = path.join(dir, name);
 	let exist = false;
@@ -201,43 +201,57 @@ const findFromDataBaseSync = (name, dir, key, value, up, below) => {
 			arr = JSON.parse(reader);
 		}
 		let mainObject = {};
-		let temp = [];
 		let count = 0;
 		for (var i = 0; i < arr.length; i++) {
-			if (arr[i][key] != null && arr[i][key] != undefined) {
-				let start = arr[i][key].toLowerCase().indexOf(value.toLowerCase());
-				if (start !== -1) {
-					if (i > 0) {
-						mainObject[i - 1] = arr[i - 1];
+			for (var j = 0; j < keys.length; j++) {
+				let currKey = keys[j];
+				if (arr[i][currKey] != null && arr[i][currKey] != undefined) {
+					let start = arr[i][currKey].toLowerCase().indexOf(value.toLowerCase());
+					if (start !== -1) {
+						if (i > 0) {
+							mainObject[i - 1] = arr[i - 1];
+							count++;
+						}
+						arr[i][currKey] = addSpan(arr[i][currKey], value, start);
+						mainObject[i] = arr[i];
 						count++;
-					}
-					arr[i][key] = addSpan(arr[i][key], value, start);
-					mainObject[i] = arr[i];
-					temp.push(i);
-					count++;
-					if (i < arr.length - 1) {
-						mainObject[i + 1] = arr[i + 1];
-						count++;
+						if (i < arr.length - 1) {
+							mainObject[i + 1] = arr[i + 1];
+							count++;
+						}
 					}
 				}
 			}
 		}
-		// cleaning
 		const finalArray = [];
-		let base = [];
-		const keys = Object.keys(mainObject);
-
-		for (var i = 0; i < keys.length; i++) {
-			finalArray.push(mainObject[keys[i]]);
-			for (var j = 0; j < temp.length; j++) {
-				if (temp[j] == keys[i]) {
-					base.push(i);
+		const objKeys = Object.keys(mainObject);
+		let tempArr = [];
+		for (var i = 0; i < objKeys.length; i++) {
+			if (objKeys.length - 1 === i) {
+				if (parseInt(objKeys[i]) - 1 === parseInt(objKeys[i - 1])) {
+					tempArr.push(mainObject[objKeys[i]]);
+				} else {
+					tempArr.push(mainObject[objKeys[i]]);
+					finalArray.push(tempArr);
+					tempArr = [];
+				}
+			} else {
+				if (parseInt(objKeys[i]) + 1 === parseInt(objKeys[i + 1])) {
+					tempArr.push(mainObject[objKeys[i]]);
+				} else {
+					tempArr.push(mainObject[objKeys[i]]);
+					finalArray.push(tempArr);
+					tempArr = [];
 				}
 			}
 		}
-		return { done: true, arr: finalArray, indices: base };
+		if (tempArr.length !== 0) {
+			finalArray.push(tempArr);
+		}
+
+		return { done: true, arr: finalArray };
 	}
-	return { done: false, arr: [], indices: [] };
+	return { done: false, arr: [] };
 };
 
 const addSpan = (str, value, index) => {

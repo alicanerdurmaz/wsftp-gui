@@ -6,7 +6,8 @@ import { STATUS_CHANGED, UPLOAD_MEDIA_STATUS_CHANGED, DOWNLOAD_MEDIA_STATUS_CHAN
 import { byteConverter } from '../../../Helpers/byteConverter';
 import { ReactComponent as FileIcon } from '../../../assets/svg/file-solid.svg';
 import { ReactComponent as BanIcon } from '../../../assets/svg/ban-solid.svg';
-import { ReactComponent as CheckIcon } from '../../../assets/svg/check-circle-solid.svg';
+import { ReactComponent as CheckCircleIcon } from '../../../assets/svg/check-circle-solid.svg';
+import { ReactComponent as CheckIcon } from '../../../assets/svg/check-solid.svg';
 import { ReactComponent as TimesIcon } from '../../../assets/svg/times-solid.svg';
 import { API_killTransaction, commanderSocket } from '../../../backend/api/webSocketConnection';
 import { SettingsContext } from '../../../context/SettingsContext';
@@ -82,7 +83,7 @@ const ChatFileMessage = ({
 		if (fileStatus === FILE_STATUS.waiting) {
 			return (
 				<div className='btn-group'>
-					<CheckIcon className='check-icon' onClick={() => setAccepted(true)}></CheckIcon>
+					<CheckCircleIcon className='check-icon' onClick={() => setAccepted(true)}></CheckCircleIcon>
 					<BanIcon className='ban-icon' onClick={() => setAccepted(false)}></BanIcon>
 				</div>
 			);

@@ -4,7 +4,7 @@ import { byteConverter } from '../../Helpers/byteConverter';
 import { ReactComponent as TimesIcon } from '../../assets/svg/times-solid.svg';
 
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
-import ChooseIcon from './ChooseIcon';
+import ChooseIcon from '../../Helpers/ChooseIcon';
 
 const { shell } = require('electron');
 

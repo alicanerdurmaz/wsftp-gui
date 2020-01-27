@@ -1,30 +1,22 @@
-import React, { useRef } from 'react';
+import React from 'react';
+
+import SearchListDb from './SearchListDb';
+import SearchListCache from './SearchListCache';
 
 const SearchLayout = ({ searchResult, setScrollPosition, setJumpToDb }) => {
-	const count = useRef(0);
-
-	function createMarkup(markup) {
-		return { __html: markup };
-	}
-	function checkIndicies(i) {
-		let founded = false;
-		searchResult.indices.forEach(e => {
-			if (e === i) {
-				founded = true;
-			}
-		});
-		return founded;
-	}
+	console.log(searchResult);
 	return (
-		<ul>
-			{searchResult.arr &&
-				searchResult.arr.map((e, i) => (
-					<li key={e.uuid} style={{ display: 'flex ' }}>
-						<div dangerouslySetInnerHTML={createMarkup(e.content)}></div>
-						{checkIndicies(i) ? <button onClick={el => setJumpToDb(e.uuid)}>jump</button> : null}
-					</li>
+		<div className='search-list'>
+			{searchResult.foundedFromCache &&
+				searchResult.foundedFromCache.map((e, i) => (
+					<SearchListCache key={i} list={e} setScrollPosition={setScrollPosition}></SearchListCache>
 				))}
-		</ul>
+
+			{searchResult.foundedFromDb &&
+				searchResult.foundedFromDb.map((e, i) => (
+					<SearchListDb key={i} list={e} setJumpToDb={setJumpToDb}></SearchListDb>
+				))}
+		</div>
 	);
 };
 
