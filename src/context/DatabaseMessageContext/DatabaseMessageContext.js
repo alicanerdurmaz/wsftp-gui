@@ -19,7 +19,7 @@ const DatabaseMessageContextProvider = props => {
 			const result = getFromDataBaseSync(`${key}.json`, findDbDirectory(), 0, 20);
 			data[key] = result.arr.reverse();
 		}
-		return {};
+		return data;
 	});
 
 	return (

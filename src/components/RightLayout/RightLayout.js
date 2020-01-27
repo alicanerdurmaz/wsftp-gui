@@ -1,9 +1,9 @@
 import React from 'react';
 import MediaHistoryLayout from './MediaHistoryLayout';
-import SearchLayout from './SearchLayout';
+import SearchLayout from './SearchLayout/SearchLayout';
 import Spinner from '../Spinner';
 
-const RightLayout = ({ activeRightScreen, searchLoading, searchResult, setScrollPosition }) => {
+const RightLayout = ({ activeRightScreen, searchLoading, searchResult, setScrollPosition, setJumpToDb }) => {
 	return (
 		<div className='right-area'>
 			<div className={`right-container ${activeRightScreen === 'media' ? '' : 'hidden'}`}>
@@ -13,7 +13,10 @@ const RightLayout = ({ activeRightScreen, searchLoading, searchResult, setScroll
 				{searchLoading ? (
 					<Spinner></Spinner>
 				) : (
-					<SearchLayout searchResult={searchResult} setScrollPosition={setScrollPosition}></SearchLayout>
+					<SearchLayout
+						searchResult={searchResult}
+						setScrollPosition={setScrollPosition}
+						setJumpToDb={setJumpToDb}></SearchLayout>
 				)}
 			</div>
 		</div>

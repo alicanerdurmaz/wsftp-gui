@@ -41,10 +41,10 @@ const MessageContextProvider = props => {
 	const [messageHistory, dispatch] = useReducer(messageReducer, [], () => {
 		let data = {};
 		for (let key in allUsersList) {
-			const result = getFromDataBaseSync(`${key}.json`, findDbDirectory(), 0, 0);
+			const result = getFromDataBaseSync(`new${key}.json`, findDbDirectory(), 0, 0);
 			data[key] = result.arr.reverse();
 		}
-		data['virtualmint:08:00:27:fc:3d:f2'].forEach((e, i) => (e.uuid = i));
+
 		return data;
 	});
 

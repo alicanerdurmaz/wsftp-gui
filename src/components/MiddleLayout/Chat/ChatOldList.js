@@ -54,7 +54,7 @@ const ChatOldList = ({ scrollDirection }) => {
 
 	const getNewerDataFromDb = () => {
 		if (!messageFromDatabase[selectedUser.userIdentity]) return;
-		const cursor = messageFromDatabase[selectedUser.userIdentity].length - 10;
+		let cursor = messageFromDatabase[selectedUser.userIdentity].length - 10;
 		const id = messageFromDatabase[selectedUser.userIdentity][cursor].uuid;
 		const result = getBlockFromDataBaseSync(
 			`${selectedUser.userIdentity}.json`,
@@ -80,6 +80,7 @@ const ChatOldList = ({ scrollDirection }) => {
 						if (message.contentType === 'text') {
 							return (
 								<ChatOldListTextMessage
+									id={message.uuid}
 									key={message.uuid}
 									content={message.content}
 									createdAt={message.createdAt}
@@ -88,6 +89,7 @@ const ChatOldList = ({ scrollDirection }) => {
 						} else if (message.contentType === 'file') {
 							return (
 								<ChatOldListFileMessage
+									id={message.uuid}
 									key={message.uuid}
 									fileStatus={message.fileStatus}
 									from={message.from}

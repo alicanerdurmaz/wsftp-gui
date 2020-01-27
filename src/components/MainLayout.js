@@ -18,10 +18,12 @@ const MainLayout = () => {
 	const [searchLoading, setSearchLoading] = useState(false);
 	const [searchResult, setSearchResult] = useState([]);
 	const [scrollPosition, setScrollPosition] = useState(false);
+	const [jumpToDb, setJumpToDb] = useState(false);
+
 	const startSearch = async searchTerm => {
 		setActiveRightScreen('search');
 		setSearchLoading(true);
-		const tempData = await searchFunction(messageHistory[selectedUser.userIdentity], searchTerm, setSearchLoading);
+		const tempData = await searchFunction(searchTerm, setSearchLoading, selectedUser.userIdentity);
 		setSearchResult(tempData);
 	};
 
@@ -32,9 +34,6 @@ const MainLayout = () => {
 	useEffect(() => {
 		setActiveRightScreen('media');
 	}, [selectedUser]);
-	useEffect(() => {
-		console.log(scrollPosition);
-	}, [scrollPosition]);
 
 	return (
 		<DragAndDropProvider>
@@ -42,12 +41,17 @@ const MainLayout = () => {
 			<LeftLayout openSettingsScreen={openSettingsScreen}></LeftLayout>
 			{selectedUser ? (
 				<Fragment>
-					<MiddleLayout startSearch={startSearch} scrollPosition={scrollPosition}></MiddleLayout>
+					<MiddleLayout
+						startSearch={startSearch}
+						scrollPosition={scrollPosition}
+						setJumpToDb={setJumpToDb}
+						jumpToDb={jumpToDb}></MiddleLayout>
 					<RightLayout
 						activeRightScreen={activeRightScreen}
 						searchLoading={searchLoading}
 						searchResult={searchResult}
-						setScrollPosition={setScrollPosition}></RightLayout>
+						setScrollPosition={setScrollPosition}
+						setJumpToDb={setJumpToDb}></RightLayout>
 				</Fragment>
 			) : (
 				<h1>SELECT USER FROM LEFT</h1>
