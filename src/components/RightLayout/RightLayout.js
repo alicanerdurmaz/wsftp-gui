@@ -12,7 +12,7 @@ const RightLayout = ({ activeRightScreen, searchLoading, searchResult, setScroll
 			{activeRightScreen === 'search' ? (
 				<div className={`right-search-container`}>
 					{searchLoading ? (
-						<Spinner></Spinner>
+						<Spinner message='Searching...'></Spinner>
 					) : (
 						<SearchLayout
 							searchResult={searchResult}

@@ -3,13 +3,18 @@ import { useSnackbar } from 'notistack';
 
 import { SelectUserContext } from '../context/SelectUserContext';
 import { API_SendFile } from '../backend/api/webSocketConnection';
+import Spinner from './Spinner';
 import uuid from 'uuid/v4';
 const DragAndDropProvider = props => {
 	const { enqueueSnackbar } = useSnackbar();
 	const { selectedUser } = useContext(SelectUserContext);
 	const [counter, setCounter] = useState(0);
 	const [showDnd, setShowDnd] = useState('');
+	const [loading, setLoading] = useState(false);
 
+	useEffect(() => {
+		console.log(loading);
+	}, [loading]);
 	useEffect(() => {
 		if (counter === 0 && showDnd) {
 			setShowDnd('');
@@ -49,15 +54,17 @@ const DragAndDropProvider = props => {
 		const data = await event.dataTransfer.files;
 		for (let i = 0; i < data.length; i++) {
 			if (data[i].type === '') {
-				console.log(data[i].type);
 				enqueueSnackbar(`no support for folder transaction`, { variant: 'error' });
 				setCounter(0);
 				return;
 			}
 		}
-		for (let i = 0; i < data.length; i++) {
-			API_SendFile(selectedUser.macAddress, data[i].path, uuid());
-		}
+
+		const fileDirArray = Object.values(data).map(e => e.path);
+		const idArray = fileDirArray.map(e => uuid());
+		setLoading(true);
+		await API_SendFile(selectedUser.macAddress, fileDirArray, idArray);
+		setLoading(false);
 		setCounter(0);
 	};
 
@@ -68,7 +75,9 @@ const DragAndDropProvider = props => {
 			onDragLeave={event => onDragLeaveHandler(event)}
 			onDragOver={event => onDragOverHandler(event)}
 			onDrop={event => onFileDropHandler(event)}>
-			<div className={`area-hidden ${showDnd}`}></div>
+			<div className={`area-hidden ${showDnd}`}>
+				{loading ? <Spinner message={'Loading...'}></Spinner> : null}
+			</div>
 			{props.children}
 		</div>
 	);

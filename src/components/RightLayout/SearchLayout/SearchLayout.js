@@ -4,7 +4,6 @@ import SearchListDb from './SearchListDb';
 import SearchListCache from './SearchListCache';
 
 const SearchLayout = ({ searchResult, setScrollPosition, setJumpToDb }) => {
-	console.log(searchResult);
 	return (
 		<div className='search-list'>
 			{searchResult.foundedFromCache &&

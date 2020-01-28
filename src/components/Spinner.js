@@ -2,11 +2,11 @@ import React from 'react';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-function Spinner() {
+function Spinner({ message }) {
 	return (
 		<div className='spinner'>
 			<CircularProgress color='secondary' />
-			<div>Searching...</div>
+			<div>{message}</div>
 		</div>
 	);
 }

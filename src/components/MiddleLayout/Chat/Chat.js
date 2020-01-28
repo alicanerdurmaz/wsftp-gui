@@ -11,6 +11,7 @@ import { MessageContext } from '../../../context/MessageContext/MessageContext';
 import { OnlineUserContext } from '../../../context/OnlineUserContext/OnlineUserContext';
 import { RESET_BY_NAME, GET_MSG_FROM_DB } from '../../../context/types';
 import findDbDirectory from '../../../Helpers/findDbDirectory';
+import Spinner from '../../Spinner';
 
 const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScreenToMedia }) => {
 	const { selectedUser } = useContext(SelectUserContext);
@@ -20,6 +21,7 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 	const { messageHistory, lastIncomingMessage } = useContext(MessageContext);
 
 	const [hidden, setHidden] = useState('hidden');
+	const [loading, setLoading] = useState(false);
 	let refScroller = useRef(false);
 
 	let scrollDirection = useRef(false);
@@ -128,6 +130,11 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 			<ChatHeader startSearch={startSearch} setActiveScreenToMedia={setActiveScreenToMedia}></ChatHeader>
 			<div className={`chat-read-container`} ref={e => (refScroller = e)}>
 				<ul className='chat-list' onWheel={e => handleWheel(e)}>
+					{loading ? (
+						<div className='list-loading'>
+							<Spinner message='loading...'></Spinner>
+						</div>
+					) : null}
 					<Fragment>
 						<ChatOldList scrollDirection={scrollDirection} jumpToDb={jumpToDb}></ChatOldList>
 						<ChatList setHidden={setHidden} jumpToBottom={jumpToBottom}></ChatList>
@@ -138,7 +145,7 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 				<span>Jump to Present</span>
 			</button>
 			<div className='chat-input-container'>
-				<ChatInput></ChatInput>
+				<ChatInput setLoading={setLoading}></ChatInput>
 			</div>
 			<Snackbar
 				style={{ top: '43px', left: '172px' }}

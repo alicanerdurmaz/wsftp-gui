@@ -23,7 +23,6 @@ import {
 	DOWNLOAD_MEDIA_STATUS_CHANGED
 } from '../types';
 
-import { playNotification } from '../../Helpers/playNotificationSound';
 import { SettingsContext } from '../SettingsContext';
 import { UploadMediaContext } from '../MediaContext/UploadMediaContext';
 import { DownloadMediaContext } from '../MediaContext/DownloadMediaContext';
@@ -61,7 +60,7 @@ const MessageContextProvider = props => {
 	};
 	msgSocket.onmessage = function(e) {
 		const dataToJson = JSON.parse(e.data);
-		console.log(dataToJson);
+
 		const userIdentity = dataToJson.username + ':' + dataToJson.mac;
 		isThisNewUser(userIdentity);
 		if (dataToJson.event === 'smsg') {
@@ -83,7 +82,7 @@ const MessageContextProvider = props => {
 		}
 		if (dataToJson.event === 'rmsg') {
 			lastIncomingMessage.current = userIdentity;
-			playNotification();
+
 			dispatch({
 				type: MESSAGE_ADDED,
 				payload: {
@@ -103,7 +102,7 @@ const MessageContextProvider = props => {
 
 	srScoket.onmessage = function(e) {
 		const dataToJson = JSON.parse(e.data);
-		console.log(dataToJson);
+
 		if (dataToJson.event === 'my') {
 			const temp = { ...settings };
 			temp.myInfo = dataToJson;
@@ -113,7 +112,7 @@ const MessageContextProvider = props => {
 		const userIdentity = dataToJson.username + ':' + dataToJson.mac;
 		if (dataToJson.event === 'rreq') {
 			lastIncomingMessage.current = userIdentity;
-			playNotification();
+
 			dispatch({
 				type: MESSAGE_ADDED,
 				payload: {
@@ -162,6 +161,7 @@ const MessageContextProvider = props => {
 		if (dataToJson.event === 'sreq') {
 			const userIdentity = dataToJson.username + ':' + dataToJson.mac;
 			lastIncomingMessage.current = false;
+
 			dispatch({
 				type: MESSAGE_ADDED,
 				payload: {
@@ -208,8 +208,6 @@ const MessageContextProvider = props => {
 			});
 		}
 		if (dataToJson.event === 'rrej') {
-			console.log(dataToJson);
-
 			dispatch({
 				type: STATUS_CHANGED,
 				payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
@@ -273,7 +271,6 @@ const MessageContextProvider = props => {
 			});
 		}
 		if (dataToJson.event === 'info') {
-			console.log(dataToJson);
 		}
 	};
 

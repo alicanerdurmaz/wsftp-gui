@@ -11,7 +11,6 @@ import {
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 
 export const downloadMediaReducer = (state, action) => {
-	console.log('DOWNLOAD REDUCER WORKED', action);
 	switch (action.type) {
 		case DOWNLOAD_MEDIA_USER_CREATED:
 			return { ...state, ['media:download:' + action.userIdentity]: [] };

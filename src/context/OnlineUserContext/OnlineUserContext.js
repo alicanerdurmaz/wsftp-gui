@@ -15,6 +15,7 @@ import { DatabaseMessageContext } from '../DatabaseMessageContext/DatabaseMessag
 import findDbDirectory from '../../Helpers/findDbDirectory';
 import { UploadMediaContext } from '../MediaContext/UploadMediaContext';
 import { DownloadMediaContext } from '../MediaContext/DownloadMediaContext';
+import { playNotification } from '../../Helpers/playNotificationSound';
 const { app } = require('electron').remote;
 
 const rawData = getObject('allUsersList.json', findDbDirectory());
@@ -90,6 +91,7 @@ const OnlineUserContextProvider = props => {
 		if (!userIdentity.current) return;
 		if (typeof userIdentity.current === 'undefined') return;
 
+		playNotification();
 		if (onlineUserList.hasOwnProperty(userIdentity.current)) {
 			const tempObject = { ...onlineUserList };
 			tempObject[userIdentity.current].notificationNumber++;

@@ -34,6 +34,7 @@ const ChatOldList = ({ scrollDirection }) => {
 
 	const getOlderDataFromDb = () => {
 		if (!messageFromDatabase[selectedUser.userIdentity]) return;
+		if (!messageFromDatabase[selectedUser.userIdentity][0]) return;
 		const id = messageFromDatabase[selectedUser.userIdentity][0].uuid;
 		const result = getBlockFromDataBaseSync(
 			`${selectedUser.userIdentity}.json`,
@@ -55,6 +56,9 @@ const ChatOldList = ({ scrollDirection }) => {
 	const getNewerDataFromDb = () => {
 		if (!messageFromDatabase[selectedUser.userIdentity]) return;
 		let cursor = messageFromDatabase[selectedUser.userIdentity].length - 10;
+
+		if (!messageFromDatabase[selectedUser.userIdentity][cursor]) return;
+
 		const id = messageFromDatabase[selectedUser.userIdentity][cursor].uuid;
 		const result = getBlockFromDataBaseSync(
 			`${selectedUser.userIdentity}.json`,
