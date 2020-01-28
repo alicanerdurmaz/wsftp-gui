@@ -11,7 +11,7 @@ const ChatTextMessage = ({ content, sender, createdAt, uuid }) => {
 				<span className='message-p'>{content}</span>
 			</div>
 			<span className={`message-createdAt ${user}`}>
-				<span className='createdAt-p'>● {createdAt}</span>
+				<span className='createdAt-p'>{createdAt[4]}</span>
 			</span>
 		</li>
 	);

@@ -17,8 +17,16 @@ const DatabaseMessageContextProvider = props => {
 		let data = {};
 		for (let key in allUsersList) {
 			const result = getFromDataBaseSync(`${key}.json`, findDbDirectory(), 0, 20);
+
+			result.arr.push({
+				from: '*MYPC*',
+				content: 'Load More',
+				contentType: 'text',
+				uuid: 'loadmoreolder'
+			});
 			data[key] = result.arr.reverse();
 		}
+
 		return data;
 	});
 

@@ -89,8 +89,8 @@
 }
 
 .search-layout-file-icon {
-	width: 12px;
-	height: 16px;
+	min-width: 12px;
+	min-height: 16px;
 	margin: 0px 4px;
 }
 .search-list-filename {
@@ -98,8 +98,6 @@
 	&.user {
 		padding-bottom: 3px;
 		border-color: $blue;
-	}
-	&.other {
 	}
 }
 .waiting-icon-search {

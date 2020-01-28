@@ -6,15 +6,10 @@ import { ReactComponent as WaitingIcon } from '../../../assets/svg/clock-regular
 import FILE_STATUS from '../../../config/CONFIG_FILE_STATUS';
 
 const fileStatusIcon = fileStatus => {
-	if (fileStatus === FILE_STATUS.waiting || fileStatus === FILE_STATUS.loading) {
-		return <WaitingIcon className='waiting-icon-search'></WaitingIcon>;
-	}
-	if (fileStatus === FILE_STATUS.rejected) {
-		return <TimesIcon className='times-icon-search'></TimesIcon>;
-	}
-
 	if (fileStatus === FILE_STATUS.sent) {
 		return <CheckIcon className='check-icon-search'></CheckIcon>;
+	} else {
+		return <TimesIcon className='times-icon-search'></TimesIcon>;
 	}
 };
 

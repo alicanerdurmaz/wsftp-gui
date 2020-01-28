@@ -37,15 +37,7 @@ try {
 
 export const MessageContext = createContext();
 const MessageContextProvider = props => {
-	const [messageHistory, dispatch] = useReducer(messageReducer, [], () => {
-		let data = {};
-		for (let key in allUsersList) {
-			const result = getFromDataBaseSync(`new${key}.json`, findDbDirectory(), 0, 0);
-			data[key] = result.arr.reverse();
-		}
-
-		return data;
-	});
+	const [messageHistory, dispatch] = useReducer(messageReducer, {});
 
 	const { settings, setSettings } = useContext(SettingsContext);
 	const { dispatchUploadMediaContext } = useContext(UploadMediaContext);

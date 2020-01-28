@@ -6,7 +6,7 @@ import { DatabaseMessageContext } from '../../../context/DatabaseMessageContext/
 import { GET_MSG_FROM_DB } from '../../../context/types';
 import useOnScreen from '../../hooks/useOnScreen';
 import findDbDirectory from '../../../Helpers/findDbDirectory';
-import { getFromDataBaseSync, getBlockFromDataBaseSync } from '../../../backend/api/dbFunctions';
+import { getBlockFromDataBaseSync } from '../../../backend/api/dbFunctions';
 
 const ChatOldList = ({ scrollDirection }) => {
 	const { selectedUser } = useContext(SelectUserContext);
@@ -15,8 +15,8 @@ const ChatOldList = ({ scrollDirection }) => {
 	const refOldListTop = useRef(false);
 	const refOldListBottom = useRef(false);
 
-	const isTopOnScreen = useOnScreen(refOldListTop);
 	const isBottomOnScreen = useOnScreen(refOldListBottom);
+	const isTopOnScreen = useOnScreen(refOldListTop);
 
 	useEffect(() => {
 		if (!isTopOnScreen) return;

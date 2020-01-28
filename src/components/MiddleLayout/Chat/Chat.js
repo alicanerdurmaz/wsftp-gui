@@ -22,8 +22,8 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 
 	const [hidden, setHidden] = useState('hidden');
 	const [loading, setLoading] = useState(false);
-	let refScroller = useRef(false);
 
+	let refScroller = useRef(false);
 	let scrollDirection = useRef(false);
 
 	const [snackbarOptions, setsnackbarOptions] = useState({

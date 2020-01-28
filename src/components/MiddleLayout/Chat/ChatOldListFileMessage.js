@@ -4,7 +4,7 @@ import FILE_STATUS from '../../../config/CONFIG_FILE_STATUS';
 
 import { byteConverter } from '../../../Helpers/byteConverter';
 import { ReactComponent as FileIcon } from '../../../assets/svg/file-solid.svg';
-import { ReactComponent as CheckIcon } from '../../../assets/svg/check-circle-solid.svg';
+import { ReactComponent as CheckIcon } from '../../../assets/svg/check-solid.svg';
 import { ReactComponent as TimesIcon } from '../../../assets/svg/times-solid.svg';
 
 const ChatOldListFileMessage = ({ fileStatus, from, createdAt, fileSize, fileName, id }) => {
@@ -36,7 +36,7 @@ const ChatOldListFileMessage = ({ fileStatus, from, createdAt, fileSize, fileNam
 			</li>
 			<li className='li-date'>
 				<span className={`file-message-createdAt ${tempFrom}`}>
-					<span className='createdAt-f'>{createdAt}</span>
+					<span className='createdAt-f'>{createdAt && createdAt[4]}</span>
 				</span>
 			</li>
 		</Fragment>

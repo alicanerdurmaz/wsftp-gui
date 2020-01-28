@@ -1,60 +1,71 @@
 .message-container {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
+	margin: 8px 0px;
+	padding: 8px;
+	display: flex;
+	min-width: auto;
+	max-width: 50%;
+	flex-direction: column;
+	background: #32353a;
+	border-radius: 8px;
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	&.user {
+		border-right: 2px solid $green;
+		margin-left: auto;
+		border-top-right-radius: 0px;
+		border-bottom-right-radius: 0px;
+		.message-p {
+			float: right;
+			text-align: right;
+		}
+	}
 
-  &.user {
-    border-right: 2px solid $green;
-    .message-p {
-      float: right;
-      text-align: right;
-    }
-  }
-  &.other {
-    border-left: 2px solid $blue;
-
-    .message-p {
-      float: left;
-    }
-  }
-  &.info {
-    cursor: pointer;
-    padding: 0px;
-    text-align: center;
-    font-weight: bolder;
-    .createdAt-p {
-      display: none;
-    }
-    .message-p {
-      color: $blue;
-    }
-  }
+	&.other {
+		border-left: 2px solid $blue;
+		margin-right: auto;
+		border-top-left-radius: 0px;
+		border-bottom-left-radius: 0px;
+		.message-p {
+			float: left;
+		}
+	}
+	&.info {
+		cursor: pointer;
+		padding: 0px;
+		text-align: center;
+		font-weight: bolder;
+		.createdAt-p {
+			display: none;
+		}
+		.message-p {
+			color: $blue;
+		}
+	}
 }
 .message-content {
-  color: $blueGray;
-  margin-bottom: 4px;
-  padding: 2px;
-  width: 100%;
-  height: auto;
+	color: $blueGray;
+	margin-bottom: 4px;
+	padding: 2px;
+	width: 100%;
+	height: auto;
 }
 .message-p {
-  width: 70%;
-  white-space: pre-wrap;
-  height: auto;
+	white-space: pre-wrap;
+	height: auto;
 }
 .message-createdAt {
-  font-size: 12px;
-  position: sticky;
-  color: $blueGray-darken;
+	font-size: 12px;
+	position: sticky;
+	color: #9ea7aa93;
 
-  &.user {
-    .createdAt-p {
-      float: right;
-    }
-  }
-  &.other {
-    .createdAt-p {
-      float: left;
-    }
-  }
+	&.user {
+		.createdAt-p {
+			float: right;
+		}
+	}
+	&.other {
+		.createdAt-p {
+			float: left;
+			margin-left: 3px;
+		}
+	}
 }

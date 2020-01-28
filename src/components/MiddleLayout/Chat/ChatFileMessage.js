@@ -131,7 +131,7 @@ const ChatFileMessage = ({
 			</li>
 			<li className='li-date'>
 				<span className={`file-message-createdAt ${tempFrom}`}>
-					<span className='createdAt-f'>{createdAt}</span>
+					<span className='createdAt-f'>{createdAt[4]}</span>
 				</span>
 			</li>
 		</Fragment>

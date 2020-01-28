@@ -13,9 +13,6 @@ const DragAndDropProvider = props => {
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		console.log(loading);
-	}, [loading]);
-	useEffect(() => {
 		if (counter === 0 && showDnd) {
 			setShowDnd('');
 		}
