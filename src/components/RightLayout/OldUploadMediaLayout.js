@@ -13,7 +13,7 @@ const OldUploadMediaLayout = () => {
 
 	useEffect(() => {
 		if (!onScreen) return;
-		dispatchOldUploadMediaContext({ type: UPLOAD_MEDIA_GET_MSG_FROM_DB, userIdentity: selectedUser.userIdentity });
+		// dispatchOldUploadMediaContext({ type: UPLOAD_MEDIA_GET_MSG_FROM_DB, userIdentity: selectedUser.userIdentity });
 	}, [onScreen]);
 
 	return (

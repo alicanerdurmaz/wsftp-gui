@@ -16,13 +16,12 @@ const OldUploadMediaContextProvider = props => {
 	const [oldUploadMediaList, dispatchOldUploadMediaContext] = useReducer(oldUploadMediaReducer, [], () => {
 		let data = {};
 		for (let key in allUsersList) {
-			const result = getFromDataBaseSync(`media:upload:${key}.json`, findDbDirectory(), 0, 20);
+			const result = getFromDataBaseSync(`media:upload:${key}.json`, findDbDirectory(), 0, 0);
 			data['media:upload:' + key] = result.arr.reverse();
 		}
 		return data;
 	});
 
-	useEffect(() => {}, [oldUploadMediaList]);
 	return (
 		<OldUploadMediaContext.Provider value={{ oldUploadMediaList, dispatchOldUploadMediaContext }}>
 			{props.children}

@@ -14,10 +14,10 @@ const OldDownloadMediaLayout = () => {
 
 	useEffect(() => {
 		if (!onScreen) return;
-		dispatchOldDownloadMediaContext({
-			type: DOWNLOAD_MEDIA_GET_MSG_FROM_DB,
-			userIdentity: selectedUser.userIdentity
-		});
+		// dispatchOldDownloadMediaContext({
+		// 	type: DOWNLOAD_MEDIA_GET_MSG_FROM_DB,
+		// 	userIdentity: selectedUser.userIdentity
+		// });
 	}, [onScreen]);
 
 	return (

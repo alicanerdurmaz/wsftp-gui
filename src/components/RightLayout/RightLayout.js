@@ -9,16 +9,18 @@ const RightLayout = ({ activeRightScreen, searchLoading, searchResult, setScroll
 			<div className={`right-container ${activeRightScreen === 'media' ? '' : 'hidden'}`}>
 				<MediaHistoryLayout></MediaHistoryLayout>
 			</div>
-			<div className={`right-search-container ${activeRightScreen === 'search' ? '' : 'hidden'}`}>
-				{searchLoading ? (
-					<Spinner></Spinner>
-				) : (
-					<SearchLayout
-						searchResult={searchResult}
-						setScrollPosition={setScrollPosition}
-						setJumpToDb={setJumpToDb}></SearchLayout>
-				)}
-			</div>
+			{activeRightScreen === 'search' ? (
+				<div className={`right-search-container`}>
+					{searchLoading ? (
+						<Spinner></Spinner>
+					) : (
+						<SearchLayout
+							searchResult={searchResult}
+							setScrollPosition={setScrollPosition}
+							setJumpToDb={setJumpToDb}></SearchLayout>
+					)}
+				</div>
+			) : null}
 		</div>
 	);
 };

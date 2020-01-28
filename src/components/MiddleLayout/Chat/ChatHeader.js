@@ -1,9 +1,16 @@
-import React, { useContext, Fragment, useState } from 'react';
+import React, { useContext, Fragment, useState, useRef } from 'react';
 import { SelectUserContext } from '../../../context/SelectUserContext';
+import { ReactComponent as AngleRight } from '../../../assets/svg/angle-right.svg';
+import { ReactComponent as AngleLeft } from '../../../assets/svg/angle-left.svg';
+import { ReactComponent as TimesIcon } from '../../../assets/svg/times-solid.svg';
 
-const ChatHeader = ({ startSearch }) => {
+const ChatHeader = ({ startSearch, setActiveScreenToMedia }) => {
+	const root = useRef(document.documentElement);
+	const searchInput = useRef(false);
 	const { selectedUser } = useContext(SelectUserContext);
 	const [error, setError] = useState(false);
+	const [isMediaOpen, setIsMediaOpen] = useState(true);
+	const [isSearchOpen, setIsSearchOpen] = useState(false);
 
 	const handleKeyEvents = e => {
 		if (e.key === 'Enter') {
@@ -16,9 +23,20 @@ const ChatHeader = ({ startSearch }) => {
 			} else {
 				startSearch(e.target.value);
 			}
+			setIsSearchOpen(true);
 		}
 	};
+	const handleRightLayout = () => {
+		if (isMediaOpen) root.current.style.setProperty('--media-px', 0 + 'px');
+		else root.current.style.setProperty('--media-px', 300 + 'px');
+		setIsMediaOpen(!isMediaOpen);
+	};
 
+	const closeSearch = () => {
+		setActiveScreenToMedia('media');
+		setIsSearchOpen(false);
+		searchInput.current.value = '';
+	};
 	return (
 		<div className='chat-header-container'>
 			<div className='chat-header-area'>
@@ -34,6 +52,7 @@ const ChatHeader = ({ startSearch }) => {
 						<div className='divider'></div>
 
 						<input
+							ref={searchInput}
 							type='text'
 							className='search-message'
 							placeholder='Search a message'
@@ -43,6 +62,18 @@ const ChatHeader = ({ startSearch }) => {
 						<span className={`error-text ${error ? '' : 'hidden'}`}>
 							Please lengthen this text to 3 or more
 						</span>
+						<div className='btn-open-media-container'>
+							{isMediaOpen ? (
+								<AngleRight className='btn-open-media' onClick={handleRightLayout}></AngleRight>
+							) : (
+								<AngleLeft className='btn-open-media' onClick={handleRightLayout}></AngleLeft>
+							)}
+						</div>
+						{isSearchOpen ? (
+							<div className='btn-close-search-container' onClick={closeSearch}>
+								<TimesIcon className='btn-close-search'></TimesIcon>
+							</div>
+						) : null}
 					</Fragment>
 				) : null}
 			</div>

@@ -37,8 +37,12 @@ const MainLayout = () => {
 	};
 
 	useEffect(() => {
-		setActiveRightScreen('media');
+		setActiveScreenToMedia();
 	}, [selectedUser]);
+
+	const setActiveScreenToMedia = () => {
+		setActiveRightScreen('media');
+	};
 
 	return (
 		<DragAndDropProvider>
@@ -50,7 +54,8 @@ const MainLayout = () => {
 						startSearch={startSearch}
 						scrollPosition={scrollPosition}
 						setJumpToDb={setJumpToDb}
-						jumpToDb={jumpToDb}></MiddleLayout>
+						jumpToDb={jumpToDb}
+						setActiveScreenToMedia={setActiveScreenToMedia}></MiddleLayout>
 					<RightLayout
 						activeRightScreen={activeRightScreen}
 						searchLoading={searchLoading}

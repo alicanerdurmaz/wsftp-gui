@@ -16,13 +16,11 @@ const OldDownloadMediaContextProvider = props => {
 	const [oldDownloadMediaList, dispatchOldDownloadMediaContext] = useReducer(oldDownloadMediaReducer, [], () => {
 		let data = {};
 		for (let key in allUsersList) {
-			const result = getFromDataBaseSync(`media:download:${key}.json`, findDbDirectory(), 0, 20);
+			const result = getFromDataBaseSync(`media:download:${key}.json`, findDbDirectory(), 0, 0);
 			data['media:download:' + key] = result.arr.reverse();
 		}
 		return data;
 	});
-
-	useEffect(() => {}, [oldDownloadMediaList]);
 
 	return (
 		<OldDownloadMediaContext.Provider value={{ oldDownloadMediaList, dispatchOldDownloadMediaContext }}>

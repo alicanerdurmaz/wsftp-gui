@@ -67,3 +67,29 @@
 	color: $blueGray;
 	border: 1px solid black;
 }
+
+.btn-open-media-container {
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	margin-right: 4px;
+}
+.btn-open-media {
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	fill: $blueGray;
+}
+
+.btn-close-search-container {
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	margin-right: 4px;
+}
+.btn-close-search {
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	fill: $red;
+}

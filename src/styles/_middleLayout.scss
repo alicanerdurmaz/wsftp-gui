@@ -1,71 +1,68 @@
 @import 'dndarea';
 
-:root {
-  --input-px: 49px;
-}
 .middle-area {
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-  grid-area: middlearea;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	grid-area: middlearea;
 }
 .middle-container {
-  background-color: $secondarycolor;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-rows: 1fr 22fr var(--input-px);
-  grid-template-areas:
-    'chatheader'
-    'chatread'
-    'chatinput';
+	background-color: $secondarycolor;
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-rows: 1fr 22fr var(--input-px);
+	grid-template-areas:
+		'chatheader'
+		'chatread'
+		'chatinput';
 }
 .chat-header-container {
-  grid-area: chatheader;
-  width: 100%;
-  height: 100%;
-  border-bottom: 1px solid $primarycolor;
+	grid-area: chatheader;
+	width: 100%;
+	height: 100%;
+	border-bottom: 1px solid $primarycolor;
 }
 .chat-read-container {
-  grid-area: chatread;
-  padding: 8px;
-  overflow: auto;
-  border-top: 4px solid $border-color;
-  border-bottom: 4px solid $border-color;
+	grid-area: chatread;
+	padding: 8px;
+	overflow: auto;
+	border-top: 4px solid $border-color;
+	border-bottom: 4px solid $border-color;
 }
 .chat-input-container {
-  grid-area: chatinput;
-  width: 100%;
+	grid-area: chatinput;
+	width: 100%;
 }
 .chat-list {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 .btn-jumpToPresent {
-  position: absolute;
-  bottom: 40px;
-  right: 330px;
+	position: absolute;
+	bottom: 40px;
+	right: 330px;
 
-  margin: 30px auto;
-  padding: 0;
-  overflow: hidden;
-  border-width: 0;
-  outline: none;
-  border-radius: 2px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-  background-color: $primarycolor;
-  color: #ecf0f1;
-  transition: background-color 0.3s;
-  &:hover,
-  &:focus {
-    background-color: $primarycolor-light;
-  }
-  & > * {
-    position: relative;
-  }
-  & > span {
-    display: block;
-    padding: 6px 12px;
-  }
+	margin: 30px auto;
+	padding: 0;
+	overflow: hidden;
+	border-width: 0;
+	outline: none;
+	border-radius: 2px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+	background-color: $primarycolor;
+	color: #ecf0f1;
+	transition: background-color 0.3s;
+	&:hover,
+	&:focus {
+		background-color: $primarycolor-light;
+	}
+	& > * {
+		position: relative;
+	}
+	& > span {
+		display: block;
+		padding: 6px 12px;
+	}
 }

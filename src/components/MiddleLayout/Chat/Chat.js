@@ -12,7 +12,7 @@ import { OnlineUserContext } from '../../../context/OnlineUserContext/OnlineUser
 import { RESET_BY_NAME, GET_MSG_FROM_DB } from '../../../context/types';
 import findDbDirectory from '../../../Helpers/findDbDirectory';
 
-const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb }) => {
+const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScreenToMedia }) => {
 	const { selectedUser } = useContext(SelectUserContext);
 	const { onlineUserList } = useContext(OnlineUserContext);
 	const { resetNotificationNumber, incrementNotificationNumber } = useContext(OnlineUserContext);
@@ -125,16 +125,11 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb }) => {
 
 	return (
 		<Fragment>
-			<ChatHeader startSearch={startSearch}></ChatHeader>
+			<ChatHeader startSearch={startSearch} setActiveScreenToMedia={setActiveScreenToMedia}></ChatHeader>
 			<div className={`chat-read-container`} ref={e => (refScroller = e)}>
 				<ul className='chat-list' onWheel={e => handleWheel(e)}>
 					<Fragment>
 						<ChatOldList scrollDirection={scrollDirection} jumpToDb={jumpToDb}></ChatOldList>
-						<hr></hr>
-						<hr></hr>
-						<hr></hr>
-						<hr></hr>
-						<hr></hr>
 						<ChatList setHidden={setHidden} jumpToBottom={jumpToBottom}></ChatList>
 					</Fragment>
 				</ul>

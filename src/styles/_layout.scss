@@ -1,32 +1,33 @@
 @import './colors';
 
 .main-container {
-  display: grid;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  grid-template-columns: 150px 1fr 300px;
-  grid-template-areas: 'leftarea middlearea rightarea';
-  column-gap: 4px;
-  row-gap: 8px;
-  background: #141618;
+	display: grid;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	grid-template-columns: 150px 1fr var(--media-px);
+	grid-template-areas: 'leftarea middlearea rightarea';
+	column-gap: 4px;
+	row-gap: 8px;
+	background: #141618;
+	transition: all ease-in-out 1ms;
 }
 
 .left-area {
-  grid-area: leftarea;
-  height: 100%;
-  width: 150px;
-  overflow: auto;
-  background-color: $primarycolor;
-  border-bottom: 1px solid $border-color;
-  display: grid;
-  grid-template-rows: 1fr 53px;
-  overflow-x: hidden;
+	grid-area: leftarea;
+	height: 100%;
+	width: 150px;
+	overflow: auto;
+	background-color: $primarycolor;
+	border-bottom: 1px solid $border-color;
+	display: grid;
+	grid-template-rows: 1fr 53px;
+	overflow-x: hidden;
 }
 
 .right-area {
-  grid-area: rightarea;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
+	grid-area: rightarea;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
 }
