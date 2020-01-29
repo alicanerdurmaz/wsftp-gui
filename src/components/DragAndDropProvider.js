@@ -10,7 +10,6 @@ const DragAndDropProvider = props => {
 	const { selectedUser } = useContext(SelectUserContext);
 	const [counter, setCounter] = useState(0);
 	const [showDnd, setShowDnd] = useState('');
-	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		if (counter === 0 && showDnd) {
@@ -59,9 +58,9 @@ const DragAndDropProvider = props => {
 
 		const fileDirArray = Object.values(data).map(e => e.path);
 		const idArray = fileDirArray.map(e => uuid());
-		setLoading(true);
-		await API_SendFile(selectedUser.macAddress, fileDirArray, idArray);
-		setLoading(false);
+
+		API_SendFile(selectedUser.macAddress, fileDirArray, idArray);
+
 		setCounter(0);
 	};
 
@@ -72,9 +71,7 @@ const DragAndDropProvider = props => {
 			onDragLeave={event => onDragLeaveHandler(event)}
 			onDragOver={event => onDragOverHandler(event)}
 			onDrop={event => onFileDropHandler(event)}>
-			<div className={`area-hidden ${showDnd}`}>
-				{loading ? <Spinner message={'Loading...'}></Spinner> : null}
-			</div>
+			<div className={`area-hidden ${showDnd}`}></div>
 			{props.children}
 		</div>
 	);

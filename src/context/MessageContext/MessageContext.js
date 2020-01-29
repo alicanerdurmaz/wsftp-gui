@@ -20,7 +20,8 @@ import {
 	DOWNLOAD_MEDIA_PROGRESS_CHANGED,
 	DOWNLOAD_MEDIA_PROGRESS_DONE,
 	DOWNLOAD_MEDIA_PROGRESS_FAIL,
-	DOWNLOAD_MEDIA_STATUS_CHANGED
+	DOWNLOAD_MEDIA_STATUS_CHANGED,
+	UPLOAD_MEDIA_STATUS_CHANGED
 } from '../types';
 
 import { SettingsContext } from '../SettingsContext';
@@ -206,6 +207,10 @@ const MessageContextProvider = props => {
 			});
 			dispatchDownloadMediaContext({
 				type: DOWNLOAD_MEDIA_STATUS_CHANGED,
+				payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
+			});
+			dispatchUploadMediaContext({
+				type: UPLOAD_MEDIA_STATUS_CHANGED,
 				payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
 			});
 		}

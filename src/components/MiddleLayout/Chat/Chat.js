@@ -21,7 +21,6 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 	const { messageHistory, lastIncomingMessage } = useContext(MessageContext);
 
 	const [hidden, setHidden] = useState('hidden');
-	const [loading, setLoading] = useState(false);
 
 	let refScroller = useRef(false);
 	const [scrollDirection, setScrollDirection] = useState(false);
@@ -73,9 +72,7 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 	const closeSnackbar = () => {
 		setsnackbarOptions({ ...snackbarOptions, open: false });
 	};
-	const handleWheel = e => {
-		setScrollDirection(e.deltaY);
-	};
+
 	useEffect(() => {
 		if (!scrollPosition) return;
 
@@ -125,16 +122,21 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 		}, 500);
 	}, [messageFromDatabase]);
 
+	const handleWheel = e => {
+		setScrollDirection(e.deltaY);
+	};
+	const handleKeyDown = e => {
+		if (e.keyCode === 38) {
+			setScrollDirection(-10);
+		} else if (e.keyCode === 40) {
+			setScrollDirection(10);
+		}
+	};
 	return (
 		<Fragment>
 			<ChatHeader startSearch={startSearch} setActiveScreenToMedia={setActiveScreenToMedia}></ChatHeader>
 			<div className={`chat-read-container`} ref={e => (refScroller = e)}>
-				<ul className='chat-list' onWheel={e => handleWheel(e)}>
-					{loading ? (
-						<div className='list-loading'>
-							<Spinner message='loading...'></Spinner>
-						</div>
-					) : null}
+				<ul className='chat-list' onWheel={e => handleWheel(e)} onKeyDown={e => handleKeyDown(e)} tabIndex='0'>
 					<Fragment>
 						<ChatOldList scrollDirection={scrollDirection} jumpToDb={jumpToDb}></ChatOldList>
 						<ChatList setHidden={setHidden} jumpToBottom={jumpToBottom}></ChatList>
@@ -145,7 +147,7 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 				<span>Jump to Present</span>
 			</button>
 			<div className='chat-input-container'>
-				<ChatInput setLoading={setLoading}></ChatInput>
+				<ChatInput></ChatInput>
 			</div>
 			<Snackbar
 				style={{ top: '43px', left: '172px' }}

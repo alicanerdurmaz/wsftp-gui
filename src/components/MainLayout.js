@@ -7,7 +7,7 @@ import Settings from './SettingsLayout/Settings';
 import { SelectUserContext } from '../context/SelectUserContext';
 import DragAndDropProvider from './DragAndDropProvider';
 import { MessageContext } from '../context/MessageContext/MessageContext';
-import { searchFunction } from '../Helpers/searchFunction';
+import { searchFromMessageContext } from '../Helpers/searchFrom';
 
 const MainLayout = () => {
 	const { selectedUser } = useContext(SelectUserContext);
@@ -20,10 +20,10 @@ const MainLayout = () => {
 	const [scrollPosition, setScrollPosition] = useState(false);
 	const [jumpToDb, setJumpToDb] = useState(false);
 
-	const startSearch = async searchTerm => {
+	const startSearch = searchTerm => {
 		setActiveRightScreen('search');
 		setSearchLoading(true);
-		const tempData = await searchFunction(
+		const tempData = searchFromMessageContext(
 			messageHistory[selectedUser.userIdentity],
 			searchTerm,
 			setSearchLoading,

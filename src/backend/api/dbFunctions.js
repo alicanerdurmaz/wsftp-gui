@@ -205,7 +205,7 @@ const findFromDataBaseSync = (name, dir, keys, value) => {
 		for (var i = 0; i < arr.length; i++) {
 			for (var j = 0; j < keys.length; j++) {
 				let currKey = keys[j];
-				if (arr[i][currKey] != null && arr[i][currKey] != undefined) {
+				if (typeof arr[i][currKey] === 'string' && arr[i][currKey] !== null) {
 					let start = arr[i][currKey].toLowerCase().indexOf(value.toLowerCase());
 					if (start !== -1) {
 						if (i > 0) {

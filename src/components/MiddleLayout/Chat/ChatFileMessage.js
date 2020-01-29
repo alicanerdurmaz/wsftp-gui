@@ -1,5 +1,5 @@
 import React, { useContext, Fragment, useState } from 'react';
-
+import Tooltip from '@material-ui/core/Tooltip';
 import FILE_STATUS from '../../../config/CONFIG_FILE_STATUS';
 import { MessageContext } from '../../../context/MessageContext/MessageContext';
 import { STATUS_CHANGED, UPLOAD_MEDIA_STATUS_CHANGED, DOWNLOAD_MEDIA_STATUS_CHANGED } from '../../../context/types';
@@ -105,7 +105,11 @@ const ChatFileMessage = ({
 			return <CheckIcon className='check-icon'></CheckIcon>;
 		}
 	};
-
+	const createdAtToText = () => {
+		if (!createdAt) return '';
+		let text = `${createdAt[0]} ${createdAt[1]} ${createdAt[2]} , ${createdAt[3]} - ${createdAt[4]}`;
+		return text;
+	};
 	return (
 		<Fragment>
 			<li
@@ -131,7 +135,9 @@ const ChatFileMessage = ({
 			</li>
 			<li className='li-date'>
 				<span className={`file-message-createdAt ${tempFrom}`}>
-					<span className='createdAt-f'>{createdAt[4]}</span>
+					<Tooltip title={createdAtToText()} placement='bottom' interactive>
+						<span className='createdAt-f'>{createdAt && createdAt[4]}</span>
+					</Tooltip>
 				</span>
 			</li>
 		</Fragment>

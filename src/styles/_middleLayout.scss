@@ -37,6 +37,9 @@
 .chat-list {
 	display: flex;
 	flex-direction: column;
+	&:focus {
+		outline: none;
+	}
 }
 
 .btn-jumpToPresent {

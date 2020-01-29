@@ -2,18 +2,12 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 
 import { byteConverter } from '../../Helpers/byteConverter';
 import { ReactComponent as TimesIcon } from '../../assets/svg/times-solid.svg';
-import {
-	UPLOAD_MEDIA_GET_MSG_FROM_DB,
-	DOWNLOAD_MEDIA_GET_MSG_FROM_DB,
-	DOWNLOAD_MEDIA_RESET_BY_NAME,
-	UPLOAD_MEDIA_RESET_BY_NAME
-} from '../../context/types';
+import { UPLOAD_MEDIA_GET_MSG_FROM_DB } from '../../context/types';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import ChooseIcon from '../../Helpers/ChooseIcon';
 import useOnScreen from '../hooks/useOnScreen';
 import { OldUploadMediaContext } from '../../context/MediaContext/OldUploadMediaContext';
 import { SelectUserContext } from '../../context/SelectUserContext';
-import { OldDownloadMediaContext } from '../../context/MediaContext/OldDownloadMediaContext';
 
 const { shell } = require('electron');
 

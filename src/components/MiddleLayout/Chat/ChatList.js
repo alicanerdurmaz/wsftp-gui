@@ -4,12 +4,10 @@ import ChatFileMessage from './ChatFileMessage';
 import { SelectUserContext } from '../../../context/SelectUserContext';
 import { MessageContext } from '../../../context/MessageContext/MessageContext';
 import useOnScreen from '../../hooks/useOnScreen';
-import { OnlineUserContext } from '../../../context/OnlineUserContext/OnlineUserContext';
 
 const ChatList = ({ setHidden, jumpToBottom }) => {
 	const { selectedUser } = useContext(SelectUserContext);
-	const { onlineUserList } = useContext(OnlineUserContext);
-	const { messageHistory, lastIncomingMessage } = useContext(MessageContext);
+	const { messageHistory } = useContext(MessageContext);
 	const refListStart = useRef(null);
 	const onScreen = useOnScreen(refListStart);
 

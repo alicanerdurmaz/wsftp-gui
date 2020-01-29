@@ -13,6 +13,11 @@ const ChatHeader = ({ startSearch, setActiveScreenToMedia }) => {
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 
 	const handleKeyEvents = e => {
+		if (e.keyCode === 27) {
+			setActiveScreenToMedia('media');
+			setIsSearchOpen(false);
+			searchInput.current.value = '';
+		}
 		if (e.key === 'Enter') {
 			if (e.target.value.length < 3) {
 				setError(true);

@@ -1,6 +1,6 @@
 import React from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
-import Zoom from '@material-ui/core/Zoom';
+
 const ChatOldListTextMessage = ({ content, sender, createdAt, id }) => {
 	let user = 'other';
 	if (sender === '*MYPC*') {

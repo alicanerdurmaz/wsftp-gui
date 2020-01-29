@@ -3,12 +3,11 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { ReactComponent as FileUploadIcon } from '../../../assets/svg/file-upload.svg';
 import { SelectUserContext } from '../../../context/SelectUserContext';
 import { API_SendMessage, API_SendFile } from '../../../backend/api/webSocketConnection';
-import Spinner from '../../Spinner';
 import uuid from 'uuid/v4';
 
 const { dialog } = window.require('electron').remote;
 
-const ChatInput = ({ setLoading }) => {
+const ChatInput = () => {
 	const { selectedUser } = useContext(SelectUserContext);
 
 	const [text, setText] = useState('');
@@ -39,9 +38,7 @@ const ChatInput = ({ setLoading }) => {
 		const result = await dialog.showOpenDialog({ properties: ['multiSelections'] });
 		const idArray = result.filePaths.map(e => uuid());
 
-		setLoading(true);
-		await API_SendFile(selectedUser.macAddress, result.filePaths, idArray);
-		setLoading(false);
+		API_SendFile(selectedUser.macAddress, result.filePaths, idArray);
 	};
 	return (
 		<div className='chat-input-area'>

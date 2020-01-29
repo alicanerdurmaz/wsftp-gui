@@ -58,6 +58,8 @@ const ChatOldList = ({ scrollDirection }) => {
 		});
 	};
 
+	useEffect(() => {}, [selectedUser]);
+
 	return (
 		<Fragment>
 			{messageFromDatabase[selectedUser.userIdentity] &&

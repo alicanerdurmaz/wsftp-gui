@@ -1,5 +1,40 @@
-import { findFromDataBaseSync } from '../backend/api/dbFunctions';
+import { findFromDataBaseSync, getFromDataBaseSync } from '../backend/api/dbFunctions';
 import findDbDirectory from './findDbDirectory';
+
+export const searchFromMessageContext = (messageList, searchTerm, setLoading, dbName) => {
+	let arrList = [];
+	try {
+		arrList = JSON.parse(JSON.stringify(messageList));
+	} catch (error) {}
+
+	const keysToSearch = ['content', 'fileName'];
+	const foundedFromDb = findFromDataBaseSync(dbName + '.json', findDbDirectory(), keysToSearch, searchTerm);
+	const foundedFromCache = searchFunction(arrList, keysToSearch, searchTerm);
+	foundedFromDb.arr.map(e => e.reverse());
+	setLoading(false);
+	return { foundedFromCache: foundedFromCache, foundedFromDb: foundedFromDb.arr };
+};
+
+export const searchFromMediaContext = (list, searchTerm, dbName, setLoading) => {
+	let arrList = [];
+	try {
+		arrList = JSON.parse(JSON.stringify(list));
+	} catch (error) {}
+
+	const foundedFromDb = getFromDataBaseSync(`${dbName}.json`, findDbDirectory(), 0, 0);
+	const filterFromDb = foundedFromDb.arr
+		.filter(e => e.fileName.toLowerCase().includes(searchTerm.toLowerCase()))
+		.reverse();
+
+	const filterFromCache = arrList.filter(e => e.fileName.toLowerCase().includes(searchTerm.toLowerCase()));
+
+	const finalList = {
+		db: filterFromDb,
+		cache: filterFromCache
+	};
+	setLoading(false);
+	return finalList;
+};
 
 const addSpan = (str, value, index) => {
 	let lenval = value.length;
@@ -8,17 +43,7 @@ const addSpan = (str, value, index) => {
 	return str.slice(0, index) + start + value + end + str.slice(index + lenval, str.length);
 };
 
-export const searchFunction = (messageList, searchTerm, setLoading, dbName) => {
-	const arrList = JSON.parse(JSON.stringify(messageList));
-	const keysToSearch = ['content', 'fileName'];
-	const foundedFromDb = findFromDataBaseSync(dbName + '.json', findDbDirectory(), keysToSearch, searchTerm);
-	const foundedFromCache = findFromCache(arrList, keysToSearch, searchTerm);
-	foundedFromDb.arr.map(e => e.reverse());
-	setLoading(false);
-	return { foundedFromCache: foundedFromCache, foundedFromDb: foundedFromDb.arr };
-};
-
-const findFromCache = (arr, keys, value) => {
+const searchFunction = (arr, keys, value) => {
 	let mainObject = {};
 	let count = 0;
 	for (var i = 0; i < arr.length; i++) {
