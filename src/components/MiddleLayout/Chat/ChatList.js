@@ -4,12 +4,10 @@ import ChatFileMessage from './ChatFileMessage';
 import { SelectUserContext } from '../../../context/SelectUserContext';
 import { MessageContext } from '../../../context/MessageContext/MessageContext';
 import useOnScreen from '../../hooks/useOnScreen';
-import { OnlineUserContext } from '../../../context/OnlineUserContext/OnlineUserContext';
 
 const ChatList = ({ setHidden, jumpToBottom }) => {
 	const { selectedUser } = useContext(SelectUserContext);
-	const { onlineUserList } = useContext(OnlineUserContext);
-	const { messageHistory, lastIncomingMessage } = useContext(MessageContext);
+	const { messageHistory } = useContext(MessageContext);
 	const refListStart = useRef(null);
 	const onScreen = useOnScreen(refListStart);
 
@@ -31,10 +29,11 @@ const ChatList = ({ setHidden, jumpToBottom }) => {
 	return (
 		<Fragment>
 			{messageHistory[selectedUser.userIdentity]
-				? messageHistory[selectedUser.userIdentity].map((message, index) => {
+				? messageHistory[selectedUser.userIdentity].map(message => {
 						if (message.contentType === 'text') {
 							return (
 								<ChatTextMessage
+									uuid={message.uuid}
 									key={message.uuid}
 									content={message.content}
 									createdAt={message.createdAt}

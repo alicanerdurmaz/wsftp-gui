@@ -10,7 +10,6 @@ import {
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 
 export const uploadMediaReducer = (state, action) => {
-	console.log('UPLOAD REDUCER WORKED', action);
 	switch (action.type) {
 		case UPLOAD_MEDIA_USER_CREATED:
 			return { ...state, ['media:upload:' + action.userIdentity]: [] };
@@ -33,6 +32,7 @@ export const uploadMediaReducer = (state, action) => {
 			return { ...state };
 
 		case UPLOAD_MEDIA_STATUS_CHANGED:
+			console.log('worked');
 			state[`media:upload:${action.payload.dbName}`].forEach(element => {
 				if (element.uuid === action.payload.uuid) {
 					element.fileStatus = action.payload.fileStatus;

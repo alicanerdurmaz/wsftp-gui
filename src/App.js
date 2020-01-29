@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useRef } from 'react';
 
 import './App.scss';
 import MainLayout from './components/MainLayout';
@@ -12,30 +12,40 @@ import UploadMediaContextProvider from './context/MediaContext/UploadMediaContex
 import DownloadMediaContextProvider from './context/MediaContext/DownloadMediaContext';
 import OldDownloadMediaContextProvider from './context/MediaContext/OldDownloadMediaContext';
 import OldUploadMediaContextProvider from './context/MediaContext/OldUploadMediaContext';
-
+import { SnackbarProvider } from 'notistack';
+import Button from '@material-ui/core/Button';
 const App = () => {
+	const notistackRef = useRef(false);
+	const onClickDismiss = key => () => {
+		notistackRef.current.closeSnackbar(key);
+	};
 	return (
 		<Fragment>
-			<SettingsContextProvider>
-				<UploadMediaContextProvider>
-					<DownloadMediaContextProvider>
-						<OldDownloadMediaContextProvider>
-							<OldUploadMediaContextProvider>
-								<MessageContextProvider>
-									<SelectUserContextProvider>
-										<DatabaseMessageContextProvider>
-											<OnlineUserContextProvider>
-												<MainLayout></MainLayout>
-												<WriteToDatabase></WriteToDatabase>
-											</OnlineUserContextProvider>
-										</DatabaseMessageContextProvider>
-									</SelectUserContextProvider>
-								</MessageContextProvider>
-							</OldUploadMediaContextProvider>
-						</OldDownloadMediaContextProvider>
-					</DownloadMediaContextProvider>
-				</UploadMediaContextProvider>
-			</SettingsContextProvider>
+			<SnackbarProvider
+				maxSnack={10}
+				ref={notistackRef}
+				action={key => <Button onClick={onClickDismiss(key)}>Dismiss</Button>}>
+				<SettingsContextProvider>
+					<UploadMediaContextProvider>
+						<DownloadMediaContextProvider>
+							<OldDownloadMediaContextProvider>
+								<OldUploadMediaContextProvider>
+									<MessageContextProvider>
+										<SelectUserContextProvider>
+											<DatabaseMessageContextProvider>
+												<OnlineUserContextProvider>
+													<MainLayout></MainLayout>
+													<WriteToDatabase></WriteToDatabase>
+												</OnlineUserContextProvider>
+											</DatabaseMessageContextProvider>
+										</SelectUserContextProvider>
+									</MessageContextProvider>
+								</OldUploadMediaContextProvider>
+							</OldDownloadMediaContextProvider>
+						</DownloadMediaContextProvider>
+					</UploadMediaContextProvider>
+				</SettingsContextProvider>
+			</SnackbarProvider>
 		</Fragment>
 	);
 };

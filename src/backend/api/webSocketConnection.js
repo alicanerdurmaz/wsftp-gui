@@ -1,3 +1,4 @@
+import { sleep } from '../../Helpers/sleep';
 const os = require('os');
 const networkInterfaces = os.networkInterfaces();
 
@@ -54,18 +55,20 @@ export const API_SendMessage = (macAddress, msgContent) => {
 	commanderSocket.send(JSON.stringify(data));
 };
 
-export const API_SendFile = (macAddress, fileDir, uuidTemp) => {
-	const data = {
-		event: 'creq',
-		mac: macAddress,
-		dir: fileDir,
-		uuid: uuidTemp
-	};
-	commanderSocket.send(JSON.stringify(data));
+export const API_SendFile = async (macAddress, fileDirArray, idArray) => {
+	for (let i = 0; i < fileDirArray.length; i++) {
+		const data = {
+			event: 'creq',
+			mac: macAddress,
+			dir: fileDirArray[i],
+			uuid: idArray[i]
+		};
+		commanderSocket.send(JSON.stringify(data));
+		await sleep(75);
+	}
 };
 
 export const API_refreshOnlineUserList = () => {
-	console.log('clicked rshs');
 	const data = { event: 'rshs' };
 	commanderSocket.send(JSON.stringify(data));
 };

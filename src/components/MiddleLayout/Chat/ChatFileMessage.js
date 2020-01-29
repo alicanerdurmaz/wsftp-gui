@@ -1,12 +1,13 @@
 import React, { useContext, Fragment, useState } from 'react';
-
+import Tooltip from '@material-ui/core/Tooltip';
 import FILE_STATUS from '../../../config/CONFIG_FILE_STATUS';
 import { MessageContext } from '../../../context/MessageContext/MessageContext';
 import { STATUS_CHANGED, UPLOAD_MEDIA_STATUS_CHANGED, DOWNLOAD_MEDIA_STATUS_CHANGED } from '../../../context/types';
 import { byteConverter } from '../../../Helpers/byteConverter';
 import { ReactComponent as FileIcon } from '../../../assets/svg/file-solid.svg';
 import { ReactComponent as BanIcon } from '../../../assets/svg/ban-solid.svg';
-import { ReactComponent as CheckIcon } from '../../../assets/svg/check-circle-solid.svg';
+import { ReactComponent as CheckCircleIcon } from '../../../assets/svg/check-circle-solid.svg';
+import { ReactComponent as CheckIcon } from '../../../assets/svg/check-solid.svg';
 import { ReactComponent as TimesIcon } from '../../../assets/svg/times-solid.svg';
 import { API_killTransaction, commanderSocket } from '../../../backend/api/webSocketConnection';
 import { SettingsContext } from '../../../context/SettingsContext';
@@ -53,16 +54,11 @@ const ChatFileMessage = ({
 				type: STATUS_CHANGED,
 				payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
 			});
-			if (from === '*MYPC*')
-				dispatchUploadMediaContext({
-					type: UPLOAD_MEDIA_STATUS_CHANGED,
-					payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
-				});
-			if (from !== '*MYPC*')
-				dispatchDownloadMediaContext({
-					type: DOWNLOAD_MEDIA_STATUS_CHANGED,
-					payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
-				});
+
+			dispatchDownloadMediaContext({
+				type: DOWNLOAD_MEDIA_STATUS_CHANGED,
+				payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.loading }
+			});
 		}
 		if (!action) {
 			const tempRejectRequest = {
@@ -76,23 +72,18 @@ const ChatFileMessage = ({
 				type: STATUS_CHANGED,
 				payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
 			});
-			if (from === '*MYPC*')
-				dispatchUploadMediaContext({
-					type: UPLOAD_MEDIA_STATUS_CHANGED,
-					payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
-				});
-			if (from !== '*MYPC*')
-				dispatchDownloadMediaContext({
-					type: DOWNLOAD_MEDIA_STATUS_CHANGED,
-					payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
-				});
+
+			dispatchDownloadMediaContext({
+				type: DOWNLOAD_MEDIA_STATUS_CHANGED,
+				payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected }
+			});
 		}
 	};
 	const fileInformation = () => {
 		if (fileStatus === FILE_STATUS.waiting) {
 			return (
 				<div className='btn-group'>
-					<CheckIcon className='check-icon' onClick={() => setAccepted(true)}></CheckIcon>
+					<CheckCircleIcon className='check-icon' onClick={() => setAccepted(true)}></CheckCircleIcon>
 					<BanIcon className='ban-icon' onClick={() => setAccepted(false)}></BanIcon>
 				</div>
 			);
@@ -114,10 +105,15 @@ const ChatFileMessage = ({
 			return <CheckIcon className='check-icon'></CheckIcon>;
 		}
 	};
-
+	const createdAtToText = () => {
+		if (!createdAt) return '';
+		let text = `${createdAt[0]} ${createdAt[1]} ${createdAt[2]} , ${createdAt[3]} - ${createdAt[4]}`;
+		return text;
+	};
 	return (
 		<Fragment>
 			<li
+				id={uuid}
 				className={`file-message-container ${tempFrom}`}
 				onMouseEnter={port ? e => setShowCancel(true) : null}
 				onMouseLeave={port ? e => setShowCancel(false) : null}>
@@ -139,7 +135,9 @@ const ChatFileMessage = ({
 			</li>
 			<li className='li-date'>
 				<span className={`file-message-createdAt ${tempFrom}`}>
-					<span className='createdAt-f'>{createdAt}</span>
+					<Tooltip title={createdAtToText()} placement='bottom' interactive>
+						<span className='createdAt-f'>{createdAt && createdAt[4]}</span>
+					</Tooltip>
 				</span>
 			</li>
 		</Fragment>

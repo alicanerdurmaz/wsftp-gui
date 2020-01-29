@@ -6,7 +6,7 @@ import { ReactComponent as CheckIcon } from '../../assets/svg/check-circle-solid
 import { ReactComponent as TimesIcon } from '../../assets/svg/times-solid.svg';
 import { API_killTransaction, commanderSocket } from '../../backend/api/webSocketConnection';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
-import ChooseIcon from './ChooseIcon';
+import ChooseIcon from '../../Helpers/ChooseIcon';
 import { SettingsContext } from '../../context/SettingsContext';
 import { MessageContext } from '../../context/MessageContext/MessageContext';
 import { STATUS_CHANGED, DOWNLOAD_MEDIA_STATUS_CHANGED } from '../../context/types';

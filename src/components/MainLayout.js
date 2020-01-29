@@ -5,68 +5,68 @@ import MiddleLayout from './MiddleLayout/MiddleLayout';
 import RightLayout from './RightLayout/RightLayout';
 import Settings from './SettingsLayout/Settings';
 import { SelectUserContext } from '../context/SelectUserContext';
+import DragAndDropProvider from './DragAndDropProvider';
+import { MessageContext } from '../context/MessageContext/MessageContext';
+import { searchFromMessageContext } from '../Helpers/searchFrom';
 
 const MainLayout = () => {
 	const { selectedUser } = useContext(SelectUserContext);
-	const [showDnd, setShowDnd] = useState('');
-	const [counter, setCounter] = useState(0);
+	const { messageHistory } = useContext(MessageContext);
 	const [modalOpen, setModalOpen] = useState(false);
 
-	useEffect(() => {}, []);
-	if (counter === 0 && showDnd) {
-		setShowDnd('');
-	}
-	if (counter === 1) {
-	}
-	const onDragEnterHandler = event => {
-		event.stopPropagation();
-		event.preventDefault();
-		setCounter(counter + 1);
-		setShowDnd('showDnd');
-	};
-	const onDragLeaveHandler = event => {
-		event.stopPropagation();
-		event.preventDefault();
-		setCounter(counter - 1);
+	const [activeRightScreen, setActiveRightScreen] = useState('media');
+	const [searchLoading, setSearchLoading] = useState(false);
+	const [searchResult, setSearchResult] = useState([]);
+	const [scrollPosition, setScrollPosition] = useState(false);
+	const [jumpToDb, setJumpToDb] = useState(false);
+
+	const startSearch = searchTerm => {
+		setActiveRightScreen('search');
+		setSearchLoading(true);
+		const tempData = searchFromMessageContext(
+			messageHistory[selectedUser.userIdentity],
+			searchTerm,
+			setSearchLoading,
+			selectedUser.userIdentity
+		);
+		setSearchResult(tempData);
 	};
 
-	const onDragOverHandler = event => {
-		event.stopPropagation();
-		event.preventDefault();
-		return false;
-	};
-	const onFileDropHandler = async event => {
-		event.stopPropagation();
-		event.preventDefault();
-		setCounter(0);
-		const data = await event.dataTransfer.files;
-		for (let i = 0; i < data.length; i++) {
-			console.log(data[i].path);
-		}
-	};
 	const openSettingsScreen = () => {
 		setModalOpen(true);
 	};
 
+	useEffect(() => {
+		setActiveScreenToMedia();
+	}, [selectedUser]);
+
+	const setActiveScreenToMedia = () => {
+		setActiveRightScreen('media');
+	};
+
 	return (
-		<div
-			className={'main-container'}
-			onDragEnter={event => onDragEnterHandler(event)}
-			onDragLeave={event => onDragLeaveHandler(event)}
-			onDragOver={event => onDragOverHandler(event)}
-			onDrop={event => onFileDropHandler(event)}>
-			<div className={`area-hidden ${showDnd}`}></div>
+		<DragAndDropProvider>
 			<Settings modalOpen={modalOpen} setModalOpen={setModalOpen}></Settings>
 			<LeftLayout openSettingsScreen={openSettingsScreen}></LeftLayout>
 			{selectedUser ? (
 				<Fragment>
-					<MiddleLayout></MiddleLayout>
-					<RightLayout></RightLayout>
+					<MiddleLayout
+						startSearch={startSearch}
+						scrollPosition={scrollPosition}
+						setJumpToDb={setJumpToDb}
+						jumpToDb={jumpToDb}
+						setActiveScreenToMedia={setActiveScreenToMedia}></MiddleLayout>
+					<RightLayout
+						activeRightScreen={activeRightScreen}
+						searchLoading={searchLoading}
+						searchResult={searchResult}
+						setScrollPosition={setScrollPosition}
+						setJumpToDb={setJumpToDb}></RightLayout>
 				</Fragment>
 			) : (
 				<h1>SELECT USER FROM LEFT</h1>
 			)}
-		</div>
+		</DragAndDropProvider>
 	);
 };
 

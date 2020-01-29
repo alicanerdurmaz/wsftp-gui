@@ -22,7 +22,6 @@ const OldUploadMediaContextProvider = props => {
 		return data;
 	});
 
-	useEffect(() => {}, [oldUploadMediaList]);
 	return (
 		<OldUploadMediaContext.Provider value={{ oldUploadMediaList, dispatchOldUploadMediaContext }}>
 			{props.children}

@@ -1,55 +1,95 @@
 .chat-header-area {
-  display: flex;
-  justify-content: flex-start;
-  justify-items: center;
-  align-items: center;
-  height: 39px;
+	display: flex;
+	justify-content: flex-start;
+	justify-items: center;
+	align-items: center;
+	height: 39px;
 }
 
 .no-selected-user-info {
-  height: 100%;
-  max-width: 100%;
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
+	height: 100%;
+	max-width: 100%;
+	text-align: center;
+	font-size: 24px;
+	font-weight: bold;
 }
 .search-message {
-  background-color: $secondarycolor-light;
-  border-color: $primarycolor-light;
-  margin: 0px 8px;
-  padding: 4px;
-  z-index: 1;
+	background-color: $secondarycolor-light;
+	border-color: $primarycolor-light;
+	margin: 0px 8px;
+	padding: 4px;
+	z-index: 1;
 }
 
 .chat-header-username {
-  margin: 0px 0px;
-  min-width: max-content;
-  color: $blueGray;
-  font-weight: 600;
-  text-align: start;
+	margin: 0px 0px;
+	min-width: max-content;
+	color: $blueGray;
+	font-weight: 600;
+	text-align: start;
 }
 .divider {
-  display: inline-block;
-  width: 1px;
-  height: 24px;
-  margin: 0px 8px;
-  background: pink;
+	display: inline-block;
+	width: 1px;
+	height: 24px;
+	margin: 0px 8px;
+	background: pink;
 }
 
 .online-indicator {
-  margin: 0px 8px;
-  height: 8px;
-  min-width: 8px;
-  border-radius: 50%;
-  display: inline-block;
-  box-shadow: 0.5px 0.5px 0.5px #9e9e9e;
+	margin: 0px 8px;
+	height: 8px;
+	min-width: 8px;
+	border-radius: 50%;
+	display: inline-block;
+	box-shadow: 0.5px 0.5px 0.5px #9e9e9e;
 }
 
 .three-dot {
-  width: 6px;
-  height: 6px;
-  margin-top: -16px;
-  border-radius: 50%;
-  background-color: #9e9e9e;
-  box-shadow: 0px 8px 0px #9e9e9e, 0px 16px 0px #9e9e9e;
+	width: 6px;
+	height: 6px;
+	margin-top: -16px;
+	border-radius: 50%;
+	background-color: #9e9e9e;
+	box-shadow: 0px 8px 0px #9e9e9e, 0px 16px 0px #9e9e9e;
+}
+
+.error-text {
+	position: absolute;
+	text-align: center;
+	padding: 8px;
+	width: 300px;
+	height: 16px;
+	margin-left: 190px;
+	margin-top: 30px;
+	background: $primarycolor;
+	border-radius: 4px;
+	color: $blueGray;
+	border: 1px solid black;
+}
+
+.btn-open-media-container {
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	margin-right: 4px;
+}
+.btn-open-media {
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	fill: $blueGray;
+}
+
+.btn-close-search-container {
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	margin-right: 4px;
+}
+.btn-close-search {
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+	fill: $red;
 }

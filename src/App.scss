@@ -11,11 +11,13 @@
 @import './styles/chatFileMessage';
 @import './styles/chatInput';
 @import './styles/icon';
-@import './styles/tooltip';
-@import './styles/history';
+@import './styles/media';
 @import './styles/leftarea';
 @import './styles/modal';
+@import './styles/searchPage';
 
 :root {
-  background: black;
+	background: black;
+	--input-px: 49px;
+	--media-px: 300px;
 }

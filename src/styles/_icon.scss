@@ -1,47 +1,45 @@
 .fa-desktop {
-  font-size: 24px;
+	font-size: 24px;
 }
 
 .at-icon {
-  width: 16px;
-  height: 16px;
-  fill: $blueGray;
-}
-
-.file-icon {
-  width: 24px;
-  height: 36px;
-  margin: 12px 12px;
-  color: $white;
+	width: 16px;
+	height: 16px;
+	fill: $blueGray;
 }
 
 .check-icon {
-  width: 24px;
-  height: 24px;
-  fill: $green;
-  transition: all ease-in-out 60ms;
-  &:hover {
-    transform: scale(1.4);
-  }
+	width: 24px;
+	height: 24px;
+	fill: $green;
+	transition: all ease-in-out 60ms;
+	&:hover {
+		transform: scale(1.4);
+	}
 }
 .ban-icon {
-  width: 24px;
-  height: 24px;
-  fill: $red;
-  transition: all ease-in-out 60ms;
-  &:hover {
-    transform: scale(1.4);
-  }
+	width: 24px;
+	height: 24px;
+	fill: $red;
+	transition: all ease-in-out 60ms;
+	&:hover {
+		transform: scale(1.4);
+	}
 }
 .times-icon {
-  width: 24px;
-  height: 24px;
-  fill: $red;
+	width: 24px;
+	height: 24px;
+	fill: $red;
 }
 
 .times-icon-cancelprg {
-  width: 50px;
-  height: 50px;
-  fill: $red;
-  transition: all ease-in-out 60ms;
+	width: 50px;
+	height: 50px;
+	fill: $red;
+	transition: all ease-in-out 60ms;
+}
+
+.spinner {
+	text-align: center;
+	margin-top: 50%;
 }

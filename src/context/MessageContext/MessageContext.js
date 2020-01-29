@@ -12,7 +12,6 @@ import {
 	PROGRESS_FAIL,
 	STATUS_CHANGED,
 	UPLOAD_MEDIA_MSG_ADDED,
-	UPLOAD_MEDIA_STATUS_CHANGED,
 	UPLOAD_MEDIA_PROGRESS_CHANGED,
 	UPLOAD_MEDIA_PROGRESS_DONE,
 	UPLOAD_MEDIA_PROGRESS_FAIL,
@@ -21,21 +20,29 @@ import {
 	DOWNLOAD_MEDIA_PROGRESS_CHANGED,
 	DOWNLOAD_MEDIA_PROGRESS_DONE,
 	DOWNLOAD_MEDIA_PROGRESS_FAIL,
-	DOWNLOAD_MEDIA_STATUS_CHANGED
+	DOWNLOAD_MEDIA_STATUS_CHANGED,
+	UPLOAD_MEDIA_STATUS_CHANGED
 } from '../types';
 
-import { playNotification } from '../../Helpers/playNotificationSound';
 import { SettingsContext } from '../SettingsContext';
 import { UploadMediaContext } from '../MediaContext/UploadMediaContext';
 import { DownloadMediaContext } from '../MediaContext/DownloadMediaContext';
 
-export const MessageContext = createContext();
+import { getObject, getFromDataBaseSync } from '../../backend/api/dbFunctions';
+import findDbDirectory from '../../Helpers/findDbDirectory';
+const rawData = getObject('allUsersList.json', findDbDirectory());
+let allUsersList = {};
+try {
+	allUsersList = JSON.parse(rawData);
+} catch (error) {}
 
+export const MessageContext = createContext();
 const MessageContextProvider = props => {
+	const [messageHistory, dispatch] = useReducer(messageReducer, {});
+
 	const { settings, setSettings } = useContext(SettingsContext);
 	const { dispatchUploadMediaContext } = useContext(UploadMediaContext);
 	const { dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
-	const [messageHistory, dispatch] = useReducer(messageReducer, {});
 	const [newUser, setNewUser] = useState(false);
 	const lastIncomingMessage = useRef(false);
 
@@ -46,6 +53,7 @@ const MessageContextProvider = props => {
 	};
 	msgSocket.onmessage = function(e) {
 		const dataToJson = JSON.parse(e.data);
+
 		const userIdentity = dataToJson.username + ':' + dataToJson.mac;
 		isThisNewUser(userIdentity);
 		if (dataToJson.event === 'smsg') {
@@ -67,7 +75,7 @@ const MessageContextProvider = props => {
 		}
 		if (dataToJson.event === 'rmsg') {
 			lastIncomingMessage.current = userIdentity;
-			playNotification();
+
 			dispatch({
 				type: MESSAGE_ADDED,
 				payload: {
@@ -97,7 +105,7 @@ const MessageContextProvider = props => {
 		const userIdentity = dataToJson.username + ':' + dataToJson.mac;
 		if (dataToJson.event === 'rreq') {
 			lastIncomingMessage.current = userIdentity;
-			playNotification();
+
 			dispatch({
 				type: MESSAGE_ADDED,
 				payload: {
@@ -146,6 +154,7 @@ const MessageContextProvider = props => {
 		if (dataToJson.event === 'sreq') {
 			const userIdentity = dataToJson.username + ':' + dataToJson.mac;
 			lastIncomingMessage.current = false;
+
 			dispatch({
 				type: MESSAGE_ADDED,
 				payload: {
@@ -192,17 +201,16 @@ const MessageContextProvider = props => {
 			});
 		}
 		if (dataToJson.event === 'rrej') {
-			console.log(dataToJson);
 			dispatch({
 				type: STATUS_CHANGED,
 				payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
 			});
-			dispatchUploadMediaContext({
-				type: UPLOAD_MEDIA_STATUS_CHANGED,
-				payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
-			});
 			dispatchDownloadMediaContext({
 				type: DOWNLOAD_MEDIA_STATUS_CHANGED,
+				payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
+			});
+			dispatchUploadMediaContext({
+				type: UPLOAD_MEDIA_STATUS_CHANGED,
 				payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
 			});
 		}
@@ -258,6 +266,8 @@ const MessageContextProvider = props => {
 					uuid: dataToJson.uuid
 				}
 			});
+		}
+		if (dataToJson.event === 'info') {
 		}
 	};
 

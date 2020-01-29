@@ -13,7 +13,6 @@ const MyAccount = ({ settings }) => {
 	};
 	const btnSaveEdit = () => {
 		if (newUsername.length < 3 || newUsername.length > 24) {
-			console.log('between 3-24');
 			return;
 		}
 		// const obj = { username: newUsername };

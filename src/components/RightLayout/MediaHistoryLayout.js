@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect, Fragment } from 'react';
+import React, { useContext, useRef, useEffect, Fragment, useState } from 'react';
 import { SelectUserContext } from '../../context/SelectUserContext';
 import { UploadMediaContext } from '../../context/MediaContext/UploadMediaContext';
 import { DownloadMediaContext } from '../../context/MediaContext/DownloadMediaContext';
@@ -6,66 +6,263 @@ import { DownloadMediaContext } from '../../context/MediaContext/DownloadMediaCo
 import MediaHistoryListItem from './MediaHistoryListItem';
 import OldUploadMediaLayout from './OldUploadMediaLayout';
 import OldDownloadMediaLayout from './OldDownloadMediaLayout';
+import { OldUploadMediaContext } from '../../context/MediaContext/OldUploadMediaContext';
+import { OldDownloadMediaContext } from '../../context/MediaContext/OldDownloadMediaContext';
+import { DOWNLOAD_MEDIA_RESET_BY_NAME, UPLOAD_MEDIA_RESET_BY_NAME } from '../../context/types';
+import { searchFromMediaContext } from '../../Helpers/searchFrom';
+import Spinner from '../Spinner';
+import OldMediaListItem from './OldMediaListItem';
 
 const MediaHistoryLayout = () => {
 	const { selectedUser } = useContext(SelectUserContext);
 	const { uploadMediaList } = useContext(UploadMediaContext);
 	const { downloadMediaList } = useContext(DownloadMediaContext);
+	const { dispatchOldUploadMediaContext } = useContext(OldUploadMediaContext);
+	const { dispatchOldDownloadMediaContext } = useContext(OldDownloadMediaContext);
+
+	const [foundedUploadList, setFoundedUploadList] = useState(false);
+	const [foundedDownloadList, setFoundedDownloadList] = useState(false);
+
+	const [errorUploadText, setErrorUploadText] = useState(false);
+	const [errorDownloadText, seterrorDownloadText] = useState(false);
+
+	const [uploadListLoading, setUploadListLoading] = useState(false);
+	const [downloadListLoading, setDownloadListLoading] = useState(false);
+
+	const [uploadSearchTerm, setUploadSearchTerm] = useState('');
+	const [downloadSearchTerm, setDownloadSearchTerm] = useState('');
 
 	let downloadsListEnd = useRef(null);
 	let uploadsListEnd = useRef(null);
 
+	console.log(foundedUploadList, foundedDownloadList);
+
 	useEffect(() => {
 		uploadsListEnd.scrollIntoView({ behavior: 'auto' });
 		downloadsListEnd.scrollIntoView({ behavior: 'auto' });
+
+		dispatchOldDownloadMediaContext({
+			type: DOWNLOAD_MEDIA_RESET_BY_NAME,
+			userIdentity: selectedUser.userIdentity
+		});
+		dispatchOldUploadMediaContext({
+			type: UPLOAD_MEDIA_RESET_BY_NAME,
+			userIdentity: selectedUser.userIdentity
+		});
+
+		setUploadSearchTerm('');
+		setFoundedUploadList(false);
+		setUploadListLoading(false);
+
+		setDownloadSearchTerm('');
+		setFoundedDownloadList(false);
+		setDownloadListLoading(false);
 	}, [selectedUser]);
 
 	useEffect(() => {
-		scrollToDownloadList();
+		scrollToDownloadList('smooth');
 	}, [downloadMediaList]);
 
 	useEffect(() => {
-		scrollToUploadList();
+		scrollToUploadList('smooth');
 	}, [uploadMediaList]);
 
-	const scrollToUploadList = () => {
-		uploadsListEnd.scrollIntoView({ behavior: 'smooth' });
+	useEffect(() => {
+		scrollToDownloadList('auto');
+	}, [foundedDownloadList]);
+
+	useEffect(() => {
+		if (uploadSearchTerm.length < 1) {
+			setFoundedUploadList(false);
+			setUploadListLoading(false);
+		}
+	}, [uploadSearchTerm]);
+	useEffect(() => {
+		if (downloadSearchTerm.length < 1) {
+			setFoundedDownloadList(false);
+			setDownloadListLoading(false);
+		}
+	}, [downloadSearchTerm]);
+
+	useEffect(() => {
+		scrollToUploadList('auto');
+	}, [foundedUploadList]);
+
+	const scrollToUploadList = type => {
+		uploadsListEnd.scrollIntoView({ behavior: type });
 	};
-	const scrollToDownloadList = () => {
-		downloadsListEnd.scrollIntoView({ behavior: 'smooth' });
+	const scrollToDownloadList = type => {
+		downloadsListEnd.scrollIntoView({ behavior: type });
+	};
+
+	const submitUploadSearch = e => {
+		switch (e.key) {
+			//
+			case 'Enter':
+				if (uploadSearchTerm.length <= 1) {
+					setErrorUploadText(true);
+					setTimeout(() => {
+						setErrorUploadText(false);
+					}, 1000);
+					return;
+				}
+				setUploadListLoading(true);
+				const founded = searchFromMediaContext(
+					uploadMediaList['media:upload:' + selectedUser.userIdentity],
+					e.target.value,
+					`media:upload:${selectedUser.userIdentity}`,
+					setUploadListLoading
+				);
+				setFoundedUploadList(founded);
+				return;
+
+			case 'Escape':
+				setUploadSearchTerm('');
+				setFoundedUploadList(false);
+				setUploadListLoading(false);
+				return;
+
+			default:
+				return;
+		}
+	};
+	const submitDownloadSearch = e => {
+		switch (e.key) {
+			//
+			case 'Enter':
+				if (downloadSearchTerm.length <= 1) {
+					seterrorDownloadText(true);
+					setTimeout(() => {
+						seterrorDownloadText(false);
+					}, 1000);
+					return;
+				}
+				setDownloadListLoading(true);
+				const founded = searchFromMediaContext(
+					downloadMediaList['media:download:' + selectedUser.userIdentity],
+					e.target.value,
+					`media:download:${selectedUser.userIdentity}`,
+					setDownloadListLoading
+				);
+				setFoundedDownloadList(founded);
+				return;
+
+			case 'Escape':
+				setDownloadSearchTerm('');
+				setFoundedDownloadList(false);
+				setDownloadListLoading(false);
+				return;
+
+			default:
+				return;
+		}
+	};
+
+	const checkIdEquality = (e, dbName) => {
+		let foundedFlag = false;
+
+		if (dbName === 'up')
+			foundedUploadList['cache'].forEach(founded => {
+				if (e.uuid === founded.uuid) {
+					foundedFlag = true;
+				}
+			});
+		if (dbName === 'down')
+			foundedDownloadList['cache'].forEach(founded => {
+				if (e.uuid === founded.uuid) {
+					foundedFlag = true;
+				}
+			});
+
+		return foundedFlag;
 	};
 
 	return (
 		<Fragment>
+			{/* UPLOAD SECTION */}
 			<div className='media-title-container-upload'>
 				<div className='media-title-upload'>Uploads</div>
-				<input type='text' className='media-search-upload' placeholder='search by filename'></input>
+				<input
+					value={uploadSearchTerm}
+					onKeyDown={e => submitUploadSearch(e)}
+					onChange={e => setUploadSearchTerm(e.target.value)}
+					type='text'
+					className='media-search-upload'
+					placeholder='search by filename'></input>
+				<span style={{ marginLeft: '0px' }} className={`error-text ${errorUploadText ? '' : 'hidden'}`}>
+					Please lengthen this text to 2 or more
+				</span>
 			</div>
 
 			<div className='media-list-container-upload'>
 				<ul className='media-list-upload'>
-					<OldUploadMediaLayout></OldUploadMediaLayout>
-					{selectedUser &&
-						uploadMediaList['media:upload:' + selectedUser.userIdentity] &&
-						uploadMediaList['media:upload:' + selectedUser.userIdentity].map(e => {
-							return (
-								<MediaHistoryListItem
-									key={e.uuid}
-									fileName={e.fileName}
-									createdAt={e.createdAt}
-									fileSize={e.fileSize}
-									fileType={e.fileType}
-									fileDir={e.dir}
-									progress={e.progress}
-									fileStatus={e.fileStatus}
-									downloadDir={e.downloadDir || false}
-									from={e.from}
-									mac={e.mac}
-									uuid={e.uuid}
-									dbName={e.dbName}
-									port={e.port}></MediaHistoryListItem>
-							);
-						})}
+					{foundedUploadList ? (
+						<Fragment>
+							{uploadListLoading ? (
+								<Spinner message='Loading...'></Spinner>
+							) : (
+								<Fragment>
+									{foundedUploadList['db'].map(e => (
+										<OldMediaListItem
+											key={e.uuid}
+											fileName={e.fileName}
+											createdAt={e.createdAt}
+											fileSize={e.fileSize}
+											fileType={e.fileType}
+											fileDir={e.dir}
+											fileStatus={e.fileStatus}
+											downloadDir={e.downloadDir || false}
+											from={e.from}></OldMediaListItem>
+									))}
+									{uploadMediaList['media:upload:' + selectedUser.userIdentity].map(e => {
+										if (checkIdEquality(e, 'up'))
+											return (
+												<MediaHistoryListItem
+													key={e.uuid}
+													fileName={e.fileName}
+													createdAt={e.createdAt}
+													fileSize={e.fileSize}
+													fileType={e.fileType}
+													fileDir={e.dir}
+													progress={e.progress}
+													fileStatus={e.fileStatus}
+													downloadDir={e.downloadDir || false}
+													from={e.from}
+													mac={e.mac}
+													uuid={e.uuid}
+													dbName={e.dbName}
+													port={e.port}></MediaHistoryListItem>
+											);
+										else return null;
+									})}
+								</Fragment>
+							)}
+						</Fragment>
+					) : (
+						<Fragment>
+							<OldUploadMediaLayout></OldUploadMediaLayout>
+							{uploadMediaList['media:upload:' + selectedUser.userIdentity] &&
+								uploadMediaList['media:upload:' + selectedUser.userIdentity].map(e => {
+									return (
+										<MediaHistoryListItem
+											key={e.uuid}
+											fileName={e.fileName}
+											createdAt={e.createdAt}
+											fileSize={e.fileSize}
+											fileType={e.fileType}
+											fileDir={e.dir}
+											progress={e.progress}
+											fileStatus={e.fileStatus}
+											downloadDir={e.downloadDir || false}
+											from={e.from}
+											mac={e.mac}
+											uuid={e.uuid}
+											dbName={e.dbName}
+											port={e.port}></MediaHistoryListItem>
+									);
+								})}
+						</Fragment>
+					)}
 					<li
 						ref={el => {
 							uploadsListEnd = el;
@@ -73,35 +270,91 @@ const MediaHistoryLayout = () => {
 				</ul>
 			</div>
 
+			{/* DOWNLOAD SECTION */}
+
 			<div className='media-title-container-download'>
 				<div className='media-title-download'>Downloads</div>
-				<input type='text' className='media-search-download' placeholder='search by filename'></input>
+				<input
+					value={downloadSearchTerm}
+					onKeyDown={e => submitDownloadSearch(e)}
+					onChange={e => setDownloadSearchTerm(e.target.value)}
+					type='text'
+					className='media-search-download'
+					placeholder='search by filename'></input>
+				<span style={{ marginLeft: '0px' }} className={`error-text ${errorDownloadText ? '' : 'hidden'}`}>
+					Please lengthen this text to 2 or more
+				</span>
 			</div>
 
 			<div className='media-list-container-download'>
 				<ul className='media-list-download'>
-					<OldDownloadMediaLayout></OldDownloadMediaLayout>
-					{selectedUser &&
-						downloadMediaList['media:download:' + selectedUser.userIdentity] &&
-						downloadMediaList['media:download:' + selectedUser.userIdentity].map(el => {
-							return (
-								<MediaHistoryListItem
-									key={el.uuid}
-									fileName={el.fileName}
-									createdAt={el.createdAt}
-									fileSize={el.fileSize}
-									fileType={el.fileType}
-									fileDir={el.dir}
-									progress={el.progress}
-									fileStatus={el.fileStatus}
-									downloadDir={el.downloadDir || false}
-									from={el.from}
-									mac={el.mac}
-									uuid={el.uuid}
-									dbName={el.dbName}
-									port={el.port}></MediaHistoryListItem>
-							);
-						})}
+					{foundedDownloadList ? (
+						<Fragment>
+							{downloadListLoading ? (
+								<Spinner message='Loading...'></Spinner>
+							) : (
+								<Fragment>
+									{foundedDownloadList['db'].map(e => (
+										<OldMediaListItem
+											key={e.uuid}
+											fileName={e.fileName}
+											createdAt={e.createdAt}
+											fileSize={e.fileSize}
+											fileType={e.fileType}
+											fileDir={e.dir}
+											fileStatus={e.fileStatus}
+											downloadDir={e.downloadDir || false}
+											from={e.from}></OldMediaListItem>
+									))}
+									{downloadMediaList['media:download:' + selectedUser.userIdentity].map(e => {
+										if (checkIdEquality(e, 'down'))
+											return (
+												<MediaHistoryListItem
+													key={e.uuid}
+													fileName={e.fileName}
+													createdAt={e.createdAt}
+													fileSize={e.fileSize}
+													fileType={e.fileType}
+													fileDir={e.dir}
+													progress={e.progress}
+													fileStatus={e.fileStatus}
+													downloadDir={e.downloadDir || false}
+													from={e.from}
+													mac={e.mac}
+													uuid={e.uuid}
+													dbName={e.dbName}
+													port={e.port}></MediaHistoryListItem>
+											);
+										else return null;
+									})}
+								</Fragment>
+							)}
+						</Fragment>
+					) : (
+						<Fragment>
+							<OldDownloadMediaLayout></OldDownloadMediaLayout>
+							{downloadMediaList['media:download:' + selectedUser.userIdentity] &&
+								downloadMediaList['media:download:' + selectedUser.userIdentity].map(el => {
+									return (
+										<MediaHistoryListItem
+											key={el.uuid}
+											fileName={el.fileName}
+											createdAt={el.createdAt}
+											fileSize={el.fileSize}
+											fileType={el.fileType}
+											fileDir={el.dir}
+											progress={el.progress}
+											fileStatus={el.fileStatus}
+											downloadDir={el.downloadDir || false}
+											from={el.from}
+											mac={el.mac}
+											uuid={el.uuid}
+											dbName={el.dbName}
+											port={el.port}></MediaHistoryListItem>
+									);
+								})}
+						</Fragment>
+					)}
 					<li
 						ref={el => {
 							downloadsListEnd = el;

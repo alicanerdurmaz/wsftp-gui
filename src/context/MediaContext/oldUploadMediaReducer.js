@@ -24,12 +24,7 @@ export const oldUploadMediaReducer = (state, action) => {
 		case UPLOAD_MEDIA_RESET_BY_NAME:
 			if (!state[`media:upload:${action.userIdentity}`]) return { ...state };
 
-			const result2 = getFromDataBaseSync(
-				`media:upload:${`media:upload:${action.userIdentity}`}.json`,
-				findDbDirectory(),
-				0,
-				20
-			);
+			const result2 = getFromDataBaseSync(`media:upload:${action.userIdentity}.json`, findDbDirectory(), 0, 20);
 			state[`media:upload:${action.userIdentity}`] = [];
 			state[`media:upload:${action.userIdentity}`].push(...result2.arr.reverse());
 

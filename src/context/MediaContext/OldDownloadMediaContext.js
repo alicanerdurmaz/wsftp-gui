@@ -22,8 +22,6 @@ const OldDownloadMediaContextProvider = props => {
 		return data;
 	});
 
-	useEffect(() => {}, [oldDownloadMediaList]);
-
 	return (
 		<OldDownloadMediaContext.Provider value={{ oldDownloadMediaList, dispatchOldDownloadMediaContext }}>
 			{props.children}

@@ -1,104 +1,119 @@
 $borderpx: 1.2px;
 $file-message-border-color: #20222586;
-$border-radius: 8px;
+$border-radius: 4px;
 
 .file-message-container {
-  cursor: pointer;
+	cursor: pointer;
+	height: 50px;
 }
 .file-message-content {
-  color: $blueGray;
-  margin-bottom: 4px;
-  padding: 0px 12px;
-  display: flex;
-  align-items: center;
-  background-color: $primarycolor-light;
-  border-bottom: $borderpx solid $file-message-border-color;
-  border-top: $borderpx solid $file-message-border-color;
-  &.user {
-    border-right: 2px solid $green;
-    justify-content: flex-end;
-    float: right;
-    border-top-left-radius: $border-radius;
-    border-bottom-left-radius: $border-radius;
-    border-left: $borderpx solid $file-message-border-color;
-  }
-  &.other {
-    border-left: 2px solid $blue;
-    justify-content: flex-start;
-    float: left;
-    border-top-right-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
-    border-right: $borderpx solid $file-message-border-color;
-  }
+	height: 44px;
+	color: $blueGray;
+	padding: 0px 12px;
+	display: flex;
+	align-items: center;
+	background-color: $primarycolor-light;
+	border-bottom: $borderpx solid $file-message-border-color;
+	border-top: $borderpx solid $file-message-border-color;
+	&.user {
+		border-right: 2px solid $green;
+		justify-content: flex-end;
+		float: right;
+		border-top-left-radius: $border-radius;
+		border-bottom-left-radius: $border-radius;
+		border-left: $borderpx solid $file-message-border-color;
+	}
+	&.other {
+		border-left: 2px solid $blue;
+		justify-content: flex-start;
+		float: left;
+		border-top-right-radius: $border-radius;
+		border-bottom-right-radius: $border-radius;
+		border-right: $borderpx solid $file-message-border-color;
+	}
 }
 .file-info {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 0px;
-  min-width: 100px;
-  max-width: 100px;
-  max-height: 48px;
-  min-height: 48px;
-}
-
-.file-name {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 100%;
-}
-
-.li-date {
-  margin-bottom: 8px;
-}
-.file-message-createdAt {
-  font-size: 12px;
-  color: $blueGray-darken;
-  &.user {
-    .createdAt-f {
-      float: right;
-    }
-  }
-  &.other {
-    .createdAt-f {
-      float: left;
-    }
-  }
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: flex-start;
+	padding: 0px;
+	min-width: 300px;
+	max-width: 300px;
+	max-height: 36px;
+	min-height: 36px;
 }
 
 .btn-group {
-  cursor: pointer;
-  display: flex;
-  justify-content: space-around;
-  font-size: 36px;
-  margin-top: 16px;
-  margin-bottom: 16px;
-  width: 90px;
+	cursor: pointer;
+	display: flex;
+	justify-content: space-around;
+	font-size: 36px;
+	margin-top: 16px;
+	margin-bottom: 16px;
+	width: 90px;
 }
 
 .cancel-button {
-  font-size: 24px;
-  position: absolute;
-  margin-left: 28px;
-  margin-top: 6px;
-  color: $red;
+	font-size: 24px;
+	position: absolute;
+	margin-left: 28px;
+	margin-top: 6px;
+	color: $red;
 }
 
 .progress-text-container {
-  width: 50px;
-  height: 50px;
-  text-align: center;
+	width: 50px;
+	height: 50px;
+	text-align: center;
 }
 .progress-text {
-  display: block;
-  font-size: 20px;
-  font-weight: bold;
-  margin-top: 25%;
-  color: $blueGray;
+	display: block;
+	font-size: 20px;
+	font-weight: bold;
+	margin-top: 25%;
+	color: $blueGray;
 }
+
+.file-name {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	width: 100%;
+	height: 16px;
+	font-size: 14px;
+	-webkit-font-smoothing: always;
+}
+
 .file-size {
-  font-size: 14px;
+	font-size: 11px;
+	-webkit-font-smoothing: always;
+}
+
+.file-icon {
+	width: 18px;
+	height: 24px;
+	margin: 12px 12px;
+	color: $white;
+}
+
+.li-date {
+	margin-bottom: 8px;
+}
+.file-message-createdAt {
+	font-size: 12px;
+	color: $blueGray-darken;
+	&.user {
+		.createdAt-f {
+			float: right;
+			margin-right: 6px;
+		}
+	}
+	&.other {
+		.createdAt-f {
+			float: left;
+			margin-left: 6px;
+		}
+	}
 }
