@@ -15,7 +15,7 @@ export const searchFromMessageContext = (messageList, searchTerm, setLoading, db
 	return { foundedFromCache: foundedFromCache, foundedFromDb: foundedFromDb.arr };
 };
 
-export const searchFromMediaContext = (list, searchTerm, dbName, setLoading) => {
+export const searchFromMediaContext = (list, searchTerm, dbName) => {
 	let arrList = [];
 	try {
 		arrList = JSON.parse(JSON.stringify(list));
@@ -29,10 +29,10 @@ export const searchFromMediaContext = (list, searchTerm, dbName, setLoading) => 
 	const filterFromCache = arrList.filter(e => e.fileName.toLowerCase().includes(searchTerm.toLowerCase()));
 
 	const finalList = {
-		db: filterFromDb,
+		database: filterFromDb,
 		cache: filterFromCache
 	};
-	setLoading(false);
+
 	return finalList;
 };
 

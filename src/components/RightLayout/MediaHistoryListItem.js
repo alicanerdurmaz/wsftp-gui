@@ -127,7 +127,7 @@ const MediaHistoryListItem = ({
 			{isExpanded ? (
 				<div className={`media-expanded-section`} onClick={e => e.stopPropagation(e)}>
 					<span className='media-createdAt'>
-						{createdAt}
+						{`${createdAt[4]} · ${createdAt[1]} ${createdAt[2]}, ${createdAt[3]}`}
 						{from === '*MYPC*' || fileStatus === FILE_STATUS.loading || fileStatus === FILE_STATUS.sent ? (
 							<span className='show-in-folder' onClick={tempDir ? openFileDirectory : null}>
 								show in folder
