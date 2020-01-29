@@ -43,6 +43,10 @@ function createWindow() {
 	BrowserWindow.addDevToolsExtension(
 		'/home/alican/.config/google-chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.4.0_0/'
 	);
+	mainWindow.webContents.openDevTools();
+}
+
+ipcMain.on('save-completed', () => {
 	commanderExe.kill();
 	mainWindow = null;
 	if (process.platform !== 'darwin') {

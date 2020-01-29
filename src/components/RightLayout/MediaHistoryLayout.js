@@ -35,8 +35,6 @@ const MediaHistoryLayout = () => {
 	let downloadsListEnd = useRef(null);
 	let uploadsListEnd = useRef(null);
 
-	console.log(foundedUploadList, foundedDownloadList);
-
 	useEffect(() => {
 		uploadsListEnd.scrollIntoView({ behavior: 'auto' });
 		downloadsListEnd.scrollIntoView({ behavior: 'auto' });
