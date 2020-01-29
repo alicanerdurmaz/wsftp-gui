@@ -31,6 +31,7 @@ const ChatOldListFileMessage = ({ fileStatus, from, createdAt, fileSize, fileNam
 						<span className='file-name'>{fileName}</span>
 						<span className='file-size'>{formattedFileSize}</span>
 					</div>
+
 					{fileInformation()}
 				</div>
 			</li>

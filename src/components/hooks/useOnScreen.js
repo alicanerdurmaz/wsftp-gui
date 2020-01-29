@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 const useOnScreen = (ref, rootMargin = '0px') => {
 	// State and setter for storing whether element is visible
 	const [isIntersecting, setIntersecting] = useState(false);
+	console.log(ref);
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(
@@ -18,7 +19,9 @@ const useOnScreen = (ref, rootMargin = '0px') => {
 			observer.observe(ref.current);
 		}
 		return () => {
-			observer.unobserve(ref.current);
+			if (ref.current) {
+				observer.unobserve(ref.current);
+			}
 		};
 	}, []); // Empty array ensures that effect is only run on mount and unmount
 

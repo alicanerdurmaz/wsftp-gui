@@ -2,18 +2,46 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 
 import { byteConverter } from '../../Helpers/byteConverter';
 import { ReactComponent as TimesIcon } from '../../assets/svg/times-solid.svg';
-
+import {
+	UPLOAD_MEDIA_GET_MSG_FROM_DB,
+	DOWNLOAD_MEDIA_GET_MSG_FROM_DB,
+	DOWNLOAD_MEDIA_RESET_BY_NAME,
+	UPLOAD_MEDIA_RESET_BY_NAME
+} from '../../context/types';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import ChooseIcon from '../../Helpers/ChooseIcon';
+import useOnScreen from '../hooks/useOnScreen';
+import { OldUploadMediaContext } from '../../context/MediaContext/OldUploadMediaContext';
+import { SelectUserContext } from '../../context/SelectUserContext';
+import { OldDownloadMediaContext } from '../../context/MediaContext/OldDownloadMediaContext';
 
 const { shell } = require('electron');
 
-const OldMediaListItem = ({ from, fileName, createdAt, fileSize, downloadDir, fileDir, fileType, fileStatus }) => {
+const UpRefOldMediaHistoryListItem = ({
+	i,
+	from,
+	fileName,
+	createdAt,
+	fileSize,
+	downloadDir,
+	fileDir,
+	fileType,
+	fileStatus
+}) => {
 	let tempDir = downloadDir + '/' + fileName;
 	if (from === '*MYPC*') {
 		tempDir = fileDir;
 	}
+	console.log(i);
+	const onTopUp = useRef(null);
+	const onScreenTopUp = useOnScreen(onTopUp);
 
+	const onTopDown = useRef(null);
+	const onScreenDown = useOnScreen(onTopDown);
+
+	const { selectedUser } = useContext(SelectUserContext);
+	const { dispatchOldUploadMediaContext } = useContext(OldUploadMediaContext);
+	const { dispatchOldDownloadMediaContext } = useContext(OldDownloadMediaContext);
 	const [isExpanded, setIsExpanded] = useState(false);
 
 	const openFileDirectory = () => {
@@ -35,8 +63,17 @@ const OldMediaListItem = ({ from, fileName, createdAt, fileSize, downloadDir, fi
 		}
 	};
 
+	useEffect(() => {
+		if (!onScreenTopUp) return;
+
+		dispatchOldUploadMediaContext({
+			type: UPLOAD_MEDIA_GET_MSG_FROM_DB,
+			userIdentity: selectedUser.userIdentity
+		});
+	}, [onScreenTopUp]);
+
 	return (
-		<li className={`media-list-item ${isExpanded ? 'expanded' : ''}`} onClick={e => btnIsExpanded(e)}>
+		<li ref={onTopUp} className={`media-list-item ${isExpanded ? 'expanded' : ''}`} onClick={e => btnIsExpanded(e)}>
 			<div className='media-content'>
 				{ChooseIcon(fileType)}
 				<div className='media-info'>
@@ -62,4 +99,4 @@ const OldMediaListItem = ({ from, fileName, createdAt, fileSize, downloadDir, fi
 	);
 };
 
-export default OldMediaListItem;
+export default UpRefOldMediaHistoryListItem;

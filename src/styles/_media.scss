@@ -237,32 +237,17 @@
 }
 
 .load-more {
-	position: relative;
-	text-align: center;
-	display: flex;
-	cursor: pointer;
-	justify-content: center;
-	align-items: center;
-	justify-items: center;
-	align-content: center;
-	height: 10px;
-	&:hover {
-		background-color: $primarycolor;
-		border-radius: 0px;
-	}
-	margin-top: 10px;
-}
-.load-more-text {
-	color: $blue;
-	font-weight: bolder;
+	position: sticky;
+	width: 100%;
 }
 
 .upload-list-top {
 	position: absolute;
-	min-height: 50px;
+	min-height: 10px;
 	min-width: 100%;
-	margin-top: 205px;
+	top: 400px;
 	pointer-events: none;
+	background-color: palevioletred;
 }
 .download-list-top {
 	position: absolute;

@@ -9,7 +9,7 @@ import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import ChooseIcon from '../../Helpers/ChooseIcon';
 import { SettingsContext } from '../../context/SettingsContext';
 import { MessageContext } from '../../context/MessageContext/MessageContext';
-import { UploadMediaContext } from '../../context/MediaContext/UploadMediaContext';
+
 import { STATUS_CHANGED, UPLOAD_MEDIA_STATUS_CHANGED, DOWNLOAD_MEDIA_STATUS_CHANGED } from '../../context/types';
 import { DownloadMediaContext } from '../../context/MediaContext/DownloadMediaContext';
 const { shell } = require('electron');

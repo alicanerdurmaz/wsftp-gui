@@ -64,7 +64,7 @@ export const API_SendFile = async (macAddress, fileDirArray, idArray) => {
 			uuid: idArray[i]
 		};
 		commanderSocket.send(JSON.stringify(data));
-		await sleep(250);
+		await sleep(100);
 	}
 	return false;
 };
