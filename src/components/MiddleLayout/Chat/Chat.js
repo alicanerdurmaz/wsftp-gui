@@ -24,7 +24,7 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 	const [loading, setLoading] = useState(false);
 
 	let refScroller = useRef(false);
-	let scrollDirection = useRef(false);
+	const [scrollDirection, setScrollDirection] = useState(false);
 
 	const [snackbarOptions, setsnackbarOptions] = useState({
 		open: false,
@@ -74,7 +74,7 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 		setsnackbarOptions({ ...snackbarOptions, open: false });
 	};
 	const handleWheel = e => {
-		scrollDirection.current = e.deltaY;
+		setScrollDirection(e.deltaY);
 	};
 	useEffect(() => {
 		if (!scrollPosition) return;

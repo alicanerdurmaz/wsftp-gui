@@ -32,16 +32,15 @@ const UpRefOldMediaHistoryListItem = ({
 	if (from === '*MYPC*') {
 		tempDir = fileDir;
 	}
-	console.log(i);
+
 	const onTopUp = useRef(null);
 	const onScreenTopUp = useOnScreen(onTopUp);
 
 	const onTopDown = useRef(null);
-	const onScreenDown = useOnScreen(onTopDown);
 
 	const { selectedUser } = useContext(SelectUserContext);
 	const { dispatchOldUploadMediaContext } = useContext(OldUploadMediaContext);
-	const { dispatchOldDownloadMediaContext } = useContext(OldDownloadMediaContext);
+
 	const [isExpanded, setIsExpanded] = useState(false);
 
 	const openFileDirectory = () => {

@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 const useOnScreen = (ref, rootMargin = '0px') => {
 	// State and setter for storing whether element is visible
 	const [isIntersecting, setIntersecting] = useState(false);
-	console.log(ref);
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(

@@ -1,36 +1,19 @@
-import React, { useContext, Fragment, useRef, useEffect, useState } from 'react';
+import React, { useContext, Fragment, useEffect } from 'react';
 import ChatOldListTextMessage from './ChatOldListTextMessage';
 import ChatOldListFileMessage from './ChatOldListFileMessage';
 import { SelectUserContext } from '../../../context/SelectUserContext';
 import { DatabaseMessageContext } from '../../../context/DatabaseMessageContext/DatabaseMessageContext';
 import { GET_MSG_FROM_DB } from '../../../context/types';
-import useOnScreen from '../../hooks/useOnScreen';
 import findDbDirectory from '../../../Helpers/findDbDirectory';
 import { getBlockFromDataBaseSync } from '../../../backend/api/dbFunctions';
+import RefTopChatOldListText from './RefTopChatOldListText';
+import RefTopChatOldListFile from './RefTopChatOldListFile';
+import RefBottomChatOldListText from './RefBottomChatOldListText';
+import RefBottomChatOldListFile from './RefBottomChatOldListFile';
 
 const ChatOldList = ({ scrollDirection }) => {
 	const { selectedUser } = useContext(SelectUserContext);
 	const { messageFromDatabase, dispatchDbContext } = useContext(DatabaseMessageContext);
-
-	const refOldListTop = useRef(false);
-	const refOldListBottom = useRef(false);
-
-	const isBottomOnScreen = useOnScreen(refOldListBottom);
-	const isTopOnScreen = useOnScreen(refOldListTop);
-
-	useEffect(() => {
-		if (!isTopOnScreen) return;
-
-		if (scrollDirection.current < 0) {
-			getOlderDataFromDb();
-		}
-	}, [isTopOnScreen]);
-
-	useEffect(() => {
-		if (scrollDirection.current > 0) {
-			getNewerDataFromDb();
-		}
-	}, [isBottomOnScreen]);
 
 	const getOlderDataFromDb = () => {
 		if (!messageFromDatabase[selectedUser.userIdentity]) return;
@@ -44,7 +27,6 @@ const ChatOldList = ({ scrollDirection }) => {
 			20,
 			20
 		);
-		if (result.lenDown < 0) return;
 
 		dispatchDbContext({
 			type: GET_MSG_FROM_DB,
@@ -78,10 +60,32 @@ const ChatOldList = ({ scrollDirection }) => {
 
 	return (
 		<Fragment>
-			<span className='ref-old-list-top' ref={refOldListTop}></span>
-			{messageFromDatabase[selectedUser.userIdentity]
-				? messageFromDatabase[selectedUser.userIdentity].map(message => {
-						if (message.contentType === 'text') {
+			{messageFromDatabase[selectedUser.userIdentity] &&
+				messageFromDatabase[selectedUser.userIdentity].map((message, i) => {
+					if (message.contentType === 'text') {
+						if (i === 0) {
+							return (
+								<RefTopChatOldListText
+									getOlderDataFromDb={getOlderDataFromDb}
+									scrollDirection={scrollDirection}
+									id={message.uuid}
+									key={message.uuid}
+									content={message.content}
+									createdAt={message.createdAt}
+									sender={message.from}></RefTopChatOldListText>
+							);
+						} else if (i === messageFromDatabase[selectedUser.userIdentity].length - 1) {
+							return (
+								<RefBottomChatOldListText
+									getNewerDataFromDb={getNewerDataFromDb}
+									scrollDirection={scrollDirection}
+									id={message.uuid}
+									key={message.uuid}
+									content={message.content}
+									createdAt={message.createdAt}
+									sender={message.from}></RefBottomChatOldListText>
+							);
+						} else
 							return (
 								<ChatOldListTextMessage
 									id={message.uuid}
@@ -90,7 +94,36 @@ const ChatOldList = ({ scrollDirection }) => {
 									createdAt={message.createdAt}
 									sender={message.from}></ChatOldListTextMessage>
 							);
-						} else if (message.contentType === 'file') {
+					} else if (message.contentType === 'file') {
+						if (i === 0) {
+							return (
+								<RefTopChatOldListFile
+									getOlderDataFromDb={getOlderDataFromDb}
+									scrollDirection={scrollDirection}
+									id={message.uuid}
+									key={message.uuid}
+									fileStatus={message.fileStatus}
+									from={message.from}
+									createdAt={message.createdAt}
+									fileSize={message.fileSize}
+									fileName={message.fileName}
+									uuid={message.uuid}></RefTopChatOldListFile>
+							);
+						} else if (i === messageFromDatabase[selectedUser.userIdentity].length - 1) {
+							return (
+								<RefBottomChatOldListFile
+									getNewerDataFromDb={getNewerDataFromDb}
+									scrollDirection={scrollDirection}
+									id={message.uuid}
+									key={message.uuid}
+									fileStatus={message.fileStatus}
+									from={message.from}
+									createdAt={message.createdAt}
+									fileSize={message.fileSize}
+									fileName={message.fileName}
+									uuid={message.uuid}></RefBottomChatOldListFile>
+							);
+						} else
 							return (
 								<ChatOldListFileMessage
 									id={message.uuid}
@@ -102,12 +135,10 @@ const ChatOldList = ({ scrollDirection }) => {
 									fileName={message.fileName}
 									uuid={message.uuid}></ChatOldListFileMessage>
 							);
-						} else {
-							return null;
-						}
-				  })
-				: null}
-			<span className='ref-old-list-bottom' ref={refOldListBottom}></span>
+					} else {
+						return null;
+					}
+				})}
 		</Fragment>
 	);
 };
