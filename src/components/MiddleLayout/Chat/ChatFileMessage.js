@@ -9,7 +9,7 @@ import { ReactComponent as BanIcon } from '../../../assets/svg/ban-solid.svg';
 import { ReactComponent as CheckCircleIcon } from '../../../assets/svg/check-circle-solid.svg';
 import { ReactComponent as CheckIcon } from '../../../assets/svg/check-solid.svg';
 import { ReactComponent as TimesIcon } from '../../../assets/svg/times-solid.svg';
-import { API_killTransaction, commanderSocket } from '../../../backend/api/webSocketConnection';
+import { API_killTransaction, commanderSocket, API_CancelUpload } from '../../../backend/api/webSocketConnection';
 import { SettingsContext } from '../../../context/SettingsContext';
 import { UploadMediaContext } from '../../../context/MediaContext/UploadMediaContext';
 import { DownloadMediaContext } from '../../../context/MediaContext/DownloadMediaContext';
@@ -88,14 +88,36 @@ const ChatFileMessage = ({
 			});
 		}
 	};
+	const sendCancelUpload = () => {
+		const tempCancelRequest = {
+			event: 'cncl',
+			mac: mac,
+			dir: dir,
+			uuid: uuid,
+			ip: ip,
+			username: username,
+			nick: nick
+		};
+		API_CancelUpload(tempCancelRequest);
+	};
 	const fileInformation = () => {
 		if (fileStatus === FILE_STATUS.waiting) {
-			return (
-				<div className='btn-group'>
-					<CheckCircleIcon className='check-icon' onClick={() => setAccepted(true)}></CheckCircleIcon>
-					<BanIcon className='ban-icon' onClick={() => setAccepted(false)}></BanIcon>
-				</div>
-			);
+			if (tempFrom === 'user') {
+				return (
+					<div className='btn-group'>
+						<div className='progress-text-container'>
+							<span className='progress-text'>%{progress}</span>
+						</div>
+						<BanIcon className='ban-icon-cancel-upload' onClick={sendCancelUpload}></BanIcon>
+					</div>
+				);
+			} else
+				return (
+					<div className='btn-group'>
+						<CheckCircleIcon className='check-icon' onClick={() => setAccepted(true)}></CheckCircleIcon>
+						<BanIcon className='ban-icon' onClick={() => setAccepted(false)}></BanIcon>
+					</div>
+				);
 		}
 		if (fileStatus === FILE_STATUS.rejected) {
 			return <TimesIcon className='times-icon disabled'></TimesIcon>;

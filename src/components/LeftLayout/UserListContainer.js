@@ -28,12 +28,13 @@ const UserListContainer = () => {
 							<UserListItem
 								status={onlineUserList[index].event}
 								username={onlineUserList[index].username}
-								ipAddress={onlineUserList[index].ip}
+								ip={onlineUserList[index].ip}
 								macAddress={onlineUserList[index].mac}
 								userIdentity={onlineUserList[index].userIdentity}
 								notificationNumber={onlineUserList[index].notificationNumber}
 								isMuted={onlineUserList[index].isMuted}
-								key={index}></UserListItem>
+								key={index}
+								nick={onlineUserList[index].nick}></UserListItem>
 						);
 					} else return false;
 				})}

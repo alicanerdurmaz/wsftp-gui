@@ -4,7 +4,7 @@ import { byteConverter } from '../../Helpers/byteConverter';
 import { ReactComponent as BanIcon } from '../../assets/svg/ban-solid.svg';
 import { ReactComponent as CheckIcon } from '../../assets/svg/check-circle-solid.svg';
 import { ReactComponent as TimesIcon } from '../../assets/svg/times-solid.svg';
-import { API_killTransaction, commanderSocket } from '../../backend/api/webSocketConnection';
+import { API_killTransaction, commanderSocket, API_CancelUpload } from '../../backend/api/webSocketConnection';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import ChooseIcon from '../../Helpers/ChooseIcon';
 import { SettingsContext } from '../../context/SettingsContext';
@@ -77,9 +77,9 @@ const MediaHistoryListItem = ({
 			mac: mac,
 			dir: fileDir,
 			uuid: uuid,
-			ip: settings.ip,
+			ip: ip,
 			username: username,
-			nick: settings.nick
+			nick: nick
 		};
 		commanderSocket.send(JSON.stringify(tempRejectRequest));
 
@@ -97,14 +97,35 @@ const MediaHistoryListItem = ({
 	const btnIsExpanded = e => {
 		setIsExpanded(!isExpanded);
 	};
+
+	const sendCancelUpload = () => {
+		const tempCancelRequest = {
+			event: 'cncl',
+			mac: mac,
+			dir: fileDir,
+			uuid: uuid,
+			ip: ip,
+			username: username,
+			nick: nick
+		};
+		API_CancelUpload(tempCancelRequest);
+	};
 	const fileInformation = () => {
 		if (fileStatus === FILE_STATUS.waiting) {
-			return (
-				<div className='media-btn-group'>
-					<CheckIcon className='media-check-icon' onClick={e => btnAcceptFile(e)}></CheckIcon>
-					<BanIcon className='media-ban-icon' onClick={e => btnRejectAcceptFile(e)}></BanIcon>
-				</div>
-			);
+			if (from === '*MYPC*') {
+				return (
+					<div className='media-btn-group'>
+						<span className='media-progress'>%{progress}</span>
+						{<BanIcon className='media-ban-icon ' onClick={sendCancelUpload}></BanIcon>}
+					</div>
+				);
+			} else
+				return (
+					<div className='media-btn-group'>
+						<CheckIcon className='media-check-icon' onClick={e => btnAcceptFile(e)}></CheckIcon>
+						<BanIcon className='media-ban-icon' onClick={e => btnRejectAcceptFile(e)}></BanIcon>
+					</div>
+				);
 		}
 		if (fileStatus === FILE_STATUS.rejected) {
 			return (

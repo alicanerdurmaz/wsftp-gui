@@ -30,6 +30,7 @@ import { DownloadMediaContext } from '../MediaContext/DownloadMediaContext';
 
 import { getObject, getFromDataBaseSync } from '../../backend/api/dbFunctions';
 import findDbDirectory from '../../Helpers/findDbDirectory';
+
 const rawData = getObject('allUsersList.json', findDbDirectory());
 let allUsersList = {};
 try {
@@ -89,6 +90,7 @@ const MessageContextProvider = props => {
 	};
 
 	srScoket.onmessage = function(e) {
+		console.log(e.data);
 		const dataToJson = JSON.parse(e.data);
 
 		if (dataToJson.event === 'my') {
@@ -108,6 +110,8 @@ const MessageContextProvider = props => {
 					fileStatus: FILE_STATUS.waiting,
 					userIdentity: userIdentity,
 					dbName: userIdentity,
+					nick: dataToJson.nick,
+					username: dataToJson.username,
 					from: dataToJson.username,
 					to: '*MYPC*',
 					contentType: dataToJson.contentType,
@@ -126,6 +130,8 @@ const MessageContextProvider = props => {
 			dispatchDownloadMediaContext({
 				type: DOWNLOAD_MEDIA_MSG_ADDED,
 				payload: {
+					nick: dataToJson.nick,
+					username: dataToJson.username,
 					mac: dataToJson.mac,
 					fileStatus: FILE_STATUS.waiting,
 					userIdentity: userIdentity,
@@ -153,6 +159,8 @@ const MessageContextProvider = props => {
 			dispatch({
 				type: MESSAGE_ADDED,
 				payload: {
+					nick: dataToJson.nick,
+					username: dataToJson.username,
 					mac: dataToJson.mac,
 					from: '*MYPC*',
 					dbName: userIdentity,
@@ -162,7 +170,7 @@ const MessageContextProvider = props => {
 					fileSize: dataToJson.fileSize,
 					fileType: dataToJson.fileType,
 					contentType: dataToJson.contentType,
-					fileStatus: FILE_STATUS.loading,
+					fileStatus: FILE_STATUS.waiting,
 					to: dataToJson.username,
 					ip: dataToJson.ip,
 					createdAt: dateNow(),
@@ -175,6 +183,8 @@ const MessageContextProvider = props => {
 			dispatchUploadMediaContext({
 				type: UPLOAD_MEDIA_MSG_ADDED,
 				payload: {
+					nick: dataToJson.nick,
+					username: dataToJson.username,
 					mac: dataToJson.mac,
 					from: '*MYPC*',
 					dbName: userIdentity,
@@ -184,7 +194,7 @@ const MessageContextProvider = props => {
 					fileSize: dataToJson.fileSize,
 					fileType: dataToJson.fileType,
 					contentType: dataToJson.contentType,
-					fileStatus: FILE_STATUS.loading,
+					fileStatus: FILE_STATUS.waiting,
 					to: dataToJson.username,
 					ip: dataToJson.ip,
 					createdAt: dateNow(),
@@ -198,17 +208,75 @@ const MessageContextProvider = props => {
 		if (dataToJson.event === 'rrej') {
 			dispatch({
 				type: STATUS_CHANGED,
-				payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
+				payload: {
+					uuid: dataToJson.uuid,
+					dbName: userIdentity,
+					fileStatus: FILE_STATUS.rejected,
+					cause: dataToJson.cause
+				}
 			});
 			dispatchDownloadMediaContext({
 				type: DOWNLOAD_MEDIA_STATUS_CHANGED,
-				payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
+				payload: {
+					uuid: dataToJson.uuid,
+					dbName: userIdentity,
+					fileStatus: FILE_STATUS.rejected,
+					nick: dataToJson.nick,
+					username: dataToJson.username,
+					cause: dataToJson.cause
+				}
 			});
 			dispatchUploadMediaContext({
 				type: UPLOAD_MEDIA_STATUS_CHANGED,
-				payload: { uuid: dataToJson.uuid, dbName: userIdentity, fileStatus: FILE_STATUS.rejected }
+				payload: {
+					uuid: dataToJson.uuid,
+					dbName: userIdentity,
+					fileStatus: FILE_STATUS.rejected,
+					nick: dataToJson.nick,
+					username: dataToJson.username,
+					cause: dataToJson.cause
+				}
 			});
 		}
+
+		if (dataToJson.event === 'scncl') {
+			dispatch({
+				type: STATUS_CHANGED,
+				payload: {
+					uuid: dataToJson.uuid,
+					dbName: dataToJson.username + ':' + dataToJson.mac,
+					fileStatus: FILE_STATUS.rejected
+				}
+			});
+			dispatchUploadMediaContext({
+				type: UPLOAD_MEDIA_STATUS_CHANGED,
+				payload: {
+					uuid: dataToJson.uuid,
+					dbName: dataToJson.username + ':' + dataToJson.mac,
+					fileStatus: FILE_STATUS.rejected
+				}
+			});
+		}
+
+		if (dataToJson.event === 'rcncl') {
+			dispatch({
+				type: STATUS_CHANGED,
+				payload: {
+					uuid: dataToJson.uuid,
+					dbName: dataToJson.username + ':' + dataToJson.mac,
+					fileStatus: FILE_STATUS.rejected
+				}
+			});
+			dispatchDownloadMediaContext({
+				type: DOWNLOAD_MEDIA_STATUS_CHANGED,
+				payload: {
+					uuid: dataToJson.uuid,
+					dbName: dataToJson.username + ':' + dataToJson.mac,
+					fileStatus: FILE_STATUS.rejected
+				}
+			});
+		}
+
 		if (dataToJson.event === 'prg') {
 			dispatch({
 				type: PROGRESS_CHANGED,
@@ -257,12 +325,14 @@ const MessageContextProvider = props => {
 				payload: {
 					username: dataToJson.username,
 					mac: dataToJson.mac,
-					destination: dataToJson.destination,
+					dest: dataToJson.dest,
 					uuid: dataToJson.uuid
 				}
 			});
 		}
 		if (dataToJson.event === 'info') {
+			console.log(dataToJson);
+		} else {
 			console.log(dataToJson);
 		}
 	};

@@ -35,6 +35,7 @@ export const uploadMediaReducer = (state, action) => {
 			state[`media:upload:${action.payload.dbName}`].forEach(element => {
 				if (element.uuid === action.payload.uuid) {
 					element.fileStatus = action.payload.fileStatus;
+					element.cause = action.payload.cause || 'standart';
 				}
 			});
 			return { ...state };

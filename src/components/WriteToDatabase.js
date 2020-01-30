@@ -6,6 +6,9 @@ import { SettingsContext } from '../context/SettingsContext';
 import findDbDirectory from '../Helpers/findDbDirectory';
 import { UploadMediaContext } from '../context/MediaContext/UploadMediaContext';
 import { DownloadMediaContext } from '../context/MediaContext/DownloadMediaContext';
+import FILE_STATUS from '../config/CONFIG_FILE_STATUS';
+import { API_CancelUpload } from '../backend/api/webSocketConnection';
+import { sleep } from '../Helpers/sleep';
 
 const { ipcRenderer } = require('electron');
 
@@ -17,7 +20,26 @@ const WriteToDatabase = () => {
 	const { settings } = useContext(SettingsContext);
 
 	useEffect(() => {
-		const saveToDatabase = () => {
+		const saveToDatabase = async () => {
+			const keys = Object.keys(uploadMediaList);
+			for (let i = 0; i < keys.length; i++) {
+				for (let j = 0; j < uploadMediaList[keys[i]].length; j++) {
+					if (uploadMediaList[keys[i]][j].fileStatus === FILE_STATUS.waiting) {
+						const tempCancelRequest = {
+							event: 'cncl',
+							mac: uploadMediaList[keys[i]][j].mac,
+							dir: uploadMediaList[keys[i]][j].dir,
+							uuid: uploadMediaList[keys[i]][j].uuid,
+							ip: uploadMediaList[keys[i]][j].ip,
+							username: uploadMediaList[keys[i]][j].username,
+							nick: uploadMediaList[keys[i]][j].nick
+						};
+						API_CancelUpload(tempCancelRequest);
+						await sleep(100);
+					}
+				}
+			}
+
 			const allUsersListJson = { ...onlineUserList };
 			const settingsJson = { ...settings };
 			Object.keys(allUsersListJson).forEach(key => {

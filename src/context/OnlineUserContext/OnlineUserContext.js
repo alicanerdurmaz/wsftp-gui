@@ -35,8 +35,9 @@ const OnlineUserContextProvider = props => {
 	const { downloadMediaList, dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
 	const { dispatchDbContext } = useContext(DatabaseMessageContext);
 	const { setSelectedUser } = useContext(SelectUserContext);
-
+	console.log(messageHistory);
 	hsSocket.onmessage = msg => {
+		console.log(msg.data);
 		const toJson = JSON.parse(msg.data);
 		toJson.userIdentity = toJson.username + ':' + toJson.mac;
 
@@ -46,7 +47,8 @@ const OnlineUserContextProvider = props => {
 				macAddress: toJson.mac,
 				username: toJson.username,
 				userIdentity: toJson.userIdentity,
-				nick: toJson.nick
+				nick: toJson.nick,
+				ip: toJson.ip
 			});
 		}
 		if (

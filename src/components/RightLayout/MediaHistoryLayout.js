@@ -37,6 +37,8 @@ const MediaHistoryLayout = () => {
 
 	let downloadsListEnd = useRef(null);
 	let uploadsListEnd = useRef(null);
+	let downloadListScroller = useRef(null);
+	let uploadListScroller = useRef(null);
 
 	useEffect(() => {
 		uploadsListEnd.scrollIntoView({ behavior: 'auto' });
@@ -61,16 +63,30 @@ const MediaHistoryLayout = () => {
 	}, [selectedUser]);
 
 	useEffect(() => {
+		const offset = 4 * 52;
+		const scrollPosition = downloadListScroller.scrollHeight - downloadListScroller.scrollTop;
+		if (scrollPosition - offset > downloadListScroller.clientHeight) {
+			return;
+		}
 		scrollToDownloadList('smooth');
 	}, [downloadMediaList]);
 
 	useEffect(() => {
+		const offset = 4 * 52;
+		const scrollPosition = uploadListScroller.scrollHeight - uploadListScroller.scrollTop;
+		if (scrollPosition - offset > uploadListScroller.clientHeight) {
+			return;
+		}
 		scrollToUploadList('smooth');
 	}, [uploadMediaList]);
 
 	useEffect(() => {
 		scrollToDownloadList('auto');
 	}, [foundedDownloadList]);
+
+	useEffect(() => {
+		scrollToUploadList('auto');
+	}, [foundedUploadList]);
 
 	useEffect(() => {
 		if (uploadSearchTerm.length < 1) {
@@ -84,10 +100,6 @@ const MediaHistoryLayout = () => {
 			setDownloadListLoading(false);
 		}
 	}, [downloadSearchTerm]);
-
-	useEffect(() => {
-		scrollToUploadList('auto');
-	}, [foundedUploadList]);
 
 	const scrollToUploadList = type => {
 		uploadsListEnd.scrollIntoView({ behavior: type });
@@ -198,7 +210,7 @@ const MediaHistoryLayout = () => {
 			</div>
 
 			<div className='media-list-container-upload'>
-				<ul className='media-list-upload'>
+				<ul className='media-list-upload' ref={e => (uploadListScroller = e)}>
 					{foundedUploadList ? (
 						<Fragment>
 							{foundedUploadList['database'].map(e => {
@@ -293,50 +305,46 @@ const MediaHistoryLayout = () => {
 			</div>
 
 			<div className='media-list-container-download'>
-				<ul className='media-list-download'>
+				<ul className='media-list-download' ref={e => (downloadListScroller = e)}>
 					{foundedDownloadList ? (
 						<Fragment>
-							{downloadListLoading ? (
-								<Spinner message='Loading...'></Spinner>
-							) : (
-								<Fragment>
-									{foundedDownloadList['database'].map(e => (
-										<OldMediaListItem
-											key={e.uuid}
-											fileName={e.fileName}
-											createdAt={e.createdAt}
-											fileSize={e.fileSize}
-											fileType={e.fileType}
-											fileDir={e.dir}
-											fileStatus={e.fileStatus}
-											downloadDir={e.downloadDir || false}
-											from={e.from}></OldMediaListItem>
-									))}
-									{downloadMediaList['media:download:' + selectedUser.userIdentity] &&
-										downloadMediaList['media:download:' + selectedUser.userIdentity].map(e => {
-											if (checkIdEquality(e, 'down'))
-												return (
-													<MediaHistoryListItem
-														key={e.uuid}
-														fileName={e.fileName}
-														createdAt={e.createdAt}
-														fileSize={e.fileSize}
-														fileType={e.fileType}
-														fileDir={e.dir}
-														progress={e.progress}
-														fileStatus={e.fileStatus}
-														downloadDir={e.downloadDir || false}
-														from={e.from}
-														mac={e.mac}
-														uuid={e.uuid}
-														dbName={e.dbName}
-														port={e.port}
-														username={e.username}></MediaHistoryListItem>
-												);
-											else return null;
-										})}
-								</Fragment>
-							)}
+							{foundedDownloadList['database'].map(e => (
+								<OldMediaListItem
+									key={e.uuid}
+									fileName={e.fileName}
+									createdAt={e.createdAt}
+									fileSize={e.fileSize}
+									fileType={e.fileType}
+									fileDir={e.dir}
+									fileStatus={e.fileStatus}
+									downloadDir={e.downloadDir || false}
+									from={e.from}></OldMediaListItem>
+							))}
+							{downloadMediaList['media:download:' + selectedUser.userIdentity] &&
+								downloadMediaList['media:download:' + selectedUser.userIdentity].map(e => {
+									if (checkIdEquality(e, 'down'))
+										return (
+											<MediaHistoryListItem
+												key={e.uuid}
+												fileName={e.fileName}
+												createdAt={e.createdAt}
+												fileSize={e.fileSize}
+												fileType={e.fileType}
+												fileDir={e.dir}
+												progress={e.progress}
+												fileStatus={e.fileStatus}
+												downloadDir={e.downloadDir || false}
+												from={e.from}
+												mac={e.mac}
+												uuid={e.uuid}
+												dbName={e.dbName}
+												port={e.port}
+												username={e.username}
+												ip={e.ip}
+												nick={e.nick}></MediaHistoryListItem>
+										);
+									else return null;
+								})}
 						</Fragment>
 					) : (
 						<Fragment>
@@ -359,7 +367,9 @@ const MediaHistoryLayout = () => {
 											uuid={el.uuid}
 											dbName={el.dbName}
 											port={el.port}
-											username={el.username}></MediaHistoryListItem>
+											username={el.username}
+											ip={el.ip}
+											nick={el.nick}></MediaHistoryListItem>
 									);
 								})}
 						</Fragment>

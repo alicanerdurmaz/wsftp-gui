@@ -10,7 +10,7 @@ import UserListDropDown from './UserListDropDown';
 const { remote } = require('electron');
 const dialog = remote.dialog;
 
-const UserListItem = ({ status, username, ipAddress, macAddress, userIdentity, notificationNumber, isMuted }) => {
+const UserListItem = ({ status, username, ip, macAddress, userIdentity, notificationNumber, isMuted, nick }) => {
 	const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
 	const { muteOrUnmute, deleteUser } = useContext(OnlineUserContext);
 	const { dispatchDbContext } = useContext(DatabaseMessageContext);
@@ -30,11 +30,12 @@ const UserListItem = ({ status, username, ipAddress, macAddress, userIdentity, n
 		setSelectedUser({
 			status: status,
 			username: username,
-			ipAddress: ipAddress,
+			ip: ip,
 			macAddress: macAddress,
 			userIdentity: userIdentity,
 			notificationNumber: notificationNumber,
-			isMuted: isMuted
+			isMuted: isMuted,
+			nick: nick
 		});
 	};
 

@@ -38,6 +38,16 @@
 	fill: $red;
 	transition: all ease-in-out 60ms;
 }
+.ban-icon-cancel-upload {
+	margin-top: 12px;
+	width: 24px;
+	height: 24px;
+	fill: $red;
+	&:hover {
+		transition: all ease-in-out 60ms;
+		transform: scale(1.2);
+	}
+}
 
 .spinner {
 	text-align: center;

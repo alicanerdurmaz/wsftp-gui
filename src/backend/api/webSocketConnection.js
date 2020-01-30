@@ -46,6 +46,11 @@ commanderSocket.onclose = function(e) {
 commanderSocket.onmessage = function(e) {
 	console.log('CMD : ', e);
 };
+
+export const API_CancelUpload = data => {
+	commanderSocket.send(JSON.stringify(data));
+};
+
 export const API_SendMessage = (macAddress, msgContent, ip, username, nick) => {
 	const data = {
 		event: 'cmsg',
@@ -55,6 +60,7 @@ export const API_SendMessage = (macAddress, msgContent, ip, username, nick) => {
 		username: username,
 		nick: nick
 	};
+
 	commanderSocket.send(JSON.stringify(data));
 };
 

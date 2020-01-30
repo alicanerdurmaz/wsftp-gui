@@ -36,6 +36,7 @@ export const downloadMediaReducer = (state, action) => {
 			state[`media:download:${action.payload.dbName}`].forEach(element => {
 				if (element.uuid === action.payload.uuid) {
 					element.fileStatus = action.payload.fileStatus;
+					element.cause = action.payload.cause || 'standart';
 				}
 			});
 			return { ...state };
@@ -68,7 +69,7 @@ export const downloadMediaReducer = (state, action) => {
 		case DOWNLOAD_ADD_DOWNLOAD_DIR:
 			state[`media:download:${action.payload.username}:${action.payload.mac}`].forEach(element => {
 				if (element.uuid === action.payload.uuid) {
-					element.downloadDir = action.payload.destination;
+					element.downloadDir = action.payload.dest;
 				}
 			});
 			return { ...state };

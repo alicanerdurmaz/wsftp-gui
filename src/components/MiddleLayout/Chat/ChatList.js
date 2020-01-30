@@ -55,7 +55,9 @@ const ChatList = ({ setHidden, jumpToBottom }) => {
 									fileName={message.fileName}
 									dir={message.dir}
 									ip={message.ip}
-									uuid={message.uuid}></ChatFileMessage>
+									uuid={message.uuid}
+									username={message.username}
+									nick={message.nick}></ChatFileMessage>
 							);
 						} else {
 							return null;
