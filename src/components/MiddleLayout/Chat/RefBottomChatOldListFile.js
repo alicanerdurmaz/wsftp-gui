@@ -39,9 +39,13 @@ const RefBottomChatOldListFile = ({
 
 	const fileInformation = () => {
 		if (fileStatus === FILE_STATUS.sent) {
-			return <CheckIcon className='check-icon'></CheckIcon>;
-		} else {
-			return <TimesIcon className='times-icon disabled'></TimesIcon>;
+			return <span className='sent-text'>sent</span>;
+		}
+		if (fileStatus === FILE_STATUS.canceled) {
+			return <span className='canceled-text'>canceled</span>;
+		}
+		if (fileStatus === FILE_STATUS.rejected) {
+			return <span className='rejected-text'>rejected</span>;
 		}
 	};
 

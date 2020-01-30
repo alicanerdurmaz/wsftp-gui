@@ -108,19 +108,19 @@ const ChatFileMessage = ({
 						<div className='progress-text-container'>
 							<span className='progress-text'>%{progress}</span>
 						</div>
-						<BanIcon className='ban-icon-cancel-upload' onClick={sendCancelUpload}></BanIcon>
+						<TimesIcon className='times-icon-cancel-upload' onClick={sendCancelUpload}></TimesIcon>
 					</div>
 				);
 			} else
 				return (
 					<div className='btn-group'>
-						<CheckCircleIcon className='check-icon' onClick={() => setAccepted(true)}></CheckCircleIcon>
-						<BanIcon className='ban-icon' onClick={() => setAccepted(false)}></BanIcon>
+						<CheckIcon className='check-icon' onClick={() => setAccepted(true)}></CheckIcon>
+						<TimesIcon className='times-icon' onClick={() => setAccepted(false)}></TimesIcon>
 					</div>
 				);
 		}
 		if (fileStatus === FILE_STATUS.rejected) {
-			return <TimesIcon className='times-icon disabled'></TimesIcon>;
+			return <span className='rejected-text'>rejected</span>;
 		}
 		if (fileStatus === FILE_STATUS.loading && !showCancel) {
 			return (
@@ -133,7 +133,10 @@ const ChatFileMessage = ({
 			return <TimesIcon className='times-icon-cancelprg' onClick={e => API_killTransaction(port)}></TimesIcon>;
 		}
 		if (fileStatus === FILE_STATUS.sent) {
-			return <CheckIcon className='check-icon'></CheckIcon>;
+			return <span className='sent-text'>sent</span>;
+		}
+		if (fileStatus === FILE_STATUS.canceled) {
+			return <span className='canceled-text'>canceled</span>;
 		}
 	};
 	const createdAtToText = () => {

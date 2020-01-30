@@ -1,6 +1,6 @@
 {
 	"name": "wsftp",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"private": true,
 	"main": "public/electron.js",
 	"author": "Alican Erdurmaz <alicanerdurmaz@gmail.com>",
@@ -24,18 +24,10 @@
 			"build/**/*",
 			"src/backend/api/*"
 		],
-		"mac": {
-			"target": "dmg",
-			"icon": "src/assets/logo.png"
-		},
-		"win": {
-			"target": "nsis",
-			"icon": "src/assets/logo.png"
-		},
 		"linux": {
-			"target": "deb",
+			"target": "snap",
 			"icon": "src/assets/logo.png",
-			"category": "Development"
+			"category": "Production"
 		}
 	},
 	"homepage": "./",
@@ -65,8 +57,8 @@
 	"devDependencies": {
 		"concurrently": "^4.1.2",
 		"cross-env": "^6.0.0",
-		"electron": "^7.1.2",
-		"electron-builder": "^21.2.0",
+		"electron": "^7.1.10",
+		"electron-builder": "^22.3.2",
 		"normalize.css": "^8.0.1",
 		"wait-on": "^3.3.0"
 	}

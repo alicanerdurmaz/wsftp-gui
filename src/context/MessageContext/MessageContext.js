@@ -245,7 +245,7 @@ const MessageContextProvider = props => {
 				payload: {
 					uuid: dataToJson.uuid,
 					dbName: dataToJson.username + ':' + dataToJson.mac,
-					fileStatus: FILE_STATUS.rejected
+					fileStatus: FILE_STATUS.canceled
 				}
 			});
 			dispatchUploadMediaContext({
@@ -253,7 +253,7 @@ const MessageContextProvider = props => {
 				payload: {
 					uuid: dataToJson.uuid,
 					dbName: dataToJson.username + ':' + dataToJson.mac,
-					fileStatus: FILE_STATUS.rejected
+					fileStatus: FILE_STATUS.canceled
 				}
 			});
 		}

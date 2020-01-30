@@ -34,6 +34,7 @@ const WriteToDatabase = () => {
 							username: uploadMediaList[keys[i]][j].username,
 							nick: uploadMediaList[keys[i]][j].nick
 						};
+						uploadMediaList[keys[i]][j].fileStatus = FILE_STATUS.canceled;
 						API_CancelUpload(tempCancelRequest);
 						await sleep(100);
 					}

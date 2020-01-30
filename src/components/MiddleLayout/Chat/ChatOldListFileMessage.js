@@ -12,16 +12,20 @@ const ChatOldListFileMessage = ({ fileStatus, from, createdAt, fileSize, fileNam
 	if (from !== '*MYPC*') {
 		tempFrom = 'other';
 	}
+
 	const formattedFileSize = byteConverter(fileSize);
 
 	const fileInformation = () => {
 		if (fileStatus === FILE_STATUS.sent) {
-			return <CheckIcon className='check-icon'></CheckIcon>;
+			return <span className='sent-text'>sent</span>;
+		}
+		if (fileStatus === FILE_STATUS.canceled) {
+			return <span className='canceled-text'>canceled</span>;
 		} else {
-			return <TimesIcon className='times-icon disabled'></TimesIcon>;
+			return <span className='rejected-text'>rejected</span>;
 		}
 	};
-
+	console.log(fileStatus);
 	const createdAtToText = () => {
 		if (!createdAt) return '';
 		let text = `${createdAt[0]} ${createdAt[1]} ${createdAt[2]} , ${createdAt[3]} - ${createdAt[4]}`;

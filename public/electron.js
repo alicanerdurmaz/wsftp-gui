@@ -21,8 +21,6 @@ function createWindow() {
 	mainWindow = new BrowserWindow({
 		width: settingsJson.windowSize ? settingsJson.windowSize.width : 975,
 		height: settingsJson.windowSize ? settingsJson.windowSize.height : 650,
-		minWidth: 975,
-		minHeight: 650,
 		webPreferences: {
 			nodeIntegration: true
 		}
