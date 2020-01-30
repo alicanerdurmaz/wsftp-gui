@@ -26,6 +26,7 @@ const ChatList = ({ setHidden, jumpToBottom }) => {
 			setHidden('hidden');
 		}
 	}, [onScreen]);
+
 	return (
 		<Fragment>
 			{messageHistory[selectedUser.userIdentity]
@@ -64,6 +65,7 @@ const ChatList = ({ setHidden, jumpToBottom }) => {
 						}
 				  })
 				: null}
+
 			<span className='ref-list-start' ref={refListStart}></span>
 		</Fragment>
 	);

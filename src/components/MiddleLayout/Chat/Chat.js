@@ -23,6 +23,7 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 	const [hidden, setHidden] = useState('hidden');
 
 	let refScroller = useRef(false);
+	const btnJumpP = useRef(false);
 	const [scrollDirection, setScrollDirection] = useState(false);
 
 	const [snackbarOptions, setsnackbarOptions] = useState({
@@ -132,10 +133,12 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 			setScrollDirection(10);
 		}
 	};
+
 	return (
 		<Fragment>
 			<ChatHeader startSearch={startSearch} setActiveScreenToMedia={setActiveScreenToMedia}></ChatHeader>
-			<div className={`chat-read-container`} ref={e => (refScroller = e)}>
+
+			<div className={`chat-read-container `} ref={e => (refScroller = e)}>
 				<ul className='chat-list' onWheel={e => handleWheel(e)} onKeyDown={e => handleKeyDown(e)} tabIndex='0'>
 					<Fragment>
 						<ChatOldList scrollDirection={scrollDirection} jumpToDb={jumpToDb}></ChatOldList>
@@ -143,12 +146,15 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 					</Fragment>
 				</ul>
 			</div>
-			<button className={`btn-jumpToPresent ${hidden}`} onClick={e => jumpToBottom('auto')}>
+
+			<button className={`btn-jumpToPresent ${hidden}`} onClick={e => jumpToBottom('auto')} ref={btnJumpP}>
 				<span>Jump to Present</span>
 			</button>
+
 			<div className='chat-input-container'>
 				<ChatInput></ChatInput>
 			</div>
+
 			<Snackbar
 				style={{ top: '43px', left: '172px' }}
 				anchorOrigin={{ vertical, horizontal }}
