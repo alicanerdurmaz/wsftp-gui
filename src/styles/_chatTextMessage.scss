@@ -8,6 +8,7 @@
 	background: #32353a;
 	border-radius: 8px;
 	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
 	&.user {
 		border-right: 2px solid $green;
 		margin-left: auto;
@@ -15,10 +16,8 @@
 		border-bottom-right-radius: 0px;
 		.message-p {
 			float: right;
-			text-align: right;
 		}
 	}
-
 	&.other {
 		border-left: 2px solid $blue;
 		margin-right: auto;
@@ -28,6 +27,7 @@
 			float: left;
 		}
 	}
+
 	&.info {
 		cursor: pointer;
 		padding: 0px;
@@ -54,7 +54,7 @@
 }
 .message-createdAt {
 	font-size: 12px;
-	position: sticky;
+
 	color: #9ea7aa93;
 
 	&.user {

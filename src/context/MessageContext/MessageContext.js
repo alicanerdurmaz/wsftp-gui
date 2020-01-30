@@ -296,14 +296,16 @@ const MessageContextProvider = props => {
 				type: PROGRESS_DONE,
 				payload: dataToJson
 			});
-			dispatchUploadMediaContext({
-				type: UPLOAD_MEDIA_PROGRESS_DONE,
-				payload: dataToJson
-			});
-			dispatchDownloadMediaContext({
-				type: DOWNLOAD_MEDIA_PROGRESS_DONE,
-				payload: dataToJson
-			});
+			if (dataToJson.type === 'upload')
+				dispatchUploadMediaContext({
+					type: UPLOAD_MEDIA_PROGRESS_DONE,
+					payload: dataToJson
+				});
+			if (dataToJson.type === 'download')
+				dispatchDownloadMediaContext({
+					type: DOWNLOAD_MEDIA_PROGRESS_DONE,
+					payload: dataToJson
+				});
 		}
 		if (dataToJson.event === 'fprg') {
 			dispatch({
@@ -330,6 +332,25 @@ const MessageContextProvider = props => {
 				}
 			});
 		}
+		if (dataToJson.event === 'racp') {
+			dispatch({
+				type: STATUS_CHANGED,
+				payload: {
+					uuid: dataToJson.uuid,
+					dbName: dataToJson.username + ':' + dataToJson.mac,
+					fileStatus: FILE_STATUS.loading
+				}
+			});
+			dispatchUploadMediaContext({
+				type: UPLOAD_MEDIA_STATUS_CHANGED,
+				payload: {
+					uuid: dataToJson.uuid,
+					dbName: dataToJson.username + ':' + dataToJson.mac,
+					fileStatus: FILE_STATUS.loading
+				}
+			});
+		}
+
 		if (dataToJson.event === 'info') {
 			console.log(dataToJson);
 		} else {

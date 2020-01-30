@@ -12,12 +12,12 @@ update,patch ->
 
 *ui tweaks* ->
 
-sometimes userlistcontainer crashing. still i dont know why this is happening
+
 
 we should talk again INFO messages
 
 need from -> to for prg and fprg. 
 
+CREATE CUSTOM-DB
 
-ARAMA FONKSİYUONU VERİLEN KEY UNDEFINEDSE HATALI
-
+middlescroll with mouse bad

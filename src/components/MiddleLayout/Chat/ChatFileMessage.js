@@ -141,6 +141,7 @@ const ChatFileMessage = ({
 		let text = `${createdAt[0]} ${createdAt[1]} ${createdAt[2]} , ${createdAt[3]} - ${createdAt[4]}`;
 		return text;
 	};
+
 	return (
 		<Fragment>
 			<li
