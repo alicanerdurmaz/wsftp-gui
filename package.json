@@ -19,9 +19,10 @@
 	"build": {
 		"appId": "com.emrealican.tunnelgo",
 		"files": [
-			"src/electron.js",
+			"src/public/electron.js",
 			"src/assets/*",
-			"build/**/*"
+			"build/**/*",
+			"src/backend/api/*"
 		],
 		"mac": {
 			"target": "dmg",

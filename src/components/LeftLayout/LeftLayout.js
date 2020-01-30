@@ -14,7 +14,6 @@ const LeftLayout = ({ openSettingsScreen }) => {
 				</div>
 				<div className='options-area'>
 					<div className='options-btn-group'>
-						<button onClick={cancelTest}>TEST CANCEL</button>
 						<RefreshIcon className='refresh-button' onClick={API_refreshOnlineUserList}></RefreshIcon>
 						<SettingsIcon className='settings-button' onClick={openSettingsScreen}></SettingsIcon>
 					</div>
