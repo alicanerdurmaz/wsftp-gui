@@ -1,7 +1,7 @@
 import { findFromDataBaseSync, getFromDataBaseSync } from '../backend/api/dbFunctions';
 import findDbDirectory from './findDbDirectory';
 
-export const searchFromMessageContext = (messageList, searchTerm, setLoading, dbName) => {
+export const searchFromMessageContext = (messageList, searchTerm, dbName) => {
 	let arrList = [];
 	try {
 		arrList = JSON.parse(JSON.stringify(messageList));
@@ -11,7 +11,7 @@ export const searchFromMessageContext = (messageList, searchTerm, setLoading, db
 	const foundedFromDb = findFromDataBaseSync(dbName + '.json', findDbDirectory(), keysToSearch, searchTerm);
 	const foundedFromCache = searchFunction(arrList, keysToSearch, searchTerm);
 	foundedFromDb.arr.map(e => e.reverse());
-	setLoading(false);
+
 	return { foundedFromCache: foundedFromCache, foundedFromDb: foundedFromDb.arr };
 };
 

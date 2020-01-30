@@ -22,13 +22,13 @@ const MainLayout = () => {
 
 	const startSearch = searchTerm => {
 		setActiveRightScreen('search');
-		setSearchLoading(true);
+
 		const tempData = searchFromMessageContext(
 			messageHistory[selectedUser.userIdentity],
 			searchTerm,
-			setSearchLoading,
 			selectedUser.userIdentity
 		);
+
 		setSearchResult(tempData);
 	};
 
@@ -37,11 +37,11 @@ const MainLayout = () => {
 	};
 
 	useEffect(() => {
-		setActiveScreenToMedia();
+		setActiveRightScreen('media');
 	}, [selectedUser]);
 
-	const setActiveScreenToMedia = () => {
-		setActiveRightScreen('media');
+	const setActiveScreenToMedia = name => {
+		setActiveRightScreen(name);
 	};
 
 	return (
