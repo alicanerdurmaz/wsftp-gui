@@ -53,7 +53,7 @@ const ChatHeader = ({ startSearch, setActiveScreenToMedia }) => {
 									? 'online-indicator bg-colorGreen'
 									: 'online-indicator bg-colorGray'
 							}></span>
-						<div className='chat-header-username'>{selectedUser.username}</div>
+						<div className='chat-header-username'>{selectedUser.nick}</div>
 						<div className='divider'></div>
 
 						<input

@@ -19,8 +19,9 @@ try {
 function createWindow() {
 	startCommander();
 	mainWindow = new BrowserWindow({
-		width: settingsJson.windowSize ? settingsJson.windowSize.width : 975,
+		width: settingsJson.windowSize ? settingsJson.windowSize.width : 840,
 		height: settingsJson.windowSize ? settingsJson.windowSize.height : 650,
+		minWidth: 840,
 		webPreferences: {
 			nodeIntegration: true
 		}
@@ -41,7 +42,7 @@ function createWindow() {
 	// BrowserWindow.addDevToolsExtension(
 	// 	'/home/alican/.config/google-chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.4.0_0/'
 	// );
-	// mainWindow.webContents.openDevTools();
+	mainWindow.webContents.openDevTools();
 }
 
 ipcMain.on('save-completed', () => {

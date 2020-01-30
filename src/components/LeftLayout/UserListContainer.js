@@ -32,7 +32,7 @@ const UserListContainer = () => {
 								macAddress={onlineUserList[index].mac}
 								userIdentity={onlineUserList[index].userIdentity}
 								notificationNumber={onlineUserList[index].notificationNumber}
-								isMuted={onlineUserList[index].isMuted}
+								muted={onlineUserList[index].muted}
 								key={index}
 								nick={onlineUserList[index].nick}></UserListItem>
 						);
@@ -46,14 +46,16 @@ const UserListContainer = () => {
 					} else if (onlineUserList[index].event === 'offline') {
 						return (
 							<UserListItem
+								ip={onlineUserList[index].ip}
 								status={onlineUserList[index].event}
 								username={onlineUserList[index].username}
 								ipAddress={onlineUserList[index].ip}
 								macAddress={onlineUserList[index].mac}
 								userIdentity={onlineUserList[index].userIdentity}
 								notificationNumber={onlineUserList[index].notificationNumber}
-								isMuted={onlineUserList[index].isMuted}
-								key={index}></UserListItem>
+								muted={onlineUserList[index].muted}
+								key={index}
+								nick={onlineUserList[index].nick}></UserListItem>
 						);
 					} else return false;
 				})}

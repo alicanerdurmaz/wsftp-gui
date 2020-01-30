@@ -6,9 +6,11 @@ import { API_SendFile } from '../backend/api/webSocketConnection';
 import Spinner from './Spinner';
 import uuid from 'uuid/v4';
 import { SettingsContext } from '../context/SettingsContext';
+import { OnlineUserContext } from '../context/OnlineUserContext/OnlineUserContext';
 const DragAndDropProvider = props => {
 	const { enqueueSnackbar } = useSnackbar();
 	const { selectedUser } = useContext(SelectUserContext);
+	const { onlineUserList } = useContext(OnlineUserContext);
 	const { settings } = useContext(SettingsContext);
 	const [counter, setCounter] = useState(0);
 	const [showDnd, setShowDnd] = useState('');
@@ -43,7 +45,7 @@ const DragAndDropProvider = props => {
 		event.stopPropagation();
 		event.preventDefault();
 
-		if (!selectedUser || selectedUser.status === 'offline') {
+		if (!selectedUser || onlineUserList[selectedUser.userIdentity].event === 'offline') {
 			enqueueSnackbar(`${selectedUser.username} is offline`, { variant: 'error' });
 			setCounter(0);
 			return;

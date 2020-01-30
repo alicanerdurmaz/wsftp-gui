@@ -4,13 +4,13 @@ import { ReactComponent as FileUploadIcon } from '../../../assets/svg/file-uploa
 import { SelectUserContext } from '../../../context/SelectUserContext';
 import { API_SendMessage, API_SendFile } from '../../../backend/api/webSocketConnection';
 import uuid from 'uuid/v4';
-import { SettingsContext } from '../../../context/SettingsContext';
+import { OnlineUserContext } from '../../../context/OnlineUserContext/OnlineUserContext';
 
 const { dialog } = window.require('electron').remote;
 
 const ChatInput = () => {
 	const { selectedUser } = useContext(SelectUserContext);
-	const { settings } = useContext(SettingsContext);
+	const { onlineUserList } = useContext(OnlineUserContext);
 	const [text, setText] = useState('');
 	const root = useRef(document.documentElement);
 
@@ -48,9 +48,10 @@ const ChatInput = () => {
 			selectedUser.nick
 		);
 	};
+
 	return (
 		<div className='chat-input-area'>
-			{selectedUser && selectedUser.status === 'online' ? (
+			{onlineUserList[selectedUser.userIdentity].event === 'online' ? (
 				<Fragment>
 					<FileUploadIcon onClick={() => openFileExplorer()}></FileUploadIcon>
 					<TextareaAutosize

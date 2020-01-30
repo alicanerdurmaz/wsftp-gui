@@ -16,7 +16,6 @@ import findDbDirectory from '../../Helpers/findDbDirectory';
 import { UploadMediaContext } from '../MediaContext/UploadMediaContext';
 import { DownloadMediaContext } from '../MediaContext/DownloadMediaContext';
 import { playNotification } from '../../Helpers/playNotificationSound';
-const { app } = require('electron').remote;
 
 const rawData = getObject('allUsersList.json', findDbDirectory());
 let allUsersList = {};
@@ -30,12 +29,13 @@ const OnlineUserContextProvider = props => {
 	const [onlineUserList, setOnlineUserList] = useState(() => {
 		return allUsersList;
 	});
+
 	const { messageHistory, dispatch } = useContext(MessageContext);
 	const { uploadMediaList, dispatchUploadMediaContext } = useContext(UploadMediaContext);
 	const { downloadMediaList, dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
 	const { dispatchDbContext } = useContext(DatabaseMessageContext);
 	const { setSelectedUser } = useContext(SelectUserContext);
-	console.log(messageHistory);
+
 	hsSocket.onmessage = msg => {
 		console.log(msg.data);
 		const toJson = JSON.parse(msg.data);
@@ -106,7 +106,7 @@ const OnlineUserContextProvider = props => {
 
 	const muteOrUnmute = (userIdentity, status) => {
 		const tempObject = { ...onlineUserList };
-		tempObject[userIdentity].isMuted = status;
+		tempObject[userIdentity].muted = status;
 		setOnlineUserList(tempObject);
 	};
 

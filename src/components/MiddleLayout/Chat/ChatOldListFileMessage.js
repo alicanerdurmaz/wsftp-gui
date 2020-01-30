@@ -4,8 +4,6 @@ import FILE_STATUS from '../../../config/CONFIG_FILE_STATUS';
 
 import { byteConverter } from '../../../Helpers/byteConverter';
 import { ReactComponent as FileIcon } from '../../../assets/svg/file-solid.svg';
-import { ReactComponent as CheckIcon } from '../../../assets/svg/check-solid.svg';
-import { ReactComponent as TimesIcon } from '../../../assets/svg/times-solid.svg';
 
 const ChatOldListFileMessage = ({ fileStatus, from, createdAt, fileSize, fileName, id }) => {
 	let tempFrom = 'user';
@@ -25,7 +23,7 @@ const ChatOldListFileMessage = ({ fileStatus, from, createdAt, fileSize, fileNam
 			return <span className='rejected-text'>rejected</span>;
 		}
 	};
-	console.log(fileStatus);
+
 	const createdAtToText = () => {
 		if (!createdAt) return '';
 		let text = `${createdAt[0]} ${createdAt[1]} ${createdAt[2]} , ${createdAt[3]} - ${createdAt[4]}`;
@@ -47,7 +45,7 @@ const ChatOldListFileMessage = ({ fileStatus, from, createdAt, fileSize, fileNam
 			</li>
 			<li className='li-date'>
 				<span className={`file-message-createdAt ${tempFrom}`}>
-					<Tooltip title={createdAtToText()} placement='bottom' interactive>
+					<Tooltip title={createdAtToText()} placement='left' interactive>
 						<span className='createdAt-f'>{createdAt && createdAt[4]}</span>
 					</Tooltip>
 				</span>

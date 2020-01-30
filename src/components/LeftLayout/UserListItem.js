@@ -10,7 +10,7 @@ import UserListDropDown from './UserListDropDown';
 const { remote } = require('electron');
 const dialog = remote.dialog;
 
-const UserListItem = ({ status, username, ip, macAddress, userIdentity, notificationNumber, isMuted, nick }) => {
+const UserListItem = ({ status, username, ip, macAddress, userIdentity, notificationNumber, muted, nick }) => {
 	const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
 	const { muteOrUnmute, deleteUser } = useContext(OnlineUserContext);
 	const { dispatchDbContext } = useContext(DatabaseMessageContext);
@@ -34,7 +34,7 @@ const UserListItem = ({ status, username, ip, macAddress, userIdentity, notifica
 			macAddress: macAddress,
 			userIdentity: userIdentity,
 			notificationNumber: notificationNumber,
-			isMuted: isMuted,
+			muted: muted,
 			nick: nick
 		});
 	};
@@ -50,7 +50,7 @@ const UserListItem = ({ status, username, ip, macAddress, userIdentity, notifica
 		setAnchorEl(e.currentTarget);
 	};
 	const handleMute = () => {
-		muteOrUnmute(userIdentity, !isMuted);
+		muteOrUnmute(userIdentity, !muted);
 		handleClose();
 	};
 	const handleDelete = e => {
@@ -82,17 +82,17 @@ const UserListItem = ({ status, username, ip, macAddress, userIdentity, notifica
 				<div className='notification-number-container'>
 					{notificationNumber >= 1 ? <div className='notification-number'>{notificationNumber}</div> : null}
 				</div>
-				<span className='primary-text'>{username}</span>
+				<span className='primary-text'>{nick}</span>
 				<div className='user-list-rightinfo-container'>
 					<AngleRightIcon
 						onClick={e => {
 							btnOpenDropDownHandler(e);
 						}}></AngleRightIcon>
-					{isMuted ? <VolumeMuteIcon></VolumeMuteIcon> : null}
+					{muted ? <VolumeMuteIcon></VolumeMuteIcon> : null}
 				</div>
 			</div>
 			<UserListDropDown
-				isMuted={isMuted}
+				muted={muted}
 				anchorEl={anchorEl}
 				handleClose={handleClose}
 				handleMute={handleMute}

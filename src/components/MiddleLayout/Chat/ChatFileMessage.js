@@ -170,7 +170,7 @@ const ChatFileMessage = ({
 			</li>
 			<li className='li-date'>
 				<span className={`file-message-createdAt ${tempFrom}`}>
-					<Tooltip title={createdAtToText()} placement='bottom' interactive>
+					<Tooltip title={createdAtToText()} placement='left' interactive>
 						<span className='createdAt-f'>{createdAt && createdAt[4]}</span>
 					</Tooltip>
 				</span>

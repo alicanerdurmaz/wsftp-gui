@@ -1,11 +1,10 @@
-import React, { useContext, Fragment, useRef, useEffect } from 'react';
-
+import React, { Fragment, useRef, useEffect } from 'react';
+import Tooltip from '@material-ui/core/Tooltip';
 import FILE_STATUS from '../../../config/CONFIG_FILE_STATUS';
 
 import { byteConverter } from '../../../Helpers/byteConverter';
 import { ReactComponent as FileIcon } from '../../../assets/svg/file-solid.svg';
-import { ReactComponent as CheckIcon } from '../../../assets/svg/check-solid.svg';
-import { ReactComponent as TimesIcon } from '../../../assets/svg/times-solid.svg';
+
 import useOnScreen from '../../hooks/useOnScreen';
 
 const RefBottomChatOldListFile = ({
@@ -49,6 +48,12 @@ const RefBottomChatOldListFile = ({
 		}
 	};
 
+	const createdAtToText = () => {
+		if (!createdAt) return '';
+		let text = `${createdAt[0]} ${createdAt[1]} ${createdAt[2]} , ${createdAt[3]} - ${createdAt[4]}`;
+		return text;
+	};
+
 	return (
 		<Fragment>
 			<li className={`file-message-container ${tempFrom}`} id={id} ref={refOldListBottom}>
@@ -64,7 +69,9 @@ const RefBottomChatOldListFile = ({
 			</li>
 			<li className='li-date'>
 				<span className={`file-message-createdAt ${tempFrom}`}>
-					<span className='createdAt-f'>{createdAt && createdAt[4]}</span>
+					<Tooltip title={createdAtToText()} placement='left' interactive>
+						<span className='createdAt-f'>{createdAt && createdAt[4]}</span>
+					</Tooltip>
 				</span>
 			</li>
 		</Fragment>

@@ -33,7 +33,7 @@ const StyledMenuItem = withStyles(theme => ({
 	}
 }))(MenuItem);
 
-function UserListDropDown({ anchorEl, handleClose, handleMute, handleDelete, isMuted }) {
+function UserListDropDown({ anchorEl, handleClose, handleMute, handleDelete, muted }) {
 	return (
 		<StyledMenu
 			id='userlist-dropdown'
@@ -41,7 +41,7 @@ function UserListDropDown({ anchorEl, handleClose, handleMute, handleDelete, isM
 			open={Boolean(anchorEl)}
 			onClose={handleClose}
 			anchorEl={anchorEl}>
-			<StyledMenuItem onClick={handleMute}>{isMuted ? 'Unmute' : 'Mute'}</StyledMenuItem>
+			<StyledMenuItem onClick={handleMute}>{muted ? 'Unmute' : 'Mute'}</StyledMenuItem>
 			<StyledMenuItem onClick={handleDelete}>Delete</StyledMenuItem>
 		</StyledMenu>
 	);
