@@ -233,7 +233,10 @@ const MediaHistoryLayout = () => {
 												mac={e.mac}
 												uuid={e.uuid}
 												dbName={e.dbName}
-												port={e.port}></MediaHistoryListItem>
+												port={e.port}
+												username={e.username}
+												ip={e.ip}
+												nick={e.nick}></MediaHistoryListItem>
 										);
 									else return null;
 								})}
@@ -258,7 +261,10 @@ const MediaHistoryLayout = () => {
 											mac={e.mac}
 											uuid={e.uuid}
 											dbName={e.dbName}
-											port={e.port}></MediaHistoryListItem>
+											port={e.port}
+											username={e.username}
+											ip={e.ip}
+											nick={e.nick}></MediaHistoryListItem>
 									);
 								})}
 						</Fragment>
@@ -324,7 +330,8 @@ const MediaHistoryLayout = () => {
 														mac={e.mac}
 														uuid={e.uuid}
 														dbName={e.dbName}
-														port={e.port}></MediaHistoryListItem>
+														port={e.port}
+														username={e.username}></MediaHistoryListItem>
 												);
 											else return null;
 										})}
@@ -351,7 +358,8 @@ const MediaHistoryLayout = () => {
 											mac={el.mac}
 											uuid={el.uuid}
 											dbName={el.dbName}
-											port={el.port}></MediaHistoryListItem>
+											port={el.port}
+											username={el.username}></MediaHistoryListItem>
 									);
 								})}
 						</Fragment>

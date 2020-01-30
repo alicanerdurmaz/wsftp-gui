@@ -25,7 +25,10 @@ const ChatFileMessage = ({
 	dbName,
 	progress,
 	mac,
-	port
+	port,
+	username,
+	ip,
+	nick
 }) => {
 	const { dispatch } = useContext(MessageContext);
 	const { dispatchUploadMediaContext } = useContext(UploadMediaContext);
@@ -46,7 +49,10 @@ const ChatFileMessage = ({
 				mac: mac,
 				dir: dir,
 				dest: settings.downloadDirectory || 'desk',
-				uuid: uuid
+				uuid: uuid,
+				ip: ip,
+				username: username,
+				nick: nick
 			};
 
 			commanderSocket.send(JSON.stringify(tempAcceptRequest));
@@ -65,7 +71,10 @@ const ChatFileMessage = ({
 				event: 'crej',
 				mac: mac,
 				dir: dir,
-				uuid: uuid
+				uuid: uuid,
+				ip: ip,
+				username: username,
+				nick: nick
 			};
 			commanderSocket.send(JSON.stringify(tempRejectRequest));
 			dispatch({

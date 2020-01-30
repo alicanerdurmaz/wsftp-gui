@@ -30,16 +30,11 @@ const OnlineUserContextProvider = props => {
 	const [onlineUserList, setOnlineUserList] = useState(() => {
 		return allUsersList;
 	});
-	const { messageHistory, newUser, dispatch } = useContext(MessageContext);
+	const { messageHistory, dispatch } = useContext(MessageContext);
 	const { uploadMediaList, dispatchUploadMediaContext } = useContext(UploadMediaContext);
 	const { downloadMediaList, dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
 	const { dispatchDbContext } = useContext(DatabaseMessageContext);
 	const { setSelectedUser } = useContext(SelectUserContext);
-
-	useEffect(() => {
-		addNewUser(newUser);
-		// eslint-disable-next-line
-	}, [newUser]);
 
 	hsSocket.onmessage = msg => {
 		const toJson = JSON.parse(msg.data);
@@ -50,7 +45,8 @@ const OnlineUserContextProvider = props => {
 				type: USER_CREATED,
 				macAddress: toJson.mac,
 				username: toJson.username,
-				userIdentity: toJson.userIdentity
+				userIdentity: toJson.userIdentity,
+				nick: toJson.nick
 			});
 		}
 		if (
@@ -123,28 +119,6 @@ const OnlineUserContextProvider = props => {
 		setOnlineUserList(tempObject);
 		dispatch({ type: USER_DELETED, userIdentity: userIdentity });
 		dispatchDbContext({ type: DELETE_DB, userIdentity: userIdentity });
-	};
-
-	const addNewUser = userIdentity => {
-		if (!userIdentity) return;
-		const tempObject = { ...onlineUserList };
-		const splitted = userIdentity.split(':');
-		let macAdress = '';
-		for (let i = 1; i < splitted.length - 1; i++) {
-			macAdress += splitted[i];
-			macAdress += ':';
-		}
-		macAdress += splitted[splitted.length - 1];
-		tempObject[userIdentity] = {
-			event: 'online',
-			ip: '192.168.1.23',
-			username: splitted[0],
-			mac: macAdress,
-			userIdentity: userIdentity,
-			isMuted: false,
-			notificationNumber: 1
-		};
-		setOnlineUserList(tempObject);
 	};
 
 	return (

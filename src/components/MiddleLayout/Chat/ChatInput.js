@@ -4,12 +4,13 @@ import { ReactComponent as FileUploadIcon } from '../../../assets/svg/file-uploa
 import { SelectUserContext } from '../../../context/SelectUserContext';
 import { API_SendMessage, API_SendFile } from '../../../backend/api/webSocketConnection';
 import uuid from 'uuid/v4';
+import { SettingsContext } from '../../../context/SettingsContext';
 
 const { dialog } = window.require('electron').remote;
 
 const ChatInput = () => {
 	const { selectedUser } = useContext(SelectUserContext);
-
+	const { settings } = useContext(SettingsContext);
 	const [text, setText] = useState('');
 	const root = useRef(document.documentElement);
 
@@ -27,7 +28,7 @@ const ChatInput = () => {
 	};
 
 	const sendMessage = e => {
-		API_SendMessage(selectedUser.macAddress, text);
+		API_SendMessage(selectedUser.macAddress, text, selectedUser.ip, selectedUser.username, selectedUser.nick);
 		setText('');
 	};
 
@@ -38,7 +39,14 @@ const ChatInput = () => {
 		const result = await dialog.showOpenDialog({ properties: ['multiSelections'] });
 		const idArray = result.filePaths.map(e => uuid());
 
-		API_SendFile(selectedUser.macAddress, result.filePaths, idArray);
+		API_SendFile(
+			selectedUser.macAddress,
+			result.filePaths,
+			idArray,
+			selectedUser.ip,
+			selectedUser.username,
+			selectedUser.nick
+		);
 	};
 	return (
 		<div className='chat-input-area'>

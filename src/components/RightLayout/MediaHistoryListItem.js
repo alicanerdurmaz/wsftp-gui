@@ -27,7 +27,10 @@ const MediaHistoryListItem = ({
 	mac,
 	uuid,
 	dbName,
-	port
+	port,
+	username,
+	ip,
+	nick
 }) => {
 	// for download section
 	let tempDir = downloadDir && downloadDir + '/' + fileName;
@@ -52,7 +55,10 @@ const MediaHistoryListItem = ({
 			mac: mac,
 			dir: fileDir,
 			dest: settings.downloadDirectory || 'desk',
-			uuid: uuid
+			uuid: uuid,
+			ip: ip,
+			username: username,
+			nick: nick
 		};
 
 		commanderSocket.send(JSON.stringify(tempAcceptRequest));
@@ -70,7 +76,10 @@ const MediaHistoryListItem = ({
 			event: 'crej',
 			mac: mac,
 			dir: fileDir,
-			uuid: uuid
+			uuid: uuid,
+			ip: settings.ip,
+			username: username,
+			nick: settings.nick
 		};
 		commanderSocket.send(JSON.stringify(tempRejectRequest));
 

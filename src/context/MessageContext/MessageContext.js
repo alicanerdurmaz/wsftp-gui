@@ -43,19 +43,14 @@ const MessageContextProvider = props => {
 	const { settings, setSettings } = useContext(SettingsContext);
 	const { dispatchUploadMediaContext } = useContext(UploadMediaContext);
 	const { dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
-	const [newUser, setNewUser] = useState(false);
+
 	const lastIncomingMessage = useRef(false);
 
-	const isThisNewUser = userIdentity => {
-		if (!messageHistory.hasOwnProperty(userIdentity)) {
-			setNewUser(userIdentity);
-		}
-	};
 	msgSocket.onmessage = function(e) {
 		const dataToJson = JSON.parse(e.data);
 
 		const userIdentity = dataToJson.username + ':' + dataToJson.mac;
-		isThisNewUser(userIdentity);
+
 		if (dataToJson.event === 'smsg') {
 			lastIncomingMessage.current = false;
 			dispatch({
@@ -268,11 +263,12 @@ const MessageContextProvider = props => {
 			});
 		}
 		if (dataToJson.event === 'info') {
+			console.log(dataToJson);
 		}
 	};
 
 	return (
-		<MessageContext.Provider value={{ messageHistory, dispatch, lastIncomingMessage, newUser }}>
+		<MessageContext.Provider value={{ messageHistory, dispatch, lastIncomingMessage }}>
 			{props.children}
 		</MessageContext.Provider>
 	);

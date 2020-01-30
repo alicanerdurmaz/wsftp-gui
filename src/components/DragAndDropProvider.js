@@ -5,9 +5,11 @@ import { SelectUserContext } from '../context/SelectUserContext';
 import { API_SendFile } from '../backend/api/webSocketConnection';
 import Spinner from './Spinner';
 import uuid from 'uuid/v4';
+import { SettingsContext } from '../context/SettingsContext';
 const DragAndDropProvider = props => {
 	const { enqueueSnackbar } = useSnackbar();
 	const { selectedUser } = useContext(SelectUserContext);
+	const { settings } = useContext(SettingsContext);
 	const [counter, setCounter] = useState(0);
 	const [showDnd, setShowDnd] = useState('');
 
@@ -59,7 +61,14 @@ const DragAndDropProvider = props => {
 		const fileDirArray = Object.values(data).map(e => e.path);
 		const idArray = fileDirArray.map(e => uuid());
 
-		API_SendFile(selectedUser.macAddress, fileDirArray, idArray);
+		API_SendFile(
+			selectedUser.macAddress,
+			fileDirArray,
+			idArray,
+			selectedUser.ip,
+			selectedUser.username,
+			selectedUser.nick
+		);
 
 		setCounter(0);
 	};

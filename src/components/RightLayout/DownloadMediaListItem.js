@@ -26,7 +26,10 @@ const DownloadMediaListItem = ({
 	mac,
 	uuid,
 	dbName,
-	port
+	port,
+	username,
+	ip,
+	nick
 }) => {
 	let fullPath = downloadDir && downloadDir + '/' + fileName;
 	const { settings } = useContext(SettingsContext);
@@ -46,7 +49,10 @@ const DownloadMediaListItem = ({
 			mac: mac,
 			dir: fileDir,
 			dest: settings.downloadDirectory || 'desk',
-			uuid: uuid
+			uuid: uuid,
+			ip: ip,
+			username: username,
+			nick: nick
 		};
 
 		commanderSocket.send(JSON.stringify(tempAcceptRequest));
@@ -64,7 +70,10 @@ const DownloadMediaListItem = ({
 			event: 'crej',
 			mac: mac,
 			dir: fileDir,
-			uuid: uuid
+			uuid: uuid,
+			ip: ip,
+			username: username,
+			nick: nick
 		};
 		commanderSocket.send(JSON.stringify(tempRejectRequest));
 		dispatch({ type: STATUS_CHANGED, payload: { uuid: uuid, dbName: dbName, fileStatus: FILE_STATUS.rejected } });

