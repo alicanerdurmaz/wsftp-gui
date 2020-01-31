@@ -1,4 +1,9 @@
-import { DOWNLOAD_MEDIA_GET_MSG_FROM_DB, DOWNLOAD_MEDIA_RESET_BY_NAME, DOWNLOAD_MEDIA_DELETE_DB } from '../types';
+import {
+	DOWNLOAD_MEDIA_GET_MSG_FROM_DB,
+	DOWNLOAD_MEDIA_RESET_BY_NAME,
+	DOWNLOAD_MEDIA_DELETE_DB,
+	DOWNLOAD_DELETE_BY_KEY_VALUE
+} from '../types';
 import { getFromDataBaseSync } from '../../backend/api/dbFunctions';
 import findDbDirectory from '../../Helpers/findDbDirectory';
 
@@ -34,7 +39,15 @@ export const oldDownloadMediaReducer = (state, action) => {
 			const tempState = { ...state };
 			delete tempState[`media:download:${action.userIdentity}`];
 			return { ...tempState };
-
+		case DOWNLOAD_DELETE_BY_KEY_VALUE:
+			if (!state[`media:download:${action.userIdentity}`]) {
+				return { ...state };
+			}
+			const tempObj = state[`media:download:${action.userIdentity}`].filter(
+				e => e[action.key] !== action.value || e[action.key] !== 0
+			);
+			state[`media:download:${action.userIdentity}`] = tempObj;
+			return { ...state };
 		default:
 			break;
 	}

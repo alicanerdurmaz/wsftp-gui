@@ -204,7 +204,10 @@ const MediaHistoryLayout = () => {
 				<span style={{ marginLeft: '0px' }} className={`error-text ${errorUploadText ? '' : 'hidden'}`}>
 					Please lengthen this text to 2 or more
 				</span>
-				<ThreeDotButton scrollToUploadList={scrollToUploadList} type={'upload'}></ThreeDotButton>
+				<ThreeDotButton
+					scrollToDownloadList={scrollToDownloadList}
+					scrollToUploadList={scrollToUploadList}
+					type={'upload'}></ThreeDotButton>
 			</div>
 
 			<div className='media-list-container-upload'>
@@ -300,7 +303,10 @@ const MediaHistoryLayout = () => {
 				<span style={{ marginLeft: '0px' }} className={`error-text ${errorDownloadText ? '' : 'hidden'}`}>
 					Please lengthen this text to 2 or more
 				</span>
-				<ThreeDotButton scrollToUploadList={scrollToUploadList} type={'download'}></ThreeDotButton>
+				<ThreeDotButton
+					scrollToDownloadList={scrollToDownloadList}
+					scrollToUploadList={scrollToUploadList}
+					type={'download'}></ThreeDotButton>
 			</div>
 
 			<div className='media-list-container-download'>

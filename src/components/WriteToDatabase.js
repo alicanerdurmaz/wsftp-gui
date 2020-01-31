@@ -21,20 +21,20 @@ const WriteToDatabase = () => {
 
 	useEffect(() => {
 		const saveToDatabase = async () => {
-			const keys = Object.keys(uploadMediaList);
-			for (let i = 0; i < keys.length; i++) {
-				for (let j = 0; j < uploadMediaList[keys[i]].length; j++) {
-					if (uploadMediaList[keys[i]][j].fileStatus === FILE_STATUS.waiting) {
+			const ukeys = Object.keys(uploadMediaList);
+			for (let i = 0; i < ukeys.length; i++) {
+				for (let j = 0; j < uploadMediaList[ukeys[i]].length; j++) {
+					if (uploadMediaList[ukeys[i]][j].fileStatus === FILE_STATUS.waiting) {
 						const tempCancelRequest = {
 							event: 'cncl',
-							mac: uploadMediaList[keys[i]][j].mac,
-							dir: uploadMediaList[keys[i]][j].dir,
-							uuid: uploadMediaList[keys[i]][j].uuid,
-							ip: uploadMediaList[keys[i]][j].ip,
-							username: uploadMediaList[keys[i]][j].username,
-							nick: uploadMediaList[keys[i]][j].nick
+							mac: uploadMediaList[ukeys[i]][j].mac,
+							dir: uploadMediaList[ukeys[i]][j].dir,
+							uuid: uploadMediaList[ukeys[i]][j].uuid,
+							ip: uploadMediaList[ukeys[i]][j].ip,
+							username: uploadMediaList[ukeys[i]][j].username,
+							nick: uploadMediaList[ukeys[i]][j].nick
 						};
-						uploadMediaList[keys[i]][j].fileStatus = FILE_STATUS.canceled;
+						uploadMediaList[ukeys[i]][j].fileStatus = FILE_STATUS.canceled;
 						API_CancelUpload(tempCancelRequest);
 						await sleep(100);
 					}

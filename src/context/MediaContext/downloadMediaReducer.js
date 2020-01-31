@@ -6,7 +6,9 @@ import {
 	DOWNLOAD_MEDIA_PROGRESS_DONE,
 	DOWNLOAD_MEDIA_PROGRESS_FAIL,
 	DOWNLOAD_MEDIA_STATUS_CHANGED,
-	DOWNLOAD_ADD_DOWNLOAD_DIR
+	DOWNLOAD_ADD_DOWNLOAD_DIR,
+	OLD_DOWNLOAD_DELETE_BY_KEY_VALUE,
+	DOWNLOAD_DELETE_BY_KEY_VALUE
 } from '../types';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 
@@ -73,7 +75,13 @@ export const downloadMediaReducer = (state, action) => {
 				}
 			});
 			return { ...state };
-
+		case DOWNLOAD_DELETE_BY_KEY_VALUE:
+			if (!state[`media:download:${action.userIdentity}`]) {
+				return { ...state };
+			}
+			const tempObj = state[`media:download:${action.userIdentity}`].filter(e => e[action.key] !== action.value);
+			state[`media:download:${action.userIdentity}`] = tempObj;
+			return { ...state };
 		default:
 			break;
 	}
