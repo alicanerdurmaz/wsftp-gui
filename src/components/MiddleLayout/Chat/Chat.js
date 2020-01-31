@@ -11,7 +11,6 @@ import { MessageContext } from '../../../context/MessageContext/MessageContext';
 import { OnlineUserContext } from '../../../context/OnlineUserContext/OnlineUserContext';
 import { RESET_BY_NAME, GET_MSG_FROM_DB } from '../../../context/types';
 import findDbDirectory from '../../../Helpers/findDbDirectory';
-import Spinner from '../../Spinner';
 
 const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScreenToMedia }) => {
 	const { selectedUser } = useContext(SelectUserContext);
@@ -137,24 +136,33 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 	return (
 		<Fragment>
 			<ChatHeader startSearch={startSearch} setActiveScreenToMedia={setActiveScreenToMedia}></ChatHeader>
+			{selectedUser ? (
+				<Fragment>
+					<div className={`chat-read-container `} ref={e => (refScroller = e)}>
+						<ul
+							className='chat-list'
+							onWheel={e => handleWheel(e)}
+							onKeyDown={e => handleKeyDown(e)}
+							tabIndex='0'>
+							<Fragment>
+								<ChatOldList scrollDirection={scrollDirection} jumpToDb={jumpToDb}></ChatOldList>
+								<ChatList setHidden={setHidden} jumpToBottom={jumpToBottom}></ChatList>
+							</Fragment>
+						</ul>
+					</div>
 
-			<div className={`chat-read-container `} ref={e => (refScroller = e)}>
-				<ul className='chat-list' onWheel={e => handleWheel(e)} onKeyDown={e => handleKeyDown(e)} tabIndex='0'>
-					<Fragment>
-						<ChatOldList scrollDirection={scrollDirection} jumpToDb={jumpToDb}></ChatOldList>
-						<ChatList setHidden={setHidden} jumpToBottom={jumpToBottom}></ChatList>
-					</Fragment>
-				</ul>
-			</div>
+					<button
+						className={`btn-jumpToPresent ${hidden}`}
+						onClick={e => jumpToBottom('auto')}
+						ref={btnJumpP}>
+						<span>Jump to Present</span>
+					</button>
 
-			<button className={`btn-jumpToPresent ${hidden}`} onClick={e => jumpToBottom('auto')} ref={btnJumpP}>
-				<span>Jump to Present</span>
-			</button>
-
-			<div className='chat-input-container'>
-				<ChatInput></ChatInput>
-			</div>
-
+					<div className='chat-input-container'>
+						<ChatInput></ChatInput>
+					</div>
+				</Fragment>
+			) : null}
 			<Snackbar
 				style={{ top: '43px', left: '172px' }}
 				anchorOrigin={{ vertical, horizontal }}

@@ -15,7 +15,6 @@ const MainLayout = () => {
 	const [modalOpen, setModalOpen] = useState(false);
 
 	const [activeRightScreen, setActiveRightScreen] = useState('media');
-	const [searchLoading, setSearchLoading] = useState(false);
 	const [searchResult, setSearchResult] = useState([]);
 	const [scrollPosition, setScrollPosition] = useState(false);
 	const [jumpToDb, setJumpToDb] = useState(false);
@@ -48,26 +47,26 @@ const MainLayout = () => {
 		<DragAndDropProvider>
 			<Settings modalOpen={modalOpen} setModalOpen={setModalOpen}></Settings>
 			<LeftLayout openSettingsScreen={openSettingsScreen}></LeftLayout>
-			{selectedUser ? (
-				<Fragment>
-					<MiddleLayout
-						startSearch={startSearch}
-						scrollPosition={scrollPosition}
-						setJumpToDb={setJumpToDb}
-						jumpToDb={jumpToDb}
-						setActiveScreenToMedia={setActiveScreenToMedia}></MiddleLayout>
+
+			<Fragment>
+				<MiddleLayout
+					startSearch={startSearch}
+					scrollPosition={scrollPosition}
+					setJumpToDb={setJumpToDb}
+					jumpToDb={jumpToDb}
+					setActiveScreenToMedia={setActiveScreenToMedia}></MiddleLayout>
+				{selectedUser ? (
 					<RightLayout
 						activeRightScreen={activeRightScreen}
-						searchLoading={searchLoading}
 						searchResult={searchResult}
 						setScrollPosition={setScrollPosition}
 						setJumpToDb={setJumpToDb}></RightLayout>
-				</Fragment>
-			) : (
-				<div>
-					<h1>SELECT USER FROM LEFT</h1>
-				</div>
-			)}
+				) : (
+					<div className='right-area'>
+						<div className={`right-container`}></div>
+					</div>
+				)}
+			</Fragment>
 		</DragAndDropProvider>
 	);
 };

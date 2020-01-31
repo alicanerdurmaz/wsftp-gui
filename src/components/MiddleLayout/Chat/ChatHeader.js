@@ -3,11 +3,13 @@ import { SelectUserContext } from '../../../context/SelectUserContext';
 import { ReactComponent as AngleRight } from '../../../assets/svg/angle-right.svg';
 import { ReactComponent as AngleLeft } from '../../../assets/svg/angle-left.svg';
 import { ReactComponent as TimesIcon } from '../../../assets/svg/times-solid.svg';
+import { OnlineUserContext } from '../../../context/OnlineUserContext/OnlineUserContext';
 
 const ChatHeader = ({ startSearch, setActiveScreenToMedia }) => {
 	const root = useRef(document.documentElement);
 	const searchInput = useRef(false);
 	const { selectedUser } = useContext(SelectUserContext);
+	const { onlineUserList } = useContext(OnlineUserContext);
 	const [error, setError] = useState(false);
 	const [isMediaOpen, setIsMediaOpen] = useState(true);
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -53,7 +55,7 @@ const ChatHeader = ({ startSearch, setActiveScreenToMedia }) => {
 									? 'online-indicator bg-colorGreen'
 									: 'online-indicator bg-colorGray'
 							}></span>
-						<div className='chat-header-username'>{selectedUser.nick}</div>
+						<div className='chat-header-username'>{onlineUserList[selectedUser.userIdentity].nick}</div>
 						<div className='divider'></div>
 
 						<input

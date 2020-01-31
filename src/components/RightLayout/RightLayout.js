@@ -1,7 +1,6 @@
 import React from 'react';
 import MediaHistoryLayout from './MediaHistoryLayout';
 import SearchLayout from './SearchLayout/SearchLayout';
-import Spinner from '../Spinner';
 
 const RightLayout = ({ activeRightScreen, searchResult, setScrollPosition, setJumpToDb }) => {
 	return (
