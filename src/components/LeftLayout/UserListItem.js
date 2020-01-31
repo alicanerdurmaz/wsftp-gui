@@ -7,14 +7,16 @@ import { ReactComponent as VolumeMuteIcon } from '../../assets/svg/volume-mute.s
 import { DatabaseMessageContext } from '../../context/DatabaseMessageContext/DatabaseMessageContext';
 import { RESET_BY_NAME } from '../../context/types';
 import UserListDropDown from './UserListDropDown';
+import useDeleteMessages from '../hooks/useDeleteMessages';
 const { remote } = require('electron');
 const dialog = remote.dialog;
 
 const UserListItem = ({ status, username, ip, macAddress, userIdentity, notificationNumber, muted, nick }) => {
 	const { selectedUser, setSelectedUser } = useContext(SelectUserContext);
-	const { muteOrUnmute, deleteUser } = useContext(OnlineUserContext);
+	const { muteOrUnmute } = useContext(OnlineUserContext);
 	const { dispatchDbContext } = useContext(DatabaseMessageContext);
 	const [anchorEl, setAnchorEl] = React.useState(null);
+	const deleteAll = useDeleteMessages();
 	const selectedRef = useRef(false);
 
 	const selectUserHandler = e => {
@@ -62,7 +64,7 @@ const UserListItem = ({ status, username, ip, macAddress, userIdentity, notifica
 		};
 		let response = dialog.showMessageBoxSync(remote.getCurrentWindow(), options);
 		if (response) {
-			deleteUser(userIdentity);
+			deleteAll(userIdentity);
 		}
 		handleClose();
 	};

@@ -42,7 +42,7 @@ function UserListDropDown({ anchorEl, handleClose, handleMute, handleDelete, mut
 			onClose={handleClose}
 			anchorEl={anchorEl}>
 			<StyledMenuItem onClick={handleMute}>{muted ? 'Unmute' : 'Mute'}</StyledMenuItem>
-			<StyledMenuItem onClick={handleDelete}>Delete</StyledMenuItem>
+			<StyledMenuItem onClick={handleDelete}>Delete chat</StyledMenuItem>
 		</StyledMenu>
 	);
 }
