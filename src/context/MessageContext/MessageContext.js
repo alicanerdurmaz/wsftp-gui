@@ -4,7 +4,7 @@ import uuid from 'uuid/v4';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import { messageReducer } from './messageReducer';
 import { dateNow } from '../../Helpers/newDate';
-import { msgSocket, srScoket } from '../../backend/api/webSocketConnection';
+import { msgSocket, srScoket, API_getActiveTransaction } from '../../backend/api/webSocketConnection';
 import {
 	MESSAGE_ADDED,
 	PROGRESS_CHANGED,
@@ -90,7 +90,6 @@ const MessageContextProvider = props => {
 	};
 
 	srScoket.onmessage = function(e) {
-		console.log(e.data);
 		const dataToJson = JSON.parse(e.data);
 
 		if (dataToJson.event === 'my') {
@@ -351,10 +350,21 @@ const MessageContextProvider = props => {
 			});
 		}
 
+		if (dataToJson.event === 'actv') {
+			const tempObj = { ...settings };
+			tempObj.activeTransactions = {
+				total: dataToJson.total,
+				active: dataToJson.active
+			};
+			console.log(dataToJson);
+		}
+
 		if (dataToJson.event === 'info') {
 			console.log(dataToJson);
-		} else {
-			console.log(dataToJson);
+		}
+
+		if (dataToJson.event !== 'prg' && dataToJson.event !== 'actv') {
+			API_getActiveTransaction();
 		}
 	};
 

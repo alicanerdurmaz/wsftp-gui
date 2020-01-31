@@ -104,3 +104,8 @@ export const API_getMyInfo = () => {
 	const data = { event: 'my' };
 	commanderSocket.send(JSON.stringify(data));
 };
+
+export const API_getActiveTransaction = () => {
+	const data = { event: 'actv' };
+	commanderSocket.send(JSON.stringify(data));
+};
