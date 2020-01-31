@@ -57,20 +57,20 @@ const ThreeDotButton = ({ scrollToDownloadList, scrollToUploadList, type }) => {
 		setAnchorEl(null);
 
 		if (type === 'upload') {
-			// deleteFromDataBase(`media:upload:${selectedUser.userIdentity}.json`, findDbDirectory(), key, value);
-			// dispatchOldUploadMediaContext({
-			// 	type: OLD_UPLOAD_DELETE_BY_KEY_VALUE,
-			// 	userIdentity: selectedUser.userIdentity,
-			// 	key: key,
-			// 	value: value
-			// });
-			// scrollToUploadList('auto');
-			// dispatchUploadMediaContext({
-			// 	type: UPLOAD_DELETE_BY_KEY_VALUE,
-			// 	userIdentity: selectedUser.userIdentity,
-			// 	key: key,
-			// 	value: value
-			// });
+			deleteFromDataBase(`media:upload:${selectedUser.userIdentity}.json`, findDbDirectory(), key, value);
+			dispatchOldUploadMediaContext({
+				type: OLD_UPLOAD_DELETE_BY_KEY_VALUE,
+				userIdentity: selectedUser.userIdentity,
+				key: key,
+				value: value
+			});
+			scrollToUploadList('auto');
+			dispatchUploadMediaContext({
+				type: UPLOAD_DELETE_BY_KEY_VALUE,
+				userIdentity: selectedUser.userIdentity,
+				key: key,
+				value: value
+			});
 		}
 
 		if (type === 'download') {
