@@ -10,8 +10,8 @@ import { OldUploadMediaContext } from '../../context/MediaContext/OldUploadMedia
 import { OldDownloadMediaContext } from '../../context/MediaContext/OldDownloadMediaContext';
 import { DOWNLOAD_MEDIA_RESET_BY_NAME, UPLOAD_MEDIA_RESET_BY_NAME } from '../../context/types';
 import { searchFromMediaContext } from '../../Helpers/searchFrom';
-import Spinner from '../Spinner';
 import OldMediaListItem from './OldMediaListItem';
+import ThreeDotButton from './ThreeDotButton';
 
 const MediaHistoryLayout = () => {
 	const { selectedUser } = useContext(SelectUserContext);
@@ -31,9 +31,6 @@ const MediaHistoryLayout = () => {
 
 	const [uploadSearchTerm, setUploadSearchTerm] = useState('');
 	const [downloadSearchTerm, setDownloadSearchTerm] = useState('');
-
-	// const [uploadSearchState, setUploadSearchState] = useState(false);
-	// const [downloadSearchState, setDownloadSearchState] = useState(false);
 
 	let downloadsListEnd = useRef(null);
 	let uploadsListEnd = useRef(null);
@@ -207,6 +204,7 @@ const MediaHistoryLayout = () => {
 				<span style={{ marginLeft: '0px' }} className={`error-text ${errorUploadText ? '' : 'hidden'}`}>
 					Please lengthen this text to 2 or more
 				</span>
+				<ThreeDotButton scrollToUploadList={scrollToUploadList} type={'upload'}></ThreeDotButton>
 			</div>
 
 			<div className='media-list-container-upload'>
@@ -302,6 +300,7 @@ const MediaHistoryLayout = () => {
 				<span style={{ marginLeft: '0px' }} className={`error-text ${errorDownloadText ? '' : 'hidden'}`}>
 					Please lengthen this text to 2 or more
 				</span>
+				<ThreeDotButton scrollToUploadList={scrollToUploadList} type={'download'}></ThreeDotButton>
 			</div>
 
 			<div className='media-list-container-download'>

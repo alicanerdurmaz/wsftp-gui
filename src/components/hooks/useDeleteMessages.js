@@ -19,10 +19,12 @@ import { DatabaseMessageContext } from '../../context/DatabaseMessageContext/Dat
 const useDeleteMessages = () => {
 	const { dispatch } = useContext(MessageContext);
 	const { dispatchDbContext } = useContext(DatabaseMessageContext);
-	const { dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
+
 	const { dispatchUploadMediaContext } = useContext(UploadMediaContext);
-	const { dispatchOldDownloadMediaContext } = useContext(OldDownloadMediaContext);
 	const { dispatchOldUploadMediaContext } = useContext(OldUploadMediaContext);
+
+	const { dispatchOldDownloadMediaContext } = useContext(OldDownloadMediaContext);
+	const { dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
 
 	const testFunc = userIdentity => {
 		deleteDataBaseSync(`${userIdentity}.json`, findDbDirectory());
@@ -42,12 +44,12 @@ const useDeleteMessages = () => {
 			type: DOWNLOAD_MEDIA_USER_DELETED,
 			userIdentity: userIdentity
 		});
-		dispatchUploadMediaContext({
-			type: UPLOAD_MEDIA_USER_DELETED,
-			userIdentity: userIdentity
-		});
 		dispatchOldDownloadMediaContext({
 			type: DOWNLOAD_MEDIA_DELETE_DB,
+			userIdentity: userIdentity
+		});
+		dispatchUploadMediaContext({
+			type: UPLOAD_MEDIA_USER_DELETED,
 			userIdentity: userIdentity
 		});
 		dispatchOldUploadMediaContext({

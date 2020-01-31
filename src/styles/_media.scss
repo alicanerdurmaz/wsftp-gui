@@ -51,12 +51,14 @@
 	flex-direction: column;
 	height: 100%;
 	overflow: auto;
+	will-change: transform;
 }
 .media-list-download {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
 	overflow: auto;
+	will-change: transform;
 }
 
 .media-list-item {
@@ -237,6 +239,11 @@
 	height: 16px;
 	fill: $red;
 }
+.media-sent-icon {
+	width: 16px;
+	height: 16px;
+	fill: $green;
+}
 
 .load-more {
 	position: sticky;
@@ -263,4 +270,21 @@
 	width: 16px;
 	height: 16px;
 	fill: $red;
+}
+
+.media-layout-threedot-button {
+	width: 24px;
+	height: 24px;
+
+	cursor: pointer;
+}
+.media-threedot {
+	width: 24px;
+	height: 24px;
+	fill: #7f888b;
+	cursor: pointer;
+	transition: all ease-in-out 120ms;
+	&:hover {
+		fill: $blue;
+	}
 }

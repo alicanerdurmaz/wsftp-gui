@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 
 import { byteConverter } from '../../Helpers/byteConverter';
 import { ReactComponent as TimesIcon } from '../../assets/svg/times-solid.svg';
+import { ReactComponent as CheckIcon } from '../../assets/svg/check-solid.svg';
 import { UPLOAD_MEDIA_GET_MSG_FROM_DB } from '../../context/types';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import ChooseIcon from '../../Helpers/ChooseIcon';
@@ -30,8 +31,6 @@ const UpRefOldMediaHistoryListItem = ({
 	const onTopUp = useRef(null);
 	const onScreenTopUp = useOnScreen(onTopUp);
 
-	const onTopDown = useRef(null);
-
 	const { selectedUser } = useContext(SelectUserContext);
 	const { dispatchOldUploadMediaContext } = useContext(OldUploadMediaContext);
 
@@ -46,11 +45,21 @@ const UpRefOldMediaHistoryListItem = ({
 	};
 	const fileInformation = () => {
 		if (fileStatus === FILE_STATUS.sent) {
-			return;
+			return (
+				<div className='media-btn-group-1'>
+					<CheckIcon className='media-sent-icon disabled'></CheckIcon>
+				</div>
+			);
+		} else if (fileStatus === FILE_STATUS.canceled) {
+			return (
+				<div className='media-btn-group-1'>
+					<TimesIcon className='media-times-icon disabled' style={{ fill: '#46cdcf' }}></TimesIcon>
+				</div>
+			);
 		} else {
 			return (
 				<div className='media-btn-group-1'>
-					<TimesIcon className='media-times-icon disabled'></TimesIcon>{' '}
+					<TimesIcon className='media-times-icon disabled'></TimesIcon>
 				</div>
 			);
 		}

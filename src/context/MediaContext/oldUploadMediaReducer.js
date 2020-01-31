@@ -1,4 +1,9 @@
-import { UPLOAD_MEDIA_GET_MSG_FROM_DB, UPLOAD_MEDIA_RESET_BY_NAME, UPLOAD_MEDIA_DELETE_DB } from '../types';
+import {
+	OLD_UPLOAD_DELETE_BY_KEY_VALUE,
+	UPLOAD_MEDIA_GET_MSG_FROM_DB,
+	UPLOAD_MEDIA_RESET_BY_NAME,
+	UPLOAD_MEDIA_DELETE_DB
+} from '../types';
 import { getFromDataBaseSync } from '../../backend/api/dbFunctions';
 import findDbDirectory from '../../Helpers/findDbDirectory';
 
@@ -37,7 +42,13 @@ export const oldUploadMediaReducer = (state, action) => {
 			delete tempState[`media:upload:${action.userIdentity}`];
 
 			return { ...tempState };
-
+		case OLD_UPLOAD_DELETE_BY_KEY_VALUE:
+			if (!state[`media:upload:${action.userIdentity}`]) {
+				return { ...state };
+			}
+			const tempObj = state[`media:upload:${action.userIdentity}`].filter(e => e[action.key] !== action.value);
+			state[`media:upload:${action.userIdentity}`] = tempObj;
+			return { ...state };
 		default:
 			break;
 	}

@@ -35,12 +35,7 @@ const StyledMenuItem = withStyles(theme => ({
 
 function UserListDropDown({ anchorEl, handleClose, handleMute, handleDelete, muted }) {
 	return (
-		<StyledMenu
-			id='userlist-dropdown'
-			keepMounted
-			open={Boolean(anchorEl)}
-			onClose={handleClose}
-			anchorEl={anchorEl}>
+		<StyledMenu id='userlist-dropdown' open={Boolean(anchorEl)} onClose={handleClose} anchorEl={anchorEl}>
 			<StyledMenuItem onClick={handleMute}>{muted ? 'Unmute' : 'Mute'}</StyledMenuItem>
 			<StyledMenuItem onClick={handleDelete}>Delete chat</StyledMenuItem>
 		</StyledMenu>

@@ -2,8 +2,9 @@ import React, { useState, useContext } from 'react';
 import { byteConverter } from '../../Helpers/byteConverter';
 
 import { ReactComponent as BanIcon } from '../../assets/svg/ban-solid.svg';
-import { ReactComponent as CheckIcon } from '../../assets/svg/check-circle-solid.svg';
+import { ReactComponent as CheckCircleIcon } from '../../assets/svg/check-circle-solid.svg';
 import { ReactComponent as TimesIcon } from '../../assets/svg/times-solid.svg';
+import { ReactComponent as CheckIcon } from '../../assets/svg/check-solid.svg';
 import { API_killTransaction, commanderSocket, API_CancelUpload } from '../../backend/api/webSocketConnection';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import ChooseIcon from '../../Helpers/ChooseIcon';
@@ -122,7 +123,7 @@ const MediaHistoryListItem = ({
 			} else
 				return (
 					<div className='media-btn-group'>
-						<CheckIcon className='media-check-icon' onClick={e => btnAcceptFile(e)}></CheckIcon>
+						<CheckCircleIcon className='media-check-icon' onClick={e => btnAcceptFile(e)}></CheckCircleIcon>
 						<BanIcon className='media-ban-icon' onClick={e => btnRejectAcceptFile(e)}></BanIcon>
 					</div>
 				);
@@ -139,6 +140,20 @@ const MediaHistoryListItem = ({
 				<div className='media-btn-group'>
 					<span className='media-progress'>%{progress}</span>
 					{port && <TimesIcon className='media-ban-icon ' onClick={e => btnKillRequest(e)}></TimesIcon>}
+				</div>
+			);
+		}
+		if (fileStatus === FILE_STATUS.canceled) {
+			return (
+				<div className='media-btn-group-1'>
+					<TimesIcon className='media-times-icon disabled' style={{ fill: '#46cdcf' }}></TimesIcon>
+				</div>
+			);
+		}
+		if (fileStatus === FILE_STATUS.sent) {
+			return (
+				<div className='media-btn-group-1'>
+					<CheckIcon className='media-sent-icon disabled'></CheckIcon>
 				</div>
 			);
 		}
@@ -165,7 +180,11 @@ const MediaHistoryListItem = ({
 						) : null}
 					</span>
 					<div className='media-file-dir'>
-						{fileStatus === FILE_STATUS.rejected ? 'rejected' : tempDir ? tempDir : 'waiting for accept'}
+						{fileStatus === FILE_STATUS.rejected
+							? 'rejected'
+							: fileStatus === FILE_STATUS.canceled
+							? 'canceled'
+							: tempDir}
 					</div>
 				</div>
 			) : null}

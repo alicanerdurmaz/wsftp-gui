@@ -29,6 +29,7 @@
 	overflow: auto;
 	border-top: 4px solid $border-color;
 	border-bottom: 4px solid $border-color;
+	will-change: transform;
 }
 .chat-input-container {
 	grid-area: chatinput;

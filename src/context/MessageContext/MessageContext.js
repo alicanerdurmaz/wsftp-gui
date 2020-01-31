@@ -91,7 +91,7 @@ const MessageContextProvider = props => {
 
 	srScoket.onmessage = function(e) {
 		const dataToJson = JSON.parse(e.data);
-
+		lastIncomingMessage.current = false;
 		if (dataToJson.event === 'my') {
 			const temp = { ...settings };
 			temp.myInfo = dataToJson;
@@ -99,6 +99,7 @@ const MessageContextProvider = props => {
 			return;
 		}
 		const userIdentity = dataToJson.username + ':' + dataToJson.mac;
+		console.log(dataToJson);
 		if (dataToJson.event === 'rreq') {
 			lastIncomingMessage.current = userIdentity;
 
@@ -205,6 +206,7 @@ const MessageContextProvider = props => {
 			});
 		}
 		if (dataToJson.event === 'rrej') {
+			lastIncomingMessage.current = false;
 			dispatch({
 				type: STATUS_CHANGED,
 				payload: {
@@ -239,6 +241,7 @@ const MessageContextProvider = props => {
 		}
 
 		if (dataToJson.event === 'scncl') {
+			lastIncomingMessage.current = false;
 			dispatch({
 				type: STATUS_CHANGED,
 				payload: {
@@ -258,12 +261,13 @@ const MessageContextProvider = props => {
 		}
 
 		if (dataToJson.event === 'rcncl') {
+			lastIncomingMessage.current = false;
 			dispatch({
 				type: STATUS_CHANGED,
 				payload: {
 					uuid: dataToJson.uuid,
 					dbName: dataToJson.username + ':' + dataToJson.mac,
-					fileStatus: FILE_STATUS.rejected
+					fileStatus: FILE_STATUS.canceled
 				}
 			});
 			dispatchDownloadMediaContext({
@@ -271,12 +275,13 @@ const MessageContextProvider = props => {
 				payload: {
 					uuid: dataToJson.uuid,
 					dbName: dataToJson.username + ':' + dataToJson.mac,
-					fileStatus: FILE_STATUS.rejected
+					fileStatus: FILE_STATUS.canceled
 				}
 			});
 		}
 
 		if (dataToJson.event === 'prg') {
+			lastIncomingMessage.current = false;
 			dispatch({
 				type: PROGRESS_CHANGED,
 				payload: dataToJson
@@ -291,6 +296,7 @@ const MessageContextProvider = props => {
 			});
 		}
 		if (dataToJson.event === 'dprg') {
+			lastIncomingMessage.current = false;
 			dispatch({
 				type: PROGRESS_DONE,
 				payload: dataToJson
@@ -307,6 +313,7 @@ const MessageContextProvider = props => {
 				});
 		}
 		if (dataToJson.event === 'fprg') {
+			lastIncomingMessage.current = false;
 			dispatch({
 				type: PROGRESS_FAIL,
 				payload: dataToJson
@@ -321,6 +328,7 @@ const MessageContextProvider = props => {
 			});
 		}
 		if (dataToJson.event === 'sacp') {
+			lastIncomingMessage.current = false;
 			dispatchDownloadMediaContext({
 				type: DOWNLOAD_ADD_DOWNLOAD_DIR,
 				payload: {
@@ -332,6 +340,7 @@ const MessageContextProvider = props => {
 			});
 		}
 		if (dataToJson.event === 'racp') {
+			lastIncomingMessage.current = false;
 			dispatch({
 				type: STATUS_CHANGED,
 				payload: {

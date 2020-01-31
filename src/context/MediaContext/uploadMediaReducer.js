@@ -5,7 +5,8 @@ import {
 	UPLOAD_MEDIA_PROGRESS_CHANGED,
 	UPLOAD_MEDIA_PROGRESS_DONE,
 	UPLOAD_MEDIA_PROGRESS_FAIL,
-	UPLOAD_MEDIA_STATUS_CHANGED
+	UPLOAD_MEDIA_STATUS_CHANGED,
+	UPLOAD_DELETE_BY_KEY_VALUE
 } from '../types';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 
@@ -65,7 +66,13 @@ export const uploadMediaReducer = (state, action) => {
 				}
 			});
 			return { ...state };
-
+		case UPLOAD_DELETE_BY_KEY_VALUE:
+			if (!state[`media:upload:${action.userIdentity}`]) {
+				return { ...state };
+			}
+			const tempObj = state[`media:upload:${action.userIdentity}`].filter(e => e[action.key] !== action.value);
+			state[`media:upload:${action.userIdentity}`] = tempObj;
+			return { ...state };
 		default:
 			break;
 	}
