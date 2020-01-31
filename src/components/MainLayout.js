@@ -64,7 +64,9 @@ const MainLayout = () => {
 						setJumpToDb={setJumpToDb}></RightLayout>
 				</Fragment>
 			) : (
-				<h1>SELECT USER FROM LEFT</h1>
+				<div>
+					<h1>SELECT USER FROM LEFT</h1>
+				</div>
 			)}
 		</DragAndDropProvider>
 	);

@@ -1,7 +1,9 @@
 {
-	"name": "wsftp",
-	"version": "0.0.1",
-	"private": true,
+	"name": "tunnelgo",
+	"version": "0.0.2",
+	"license": "MIT",
+	"description": "Offline, File share and instant messaging app",
+	"repository": "https://github.com/alicanerdurmaz/wsftp-gui",
 	"main": "public/electron.js",
 	"author": "Alican Erdurmaz <alicanerdurmaz@gmail.com>",
 	"dependencies": {
@@ -27,7 +29,10 @@
 		"linux": {
 			"target": "AppImage",
 			"icon": "src/assets/logo.png",
-			"category": "Production"
+			"category": [
+				"Productivity",
+				"Social"
+			]
 		}
 	},
 	"homepage": "./",
@@ -39,6 +44,13 @@
 		"clean-build": "rm -rf build/ .cache dist/",
 		"build": "yarn clean-build && yarn craco build && yarn electron-build"
 	},
+	"keywords": [
+		"Electron",
+		"file share",
+		"instant messaging",
+		"react",
+		"go"
+	],
 	"eslintConfig": {
 		"extends": "react-app"
 	},
