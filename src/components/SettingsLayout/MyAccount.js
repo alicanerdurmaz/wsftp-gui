@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { ReactComponent as EditIcon } from '../../assets/svg/edit.svg';
+import { writeObject } from '../../backend/api/dbFunctions';
+import { API_refreshOnlineUserList, API_getMyInfo } from '../../backend/api/webSocketConnection';
 const os = require('os');
 const remote = require('electron').remote;
 
@@ -15,11 +17,12 @@ const MyAccount = ({ settings }) => {
 		if (newUsername.length < 3 || newUsername.length > 24) {
 			return;
 		}
-		// const obj = { username: newUsername };
-		// writeObject('wsftp-settings.json', 'docu', obj);
-		// setOpenEdit(false);
-		// remote.app.relaunch();
-		// remote.app.quit();
+		const obj = { username: newUsername };
+		writeObject('wsftp-settings.json', 'docu', obj);
+
+		setOpenEdit(false);
+		API_refreshOnlineUserList();
+		API_getMyInfo();
 	};
 
 	const btnDefaultEdit = () => {
@@ -41,9 +44,7 @@ const MyAccount = ({ settings }) => {
 							<EditIcon className='edit-icon'></EditIcon>
 						</span>
 					</div>
-					<span className='modal-modal-my-account-text'>
-						{settings['myInfo'] && settings['myInfo'].username}
-					</span>
+					<span className='modal-modal-my-account-text'>{settings['myInfo'] && settings['myInfo'].nick}</span>
 					{openEdit ? (
 						<div className='username-edit-area'>
 							<input

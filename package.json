@@ -1,6 +1,6 @@
 {
 	"name": "tunnelgo",
-	"version": "0.0.2",
+	"version": "0.0.5",
 	"license": "MIT",
 	"description": "Offline, File share and instant messaging app",
 	"repository": "https://github.com/alicanerdurmaz/wsftp-gui",
@@ -29,10 +29,7 @@
 		"linux": {
 			"target": "AppImage",
 			"icon": "src/assets/logo.png",
-			"category": [
-				"Productivity",
-				"Social"
-			]
+			"category": "Productivity"
 		}
 	},
 	"homepage": "./",

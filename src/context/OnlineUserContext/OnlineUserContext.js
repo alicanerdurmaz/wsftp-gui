@@ -37,7 +37,7 @@ const OnlineUserContextProvider = props => {
 	const { setSelectedUser } = useContext(SelectUserContext);
 
 	hsSocket.onmessage = msg => {
-		console.log(msg.data);
+		console.log('HS-SOCKET', msg.data);
 		const toJson = JSON.parse(msg.data);
 		toJson.userIdentity = toJson.username + ':' + toJson.mac;
 
@@ -73,6 +73,7 @@ const OnlineUserContextProvider = props => {
 		if (onlineUserList.hasOwnProperty(toJson.userIdentity)) {
 			const tempObject = { ...onlineUserList };
 			tempObject[toJson.userIdentity].event = toJson.event;
+			tempObject[toJson.userIdentity].nick = toJson.nick;
 			setOnlineUserList(tempObject);
 		}
 
