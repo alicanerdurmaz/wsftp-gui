@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 
 const path = require('path');
 
@@ -33,7 +33,14 @@ function createWindow() {
 	mainWindow.on('close', e => {
 		if (mainWindow) {
 			e.preventDefault();
-			mainWindow.webContents.send('app-close');
+			let options = {
+				buttons: ['No', 'Yes'],
+				message: `Are you sure want to close ?`
+			};
+			let response = dialog.showMessageBoxSync(mainWindow, options);
+			if (response) {
+				mainWindow.webContents.send('app-close');
+			}
 		}
 	});
 	mainWindow.on('closed', () => {
