@@ -8,7 +8,6 @@
 	grid-template-columns: 170px 1fr var(--media-px);
 	grid-template-areas: 'leftarea middlearea rightarea';
 	column-gap: 1px;
-	row-gap: 8px;
 	background: #141618;
 	transition: all ease-in-out 1ms;
 }

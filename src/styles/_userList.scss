@@ -64,9 +64,13 @@
 .search-user {
 	position: relative;
 	top: 10px;
-	left: 10px;
 	height: 16px;
+	width: 158px;
 	color: $blueGray;
+	&::-webkit-input-placeholder {
+		color: rgba(255, 192, 203, 0.397);
+		text-align: center;
+	}
 }
 
 .online {
