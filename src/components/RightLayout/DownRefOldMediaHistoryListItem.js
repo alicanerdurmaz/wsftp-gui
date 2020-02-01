@@ -23,7 +23,10 @@ const DownRefOldMediaHistoryListItem = ({
 	fileType,
 	fileStatus
 }) => {
-	let tempDir = downloadDir + '/' + fileName;
+	let tempDir = false;
+	if (downloadDir) {
+		tempDir = downloadDir + '/' + fileName;
+	}
 	if (from === '*MYPC*') {
 		tempDir = fileDir;
 	}
@@ -73,6 +76,13 @@ const DownRefOldMediaHistoryListItem = ({
 		});
 	}, [onScreenDown]);
 
+	const openFile = () => {
+		if (!tempDir) {
+			return;
+		}
+		shell.openItem(tempDir);
+	};
+
 	return (
 		<li
 			ref={onTopDown}
@@ -81,7 +91,12 @@ const DownRefOldMediaHistoryListItem = ({
 			<div className='media-content'>
 				{ChooseIcon(fileType)}
 				<div className='media-info'>
-					<div className='media-fileName'>{fileName}</div>
+					<div
+						className={`media-fileName ${tempDir ? '' : 'strike-text'}`}
+						onDoubleClick={openFile}
+						onClick={e => e.stopPropagation(e)}>
+						{fileName}
+					</div>
 					<span className='media-fileSize'>{byteConverter(fileSize)}</span>
 				</div>
 				{fileInformation()}
@@ -96,7 +111,13 @@ const DownRefOldMediaHistoryListItem = ({
 							</span>
 						) : null}
 					</span>
-					<div className='media-file-dir'>{fileStatus === FILE_STATUS.rejected ? 'rejected' : tempDir}</div>
+					<div className='media-file-dir'>
+						{fileStatus === FILE_STATUS.rejected
+							? 'rejected'
+							: fileStatus === FILE_STATUS.canceled
+							? 'canceled'
+							: tempDir}
+					</div>
 				</div>
 			) : null}
 		</li>

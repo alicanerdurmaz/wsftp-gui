@@ -25,11 +25,6 @@ const ThreeDotButton = ({ scrollToDownloadList, scrollToUploadList, type }) => {
 	const { downloadMediaList, dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
 	const { oldDownloadMediaList, dispatchOldDownloadMediaContext } = useContext(OldDownloadMediaContext);
 
-	useEffect(() => {
-		console.log(downloadMediaList);
-		console.log(oldDownloadMediaList);
-	}, [downloadMediaList, oldDownloadMediaList]);
-
 	const btnOpenDropDownHandler = e => {
 		e.preventDefault();
 		e.stopPropagation();

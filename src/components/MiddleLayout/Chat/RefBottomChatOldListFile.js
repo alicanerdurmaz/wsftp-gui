@@ -42,8 +42,7 @@ const RefBottomChatOldListFile = ({
 		}
 		if (fileStatus === FILE_STATUS.canceled) {
 			return <span className='canceled-text'>canceled</span>;
-		}
-		if (fileStatus === FILE_STATUS.rejected) {
+		} else {
 			return <span className='rejected-text'>rejected</span>;
 		}
 	};
