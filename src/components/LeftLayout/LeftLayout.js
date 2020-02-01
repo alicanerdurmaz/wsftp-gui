@@ -9,9 +9,7 @@ const LeftLayout = ({ openSettingsScreen }) => {
 	return (
 		<Fragment>
 			<div className='left-area'>
-				<div className='left-container'>
-					<UserListContainer></UserListContainer>
-				</div>
+				<UserListContainer></UserListContainer>
 				<div className='options-area'>
 					<div className='options-btn-group'>
 						<RefreshIcon className='refresh-button' onClick={API_refreshOnlineUserList}></RefreshIcon>

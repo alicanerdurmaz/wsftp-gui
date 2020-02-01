@@ -1,125 +1,142 @@
+.user-ul {
+	overflow: auto;
+	&::-webkit-scrollbar {
+		width: 4px;
+	}
+	&::-webkit-scrollbar-track {
+		background-color: $primarycolor;
+	}
+	&::-webkit-scrollbar-thumb {
+		background-color: $primarycolor-light;
+	}
+}
+
 .user-li {
-  padding: 16px 8px;
-  border-bottom: 1px solid $primarycolor-light;
-  cursor: pointer;
-  &:hover {
-    background-color: lighten($color: $primarycolor, $amount: 10);
-    .svg-angle-right {
-      bottom: -5px;
-      visibility: visible;
-    }
-    .svg-volume-mute {
-      bottom: -10px;
-      visibility: hidden;
-    }
-  }
+	padding: 16px 2px;
+	border-bottom: 1px solid $primarycolor-light;
+	cursor: pointer;
+	&:hover {
+		background-color: lighten($color: $primarycolor, $amount: 10);
+		.svg-angle-right {
+			bottom: -5px;
+			visibility: visible;
+		}
+		.svg-volume-mute {
+			bottom: -10px;
+			visibility: hidden;
+		}
+	}
 }
 .selected {
-  background-color: lighten($color: $primarycolor, $amount: 10);
+	background-color: lighten($color: $primarycolor, $amount: 10);
 }
 .user-list-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
-  min-width: 150px;
-  max-width: 150px;
-  max-height: 16px;
-  min-height: 16px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: nowrap;
+	min-width: 150px;
+	max-width: 150px;
+	max-height: 16px;
+	min-height: 16px;
 }
 
 .primary-text {
-  font-size: 16px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 99%;
-  margin-left: 8px;
+	font-size: 14px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	width: 100%;
+	margin-left: 4px;
 }
 
 .nohighlight {
-  background-color: $primarycolor;
-  padding: 0px;
-  margin: 0px;
-  height: 50px;
-  border: none;
-  border-bottom: 1px solid $border-color;
-  &:hover {
-    background-color: $primarycolor;
-  }
+	background-color: $primarycolor;
+	padding: 0px;
+	margin: 0px;
+	height: 40px;
+	border: none;
+	border-bottom: 1px solid $border-color;
+	&:hover {
+		background-color: $primarycolor;
+	}
 }
 .search-user {
-  position: relative;
-  top: 10px;
-  left: 4px;
-  height: 16px;
-  color: $blueGray;
+	position: relative;
+	top: 10px;
+	left: 10px;
+	height: 16px;
+	color: $blueGray;
 }
 
 .online {
-  & > .icon {
-    width: 32px;
-    height: 32px;
-    fill: $green;
-  }
-  & > span {
-    color: $white;
-  }
+	& > .icon {
+		width: 32px;
+		height: 32px;
+		fill: $green;
+	}
+	& > span {
+		color: $white;
+	}
 }
 .offline {
-  & > .icon {
-    width: 32px;
-    height: 32px;
-    fill: $gray;
-  }
-  & > span {
-    color: $gray;
-  }
+	& > .icon {
+		width: 32px;
+		height: 32px;
+		fill: $gray;
+	}
+	& > span {
+		color: $gray;
+	}
 }
 .notification-number-container {
-  position: absolute;
-  left: 22px;
+	position: absolute;
+	left: 22px;
 }
 .notification-number {
-  position: relative;
-  text-align: center;
-  font-size: 14px;
-  font-weight: bold;
-  color: $blueGray;
-  top: -18px;
-  width: 16px;
-  height: 16px;
-  background: #f04847;
-  border-radius: 50%;
-  border: 1px solid #f04847;
-  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+	position: relative;
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	color: $blueGray;
+	top: -18px;
+	width: 16px;
+	height: 16px;
+	background: #f04847;
+	border-radius: 50%;
+	border: 1px solid #f04847;
+	box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
 .user-list-rightinfo-container {
-  position: relative;
-  width: 24px;
-  height: 24px;
-  margin-right: 6px;
-  margin-bottom: 10px;
+	position: relative;
+	width: 24px;
+	height: 24px;
+	margin-right: -20px;
+	margin-bottom: 10px;
 }
 .svg-angle-right {
-  position: relative;
-  width: 24px;
-  height: 24px;
-
-  visibility: hidden;
-  bottom: 20px;
-  transition: all 0.1s ease;
-  fill: $gray;
-  &:hover {
-    fill: $blue;
-  }
+	position: relative;
+	width: 24px;
+	height: 24px;
+	visibility: hidden;
+	bottom: 20px;
+	transition: all 0.1s ease;
+	fill: $gray;
+	&:hover {
+		fill: $blue;
+	}
 }
 .svg-volume-mute {
-  position: relative;
-  width: 16px;
-  height: 16px;
-  fill: $secondarycolor-light;
-  bottom: 17px;
-  transition: all 0.1s ease;
+	position: relative;
+	width: 16px;
+	height: 16px;
+	fill: $secondarycolor-light;
+	bottom: 17px;
+	transition: all 0.1s ease;
+}
+
+.desktop-icon {
+	max-width: 22px;
+	max-height: 22px;
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, Fragment } from 'react';
 
 import UserListItem from './UserListItem';
 import { OnlineUserContext } from '../../context/OnlineUserContext/OnlineUserContext';
@@ -6,9 +6,9 @@ import { OnlineUserContext } from '../../context/OnlineUserContext/OnlineUserCon
 const UserListContainer = () => {
 	const { onlineUserList } = useContext(OnlineUserContext);
 	const [filter, setFilter] = useState('');
-
+	console.log(onlineUserList);
 	return (
-		<div>
+		<Fragment>
 			<ul className='user-ul'>
 				<li className='user-li nohighlight'>
 					<input
@@ -19,9 +19,12 @@ const UserListContainer = () => {
 						onChange={e => setFilter(e.currentTarget.value)}></input>
 				</li>
 				{Object.keys(onlineUserList).map(index => {
-					if (typeof onlineUserList[index].username === 'undefined') {
+					if (
+						typeof onlineUserList[index].username === 'undefined' &&
+						typeof onlineUserList[index].nick === 'undefined'
+					) {
 						return false;
-					} else if (!onlineUserList[index].username.toLowerCase().startsWith(filter.toLowerCase())) {
+					} else if (!onlineUserList[index].nick.toLowerCase().startsWith(filter.toLowerCase())) {
 						return false;
 					} else if (onlineUserList[index].event === 'online') {
 						return (
@@ -39,9 +42,12 @@ const UserListContainer = () => {
 					} else return false;
 				})}
 				{Object.keys(onlineUserList).map(index => {
-					if (typeof onlineUserList[index].username === 'undefined') {
+					if (
+						typeof onlineUserList[index].username === 'undefined' &&
+						typeof onlineUserList[index].nick === 'undefined'
+					) {
 						return false;
-					} else if (!onlineUserList[index].username.toLowerCase().startsWith(filter.toLowerCase())) {
+					} else if (!onlineUserList[index].nick.toLowerCase().startsWith(filter.toLowerCase())) {
 						return false;
 					} else if (onlineUserList[index].event === 'offline') {
 						return (
@@ -59,11 +65,8 @@ const UserListContainer = () => {
 						);
 					} else return false;
 				})}
-				<li className='user-li r-border r-hover'>
-					<div className='user-list-container '></div>
-				</li>
 			</ul>
-		</div>
+		</Fragment>
 	);
 };
 

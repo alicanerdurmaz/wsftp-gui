@@ -14,6 +14,8 @@ const ChatHeader = ({ startSearch, setActiveScreenToMedia }) => {
 	const [isMediaOpen, setIsMediaOpen] = useState(true);
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 
+	console.log(selectedUser && onlineUserList[selectedUser.userIdentity]);
+
 	const handleKeyEvents = e => {
 		if (e.keyCode === 27) {
 			setActiveScreenToMedia('media');
