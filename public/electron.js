@@ -50,10 +50,10 @@ function createWindow() {
 		app.quit();
 	});
 	mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
-	// BrowserWindow.addDevToolsExtension(
-	// 	'/home/alican/.config/google-chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.4.0_0/'
-	// );
-	// mainWindow.webContents.openDevTools();
+	BrowserWindow.addDevToolsExtension(
+		'/home/alican/.config/google-chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.4.0_0/'
+	);
+	mainWindow.webContents.openDevTools();
 }
 
 if (!gotTheLock) {
@@ -96,7 +96,7 @@ function startCommander() {
 		console.log('child:', data);
 	});
 	commanderExe.stderr.on('data', data => {
-		console.error('child:', data);
+		console.log('error:', data);
 	});
 }
 

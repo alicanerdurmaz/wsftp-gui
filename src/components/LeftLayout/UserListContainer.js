@@ -6,7 +6,7 @@ import { OnlineUserContext } from '../../context/OnlineUserContext/OnlineUserCon
 const UserListContainer = () => {
 	const { onlineUserList } = useContext(OnlineUserContext);
 	const [filter, setFilter] = useState('');
-	console.log(onlineUserList);
+
 	return (
 		<Fragment>
 			<ul className='user-ul'>

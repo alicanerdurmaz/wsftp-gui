@@ -41,10 +41,15 @@ export const messageReducer = (state, action) => {
 		case PROGRESS_CHANGED:
 			state[`${action.payload.username}:${action.payload.mac}`].forEach(element => {
 				if (element.uuid === action.payload.uuid) {
-					const tempProgress = parseInt(action.payload.current) / parseInt(action.payload.total);
+					const tempProgress = parseFloat(action.payload.current) / parseFloat(action.payload.total);
 					element.progress = Math.round(tempProgress * 100);
 					element.speed = action.payload.speed;
 					element['port'] = action.payload.port;
+					element.current = action.payload.current;
+					element['det'] =
+						action.payload.current > 0
+							? (element.fileSize - action.payload.current) / (action.payload.speed * 1024)
+							: false;
 				}
 			});
 			return { ...state };

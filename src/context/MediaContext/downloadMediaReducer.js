@@ -50,8 +50,14 @@ export const downloadMediaReducer = (state, action) => {
 					element.progress = Math.round(tempProgress * 100);
 					element.speed = action.payload.speed;
 					element['port'] = action.payload.port;
+					element.current = action.payload.current;
+					element['det'] =
+						action.payload.current > 0
+							? (element.fileSize - action.payload.current) / (action.payload.speed * 1024)
+							: false;
 				}
 			});
+
 			return { ...state };
 
 		case DOWNLOAD_MEDIA_PROGRESS_DONE:

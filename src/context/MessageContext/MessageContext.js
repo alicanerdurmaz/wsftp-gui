@@ -286,14 +286,16 @@ const MessageContextProvider = props => {
 				type: PROGRESS_CHANGED,
 				payload: dataToJson
 			});
-			dispatchUploadMediaContext({
-				type: UPLOAD_MEDIA_PROGRESS_CHANGED,
-				payload: dataToJson
-			});
-			dispatchDownloadMediaContext({
-				type: DOWNLOAD_MEDIA_PROGRESS_CHANGED,
-				payload: dataToJson
-			});
+			if (dataToJson.type === 'upload')
+				dispatchUploadMediaContext({
+					type: UPLOAD_MEDIA_PROGRESS_CHANGED,
+					payload: dataToJson
+				});
+			if (dataToJson.type === 'download')
+				dispatchDownloadMediaContext({
+					type: DOWNLOAD_MEDIA_PROGRESS_CHANGED,
+					payload: dataToJson
+				});
 		}
 		if (dataToJson.event === 'dprg') {
 			lastIncomingMessage.current = false;
@@ -318,14 +320,16 @@ const MessageContextProvider = props => {
 				type: PROGRESS_FAIL,
 				payload: dataToJson
 			});
-			dispatchUploadMediaContext({
-				type: UPLOAD_MEDIA_PROGRESS_FAIL,
-				payload: dataToJson
-			});
-			dispatchDownloadMediaContext({
-				type: DOWNLOAD_MEDIA_PROGRESS_FAIL,
-				payload: dataToJson
-			});
+			if (dataToJson.type === 'upload')
+				dispatchUploadMediaContext({
+					type: UPLOAD_MEDIA_PROGRESS_FAIL,
+					payload: dataToJson
+				});
+			if (dataToJson.type === 'download')
+				dispatchDownloadMediaContext({
+					type: DOWNLOAD_MEDIA_PROGRESS_FAIL,
+					payload: dataToJson
+				});
 		}
 		if (dataToJson.event === 'sacp') {
 			lastIncomingMessage.current = false;
@@ -365,11 +369,9 @@ const MessageContextProvider = props => {
 				total: dataToJson.total,
 				active: dataToJson.active
 			};
-			console.log(dataToJson);
 		}
 
 		if (dataToJson.event === 'info') {
-			console.log(dataToJson);
 		}
 
 		if (dataToJson.event !== 'prg' && dataToJson.event !== 'actv') {

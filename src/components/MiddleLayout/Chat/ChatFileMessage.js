@@ -28,7 +28,10 @@ const ChatFileMessage = ({
 	port,
 	username,
 	ip,
-	nick
+	nick,
+	current,
+	det,
+	speed
 }) => {
 	const { dispatch } = useContext(MessageContext);
 	const { dispatchUploadMediaContext } = useContext(UploadMediaContext);
@@ -41,7 +44,7 @@ const ChatFileMessage = ({
 		tempFrom = 'other';
 	}
 	const formattedFileSize = byteConverter(fileSize);
-
+	console.log(`fileSize:${fileSize}\n current: ${current}\n eta: ${det}\n speed: ${speed}\n progress: ${progress}\n`);
 	const setAccepted = action => {
 		if (action) {
 			const tempAcceptRequest = {

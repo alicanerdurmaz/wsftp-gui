@@ -58,7 +58,10 @@ const ChatList = ({ setHidden, jumpToBottom }) => {
 									ip={message.ip}
 									uuid={message.uuid}
 									username={message.username}
-									nick={message.nick}></ChatFileMessage>
+									nick={message.nick}
+									current={message.current}
+									det={message.det}
+									speed={message.speed}></ChatFileMessage>
 							);
 						} else {
 							return null;
