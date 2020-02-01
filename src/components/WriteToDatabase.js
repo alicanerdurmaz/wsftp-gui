@@ -7,7 +7,7 @@ import findDbDirectory from '../Helpers/findDbDirectory';
 import { UploadMediaContext } from '../context/MediaContext/UploadMediaContext';
 import { DownloadMediaContext } from '../context/MediaContext/DownloadMediaContext';
 import FILE_STATUS from '../config/CONFIG_FILE_STATUS';
-import { API_CancelUpload } from '../backend/api/webSocketConnection';
+import { API_CancelUpload, commanderSocket } from '../backend/api/webSocketConnection';
 import { sleep } from '../Helpers/sleep';
 
 const { ipcRenderer } = require('electron');
@@ -36,6 +36,26 @@ const WriteToDatabase = () => {
 						};
 						uploadMediaList[ukeys[i]][j].fileStatus = FILE_STATUS.canceled;
 						API_CancelUpload(tempCancelRequest);
+						await sleep(100);
+					}
+				}
+			}
+
+			const dkeys = Object.keys(downloadMediaList);
+			for (let i = 0; i < dkeys.length; i++) {
+				for (let j = 0; j < downloadMediaList[dkeys[i]].length; j++) {
+					if (downloadMediaList[dkeys[i]][j].fileStatus === FILE_STATUS.waiting) {
+						const tempRejectRequest = {
+							event: 'crej',
+							mac: downloadMediaList[dkeys[i]][j].mac,
+							dir: downloadMediaList[dkeys[i]][j].dir,
+							uuid: downloadMediaList[dkeys[i]][j].uuid,
+							ip: downloadMediaList[dkeys[i]][j].ip,
+							username: downloadMediaList[dkeys[i]][j].username,
+							nick: downloadMediaList[dkeys[i]][j].nick
+						};
+						downloadMediaList[dkeys[i]][j].fileStatus = FILE_STATUS.canceled;
+						commanderSocket.send(JSON.stringify(tempRejectRequest));
 						await sleep(100);
 					}
 				}

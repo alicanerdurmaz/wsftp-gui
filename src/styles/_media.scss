@@ -181,7 +181,7 @@
 .media-fileName {
 	color: $blueGray;
 	font-weight: bold;
-
+	max-width: 180px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
@@ -207,6 +207,7 @@
 .media-ban-icon {
 	width: 24px;
 	height: 24px;
+	margin-left: 16px;
 	fill: $red;
 	transition: all ease-in-out 60ms;
 	&:hover {
@@ -224,11 +225,11 @@
 }
 .media-btn-group {
 	display: flex;
-	width: 100%;
 	justify-content: space-around;
 	justify-items: center;
 	align-content: center;
 	align-items: center;
+	margin-left: auto;
 }
 .media-btn-group-1 {
 	display: flex;
@@ -273,6 +274,7 @@
 .media-ban-icon-cancel-upload {
 	width: 16px;
 	height: 16px;
+	margin-left: 4px;
 	fill: $red;
 }
 

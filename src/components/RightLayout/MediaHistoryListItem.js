@@ -34,10 +34,14 @@ const MediaHistoryListItem = ({
 	nick
 }) => {
 	// for download section
-	let tempDir = downloadDir && downloadDir + '/' + fileName;
+	let tempDir = false;
+	if (downloadDir) {
+		tempDir = downloadDir + '/' + fileName;
+	}
 	if (from === '*MYPC*') {
 		tempDir = fileDir;
 	}
+
 	const { settings } = useContext(SettingsContext);
 	const { dispatch } = useContext(MessageContext);
 
@@ -159,12 +163,24 @@ const MediaHistoryListItem = ({
 		}
 	};
 
+	const openFile = () => {
+		if (!tempDir) {
+			return;
+		}
+		shell.openItem(tempDir);
+	};
+
 	return (
 		<li className={`media-list-item ${isExpanded ? 'expanded' : ''}`} onClick={e => btnIsExpanded(e)}>
 			<div className='media-content'>
 				{ChooseIcon(fileType)}
 				<div className='media-info'>
-					<div className='media-fileName'>{fileName}</div>
+					<div
+						className={`media-fileName ${tempDir ? '' : 'strike-text'}`}
+						onDoubleClick={openFile}
+						onClick={e => e.stopPropagation(e)}>
+						{fileName}
+					</div>
 					<span className='media-fileSize'>{byteConverter(fileSize)}</span>
 				</div>
 				{fileInformation()}

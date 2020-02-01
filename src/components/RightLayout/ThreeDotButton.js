@@ -12,18 +12,22 @@ import {
 	UPLOAD_DELETE_BY_KEY_VALUE,
 	OLD_UPLOAD_DELETE_BY_KEY_VALUE,
 	DOWNLOAD_DELETE_BY_KEY_VALUE,
-	OLD_DOWNLOAD_DELETE_BY_KEY_VALUE
+	OLD_DOWNLOAD_DELETE_BY_KEY_VALUE,
+	DOWNLOAD_MEDIA_USER_DELETED,
+	DOWNLOAD_MEDIA_DELETE_DB
 } from '../../context/types';
 import findDbDirectory from '../../Helpers/findDbDirectory';
 import { deleteDataBaseSync, deleteFromDataBase } from '../../backend/api/dbFunctions';
+import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 
 const ThreeDotButton = ({ scrollToDownloadList, scrollToUploadList, type }) => {
 	const [anchorEl, setAnchorEl] = useState(null);
 	const { selectedUser } = useContext(SelectUserContext);
-	const { dispatchUploadMediaContext } = useContext(UploadMediaContext);
+	const { uploadMediaList, dispatchUploadMediaContext } = useContext(UploadMediaContext);
 	const { dispatchOldUploadMediaContext } = useContext(OldUploadMediaContext);
+
 	const { downloadMediaList, dispatchDownloadMediaContext } = useContext(DownloadMediaContext);
-	const { oldDownloadMediaList, dispatchOldDownloadMediaContext } = useContext(OldDownloadMediaContext);
+	const { dispatchOldDownloadMediaContext } = useContext(OldDownloadMediaContext);
 
 	const btnOpenDropDownHandler = e => {
 		e.preventDefault();
@@ -35,6 +39,7 @@ const ThreeDotButton = ({ scrollToDownloadList, scrollToUploadList, type }) => {
 	};
 
 	const deleteAll = () => {
+		setAnchorEl(null);
 		if (type === 'upload') {
 			dispatchUploadMediaContext({
 				type: UPLOAD_MEDIA_USER_DELETED,
@@ -45,6 +50,17 @@ const ThreeDotButton = ({ scrollToDownloadList, scrollToUploadList, type }) => {
 				userIdentity: selectedUser.userIdentity
 			});
 			deleteDataBaseSync(`media:upload:${selectedUser.userIdentity}.json`, findDbDirectory());
+		}
+		if (type === 'download') {
+			dispatchDownloadMediaContext({
+				type: DOWNLOAD_MEDIA_USER_DELETED,
+				userIdentity: selectedUser.userIdentity
+			});
+			dispatchOldDownloadMediaContext({
+				type: DOWNLOAD_MEDIA_DELETE_DB,
+				userIdentity: selectedUser.userIdentity
+			});
+			deleteDataBaseSync(`media:download:${selectedUser.userIdentity}.json`, findDbDirectory());
 		}
 	};
 
@@ -90,6 +106,23 @@ const ThreeDotButton = ({ scrollToDownloadList, scrollToUploadList, type }) => {
 		}
 	};
 
+	const cancelAllWaitings = () => {
+		setAnchorEl(null);
+		uploadMediaList[`media:upload:${selectedUser.userIdentity}`].forEach(e => {
+			if (e.fileStatus === FILE_STATUS.waiting) {
+				console.log(e.fileName);
+			}
+		});
+	};
+	const rejectAllWaitings = () => {
+		setAnchorEl(null);
+		downloadMediaList[`media:download:${selectedUser.userIdentity}`].forEach(e => {
+			if (e.fileStatus === FILE_STATUS.waiting) {
+				console.log(e.fileName);
+			}
+		});
+	};
+
 	return (
 		<div className='media-layout-threedot-button'>
 			<ThreeDot
@@ -98,6 +131,8 @@ const ThreeDotButton = ({ scrollToDownloadList, scrollToUploadList, type }) => {
 					btnOpenDropDownHandler(e);
 				}}></ThreeDot>
 			<UploadThreeDotDropDown
+				rejectAllWaitings={rejectAllWaitings}
+				cancelAllWaitings={cancelAllWaitings}
 				type={type}
 				deleteAll={deleteAll}
 				deleteByKeyValue={deleteByKeyValue}

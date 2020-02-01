@@ -34,7 +34,15 @@ const StyledMenuItem = withStyles(theme => ({
 	}
 }))(MenuItem);
 
-function ThreeDotDropDown({ deleteAll, anchorEl, handleClose, deleteByKeyValue, type }) {
+function ThreeDotDropDown({
+	deleteAll,
+	anchorEl,
+	handleClose,
+	deleteByKeyValue,
+	type,
+	cancelAllWaitings,
+	rejectAllWaitings
+}) {
 	return (
 		<StyledMenu
 			id='mediathreedot-dropdown'
@@ -44,15 +52,17 @@ function ThreeDotDropDown({ deleteAll, anchorEl, handleClose, deleteByKeyValue, 
 			anchorEl={anchorEl}>
 			<StyledMenuItem onClick={deleteAll}>Delete all </StyledMenuItem>
 			<StyledMenuItem onClick={e => deleteByKeyValue('fileStatus', FILE_STATUS.rejected)}>
-				{`Delete all rejected ${type}`}
+				{`Delete all rejected`}
 			</StyledMenuItem>
 			<StyledMenuItem onClick={e => deleteByKeyValue('fileStatus', FILE_STATUS.canceled)}>
-				{`Delete all canceled ${type}`}
+				{`Delete all canceled`}
 			</StyledMenuItem>
 			<StyledMenuItem onClick={e => deleteByKeyValue('fileStatus', FILE_STATUS.sent)}>
-				{`Delete all sent ${type}`}
+				{`Delete all sent`}
 			</StyledMenuItem>
-			<StyledMenuItem>{type === 'uploads' ? 'Cancel all waitings' : 'Reject all waitings'} </StyledMenuItem>
+			<StyledMenuItem onClick={type === 'upload' ? cancelAllWaitings : rejectAllWaitings}>
+				{type === 'upload' ? 'Cancel all waitings' : 'Reject all waitings'}{' '}
+			</StyledMenuItem>
 		</StyledMenu>
 	);
 }
