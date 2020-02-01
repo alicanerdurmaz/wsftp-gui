@@ -28,6 +28,9 @@ const ChatInput = () => {
 	};
 
 	const sendMessage = e => {
+		if (text.length < 1) {
+			return;
+		}
 		API_SendMessage(selectedUser.macAddress, text, selectedUser.ip, selectedUser.username, selectedUser.nick);
 		setText('');
 	};

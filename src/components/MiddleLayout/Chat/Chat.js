@@ -65,6 +65,9 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 		});
 		resetNotificationNumber(selectedUser.userIdentity);
 	};
+	const btnjumpToBottom = () => {
+		refScroller.scrollTop = refScroller.scrollHeight;
+	};
 
 	const openSnackbar = msg => {
 		setsnackbarOptions({ ...snackbarOptions, open: true, message: msg });
@@ -151,10 +154,7 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 						</ul>
 					</div>
 
-					<button
-						className={`btn-jumpToPresent ${hidden}`}
-						onClick={e => jumpToBottom('auto')}
-						ref={btnJumpP}>
+					<button className={`btn-jumpToPresent ${hidden}`} onClick={btnjumpToBottom} ref={btnJumpP}>
 						<span>Jump to Present</span>
 					</button>
 
