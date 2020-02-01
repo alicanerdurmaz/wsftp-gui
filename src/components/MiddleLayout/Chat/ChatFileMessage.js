@@ -133,7 +133,7 @@ const ChatFileMessage = ({
 			return <TimesIcon className='times-icon-cancelprg' onClick={e => API_killTransaction(port)}></TimesIcon>;
 		}
 		if (fileStatus === FILE_STATUS.sent) {
-			return <span className='sent-text'>sent</span>;
+			return <span className='sent-text'>done</span>;
 		}
 		if (fileStatus === FILE_STATUS.canceled) {
 			return <span className='canceled-text'>canceled</span>;

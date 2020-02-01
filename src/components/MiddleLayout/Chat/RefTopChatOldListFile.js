@@ -38,7 +38,7 @@ const RefTopChatOldListFile = ({
 
 	const fileInformation = () => {
 		if (fileStatus === FILE_STATUS.sent) {
-			return <span className='sent-text'>sent</span>;
+			return <span className='sent-text'>done</span>;
 		}
 		if (fileStatus === FILE_STATUS.canceled) {
 			return <span className='canceled-text'>canceled</span>;

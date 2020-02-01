@@ -41,7 +41,8 @@ function ThreeDotDropDown({
 	deleteByKeyValue,
 	type,
 	cancelAllWaitings,
-	rejectAllWaitings
+	rejectAllWaitings,
+	acceptAllWaitings
 }) {
 	return (
 		<StyledMenu
@@ -50,6 +51,9 @@ function ThreeDotDropDown({
 			open={Boolean(anchorEl)}
 			onClose={handleClose}
 			anchorEl={anchorEl}>
+			<StyledMenuItem onClick={type === 'download' ? acceptAllWaitings : null}>
+				{type === 'download' ? 'Accept all waitings' : ''}
+			</StyledMenuItem>
 			<StyledMenuItem onClick={deleteAll}>Delete all </StyledMenuItem>
 			<StyledMenuItem onClick={e => deleteByKeyValue('fileStatus', FILE_STATUS.rejected)}>
 				{`Delete all rejected`}
@@ -61,7 +65,7 @@ function ThreeDotDropDown({
 				{`Delete all sent`}
 			</StyledMenuItem>
 			<StyledMenuItem onClick={type === 'upload' ? cancelAllWaitings : rejectAllWaitings}>
-				{type === 'upload' ? 'Cancel all waitings' : 'Reject all waitings'}{' '}
+				{type === 'upload' ? 'Cancel all waitings' : 'Reject all waitings'}
 			</StyledMenuItem>
 		</StyledMenu>
 	);

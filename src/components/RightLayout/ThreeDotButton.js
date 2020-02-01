@@ -24,11 +24,12 @@ import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
 import { API_CancelUpload, commanderSocket } from '../../backend/api/webSocketConnection';
 import { sleep } from '../../Helpers/sleep';
 import { MessageContext } from '../../context/MessageContext/MessageContext';
+import { SettingsContext } from '../../context/SettingsContext';
 
 const ThreeDotButton = ({ scrollToDownloadList, scrollToUploadList, type }) => {
 	const [anchorEl, setAnchorEl] = useState(null);
 	const { selectedUser } = useContext(SelectUserContext);
-
+	const { settings } = useContext(SettingsContext);
 	const { dispatch } = useContext(MessageContext);
 
 	const { uploadMediaList, dispatchUploadMediaContext } = useContext(UploadMediaContext);
@@ -148,7 +149,6 @@ const ThreeDotButton = ({ scrollToDownloadList, scrollToUploadList, type }) => {
 					username: dKey[i].username,
 					nick: dKey[i].nick
 				};
-				dKey[i].fileStatus = FILE_STATUS.canceled;
 				commanderSocket.send(JSON.stringify(tempRejectRequest));
 				dispatch({
 					type: STATUS_CHANGED,
@@ -164,6 +164,37 @@ const ThreeDotButton = ({ scrollToDownloadList, scrollToUploadList, type }) => {
 		}
 	};
 
+	const acceptAllWaitings = async () => {
+		setAnchorEl(null);
+		if (type === 'upload') return;
+		const dKey = downloadMediaList[`media:download:${selectedUser.userIdentity}`];
+		for (let i = 0; i < dKey.length; i++) {
+			if (dKey[i].fileStatus === FILE_STATUS.waiting) {
+				const tempAcceptRequest = {
+					event: 'cacp',
+					dest: settings.downloadDirectory || 'desk',
+					mac: dKey[i].mac,
+					dir: dKey[i].dir,
+					uuid: dKey[i].uuid,
+					ip: dKey[i].ip,
+					username: dKey[i].username,
+					nick: dKey[i].nick
+				};
+				commanderSocket.send(JSON.stringify(tempAcceptRequest));
+				dispatch({
+					type: STATUS_CHANGED,
+					payload: { uuid: dKey[i].uuid, dbName: dKey[i].dbName, fileStatus: FILE_STATUS.loading }
+				});
+
+				dispatchDownloadMediaContext({
+					type: DOWNLOAD_MEDIA_STATUS_CHANGED,
+					payload: { uuid: dKey[i].uuid, dbName: dKey[i].dbName, fileStatus: FILE_STATUS.loading }
+				});
+				await sleep(100);
+			}
+		}
+	};
+
 	return (
 		<div className='media-layout-threedot-button'>
 			<ThreeDot
@@ -172,6 +203,7 @@ const ThreeDotButton = ({ scrollToDownloadList, scrollToUploadList, type }) => {
 					btnOpenDropDownHandler(e);
 				}}></ThreeDot>
 			<UploadThreeDotDropDown
+				acceptAllWaitings={acceptAllWaitings}
 				rejectAllWaitings={rejectAllWaitings}
 				cancelAllWaitings={cancelAllWaitings}
 				type={type}
