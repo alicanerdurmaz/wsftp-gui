@@ -22,9 +22,9 @@ let mainWindow;
 function createWindow() {
 	startCommander();
 	mainWindow = new BrowserWindow({
-		width: settingsJson.windowSize ? settingsJson.windowSize.width : 840,
+		width: settingsJson.windowSize ? settingsJson.windowSize.width : 900,
 		height: settingsJson.windowSize ? settingsJson.windowSize.height : 650,
-		minWidth: 840,
+		minWidth: 900,
 		minHeight: 400,
 		webPreferences: {
 			nodeIntegration: true

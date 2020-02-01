@@ -37,18 +37,17 @@ const ChatOldListFileMessage = ({ fileStatus, from, createdAt, fileSize, fileNam
 					<FileIcon className='file-icon'></FileIcon>
 					<div className='file-info'>
 						<span className='file-name'>{fileName}</span>
-						<span className='file-size'>{formattedFileSize}</span>
+						<span className='file-size'>
+							{formattedFileSize}
+
+							<Tooltip title={createdAtToText()} placement='left' interactive>
+								<span className='createdAt-f'>{createdAt && ' ~ ' + createdAt[4]}</span>
+							</Tooltip>
+						</span>
 					</div>
 
 					{fileInformation()}
 				</div>
-			</li>
-			<li className='li-date'>
-				<span className={`file-message-createdAt ${tempFrom}`}>
-					<Tooltip title={createdAtToText()} placement='left' interactive>
-						<span className='createdAt-f'>{createdAt && createdAt[4]}</span>
-					</Tooltip>
-				</span>
 			</li>
 		</Fragment>
 	);

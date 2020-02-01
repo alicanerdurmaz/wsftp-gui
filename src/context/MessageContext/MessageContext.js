@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useRef, useState, useContext } from 'react';
+import React, { createContext, useReducer, useRef, useState, useContext, useEffect } from 'react';
 import uuid from 'uuid/v4';
 
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';

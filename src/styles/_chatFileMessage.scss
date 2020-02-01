@@ -5,11 +5,11 @@ $border-radius: 4px;
 .file-message-container {
 	cursor: pointer;
 	height: 50px;
+	max-width: 100%;
 }
 .file-message-content {
 	height: 44px;
 	color: $blueGray;
-	max-width: 300px;
 	padding: 0px 12px;
 	display: flex;
 	align-items: center;
@@ -40,8 +40,7 @@ $border-radius: 4px;
 	justify-content: center;
 	align-items: flex-start;
 	padding: 0px;
-	min-width: 150px;
-	max-width: 250px;
+	width: 250px;
 	max-height: 36px;
 	min-height: 36px;
 }
@@ -81,7 +80,8 @@ $border-radius: 4px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
-	width: 100%;
+
+	max-width: 99%;
 	height: 16px;
 	font-size: 14px;
 	-webkit-font-smoothing: always;
@@ -104,7 +104,7 @@ $border-radius: 4px;
 }
 .file-message-createdAt {
 	font-size: 12px;
-	color: $blueGray-darken;
+
 	&.user {
 		.createdAt-f {
 			float: right;
@@ -117,6 +117,9 @@ $border-radius: 4px;
 			margin-left: 6px;
 		}
 	}
+}
+.createdAt-f {
+	color: $blueGray-darken;
 }
 
 .rejected-text {
@@ -147,4 +150,40 @@ $border-radius: 4px;
 	&:hover {
 		transform: scale(1.4);
 	}
+}
+
+.progress-container {
+	width: 100%;
+}
+.progress-info {
+	margin-top: -5px;
+	margin-bottom: 8px;
+	padding: 4px 8px;
+	min-width: 350px;
+	max-width: fit-content;
+	border-radius: 8px;
+	background: $primarycolor;
+	position: relative;
+
+	&.user {
+		float: right;
+		border-top-left-radius: 0px;
+		border-top-right-radius: 0px;
+	}
+	&.other {
+		float: left;
+		border-top-left-radius: 0px;
+		border-top-right-radius: 0px;
+	}
+}
+
+.progress-text-group {
+	display: flex;
+	font-size: 14px;
+}
+.det-text {
+	margin-left: 4px;
+}
+.totalof-text {
+	margin-left: 2px;
 }

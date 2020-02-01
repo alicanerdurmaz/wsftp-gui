@@ -3,7 +3,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import FILE_STATUS from '../../../config/CONFIG_FILE_STATUS';
 import { MessageContext } from '../../../context/MessageContext/MessageContext';
 import { STATUS_CHANGED, UPLOAD_MEDIA_STATUS_CHANGED, DOWNLOAD_MEDIA_STATUS_CHANGED } from '../../../context/types';
-import { byteConverter } from '../../../Helpers/byteConverter';
+import { byteConverter, kbConverter } from '../../../Helpers/byteConverter';
+import { secondConverter } from '../../../Helpers/secondConverter';
 import { ReactComponent as FileIcon } from '../../../assets/svg/file-solid.svg';
 import { ReactComponent as BanIcon } from '../../../assets/svg/ban-solid.svg';
 import { ReactComponent as CheckCircleIcon } from '../../../assets/svg/check-circle-solid.svg';
@@ -44,7 +45,10 @@ const ChatFileMessage = ({
 		tempFrom = 'other';
 	}
 	const formattedFileSize = byteConverter(fileSize);
-	console.log(`fileSize:${fileSize}\n current: ${current}\n eta: ${det}\n speed: ${speed}\n progress: ${progress}\n`);
+	console.log(
+		`fileSize:${typeof fileSize}\n current: ${typeof current}\n det: ${typeof det}\n speed: ${typeof speed}\n progress: ${typeof progress}\n`
+	);
+
 	const setAccepted = action => {
 		if (action) {
 			const tempAcceptRequest = {
@@ -166,20 +170,44 @@ const ChatFileMessage = ({
 					<FileIcon className='file-icon'></FileIcon>
 					<div className='file-info'>
 						<span className='file-name'>{fileName}</span>
-						<span className='file-size'>{formattedFileSize}</span>
+						<span className='file-size'>
+							{formattedFileSize}
+
+							<Tooltip title={createdAtToText()} placement='left' interactive>
+								<span className='createdAt-f'>{createdAt && ' ~ ' + createdAt[4]}</span>
+							</Tooltip>
+						</span>
 					</div>
 					{fileInformation()}
 				</div>
 			</li>
-			<li className='li-date'>
-				<span className={`file-message-createdAt ${tempFrom}`}>
-					<Tooltip title={createdAtToText()} placement='left' interactive>
-						<span className='createdAt-f'>{createdAt && createdAt[4]}</span>
-					</Tooltip>
-				</span>
-			</li>
+			{fileStatus === FILE_STATUS.loading ? (
+				<div className={`progress-container`}>
+					<div className={`progress-info ${tempFrom}`}>
+						{typeof det === 'undefined' && typeof current === 'string' && typeof speed === 'string' ? (
+							<div className='progress-text-group'>
+								<span className='speed-text'>waiting...</span>
+							</div>
+						) : (
+							<div className='progress-text-group'>
+								<span className='speed-text'>{`${kbConverter(speed)}/s - `}</span>
+								<span className='totalof-text'>{` ${byteConverter(current)} of ${byteConverter(
+									fileSize
+								)},`}</span>
+								<span className='det-text'>{`${secondConverter(det)} left`}</span>
+							</div>
+						)}
+					</div>
+				</div>
+			) : null}
 		</Fragment>
 	);
 };
 
 export default ChatFileMessage;
+
+// fileSize:string
+//  current: string
+//  det: undefined
+//  speed: string
+//  progress: number

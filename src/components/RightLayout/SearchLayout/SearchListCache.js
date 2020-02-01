@@ -6,7 +6,7 @@ const SearchListCache = ({ list, setScrollPosition }) => {
 	return (
 		<div className='search-list-group' onClick={e => setScrollPosition(list[1].uuid)}>
 			<div className='search-date'>
-				<div className='search-date-text'>{date}</div>
+				<div className='search-date-text'>{`${date[4]} · ${date[1]} ${date[2]}, ${date[3]}`}</div>
 			</div>
 			<div className='search-list-group-list'>
 				{list.map(e => (
