@@ -388,12 +388,10 @@ const deleteDataBase = (name, dir, done) => {
 const deleteDataBaseSync = (name, dir) => {
 	dir = preProcess(dir);
 	let file = path.join(dir, name);
-	console.log(file);
+
 	try {
 		fs.unlinkSync(file);
-	} catch (error) {
-		console.log(error);
-	}
+	} catch (error) {}
 };
 
 const writeObject = (name, dir, data) => {

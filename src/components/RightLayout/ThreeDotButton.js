@@ -14,15 +14,23 @@ import {
 	DOWNLOAD_DELETE_BY_KEY_VALUE,
 	OLD_DOWNLOAD_DELETE_BY_KEY_VALUE,
 	DOWNLOAD_MEDIA_USER_DELETED,
-	DOWNLOAD_MEDIA_DELETE_DB
+	DOWNLOAD_MEDIA_DELETE_DB,
+	STATUS_CHANGED,
+	DOWNLOAD_MEDIA_STATUS_CHANGED
 } from '../../context/types';
 import findDbDirectory from '../../Helpers/findDbDirectory';
 import { deleteDataBaseSync, deleteFromDataBase } from '../../backend/api/dbFunctions';
 import FILE_STATUS from '../../config/CONFIG_FILE_STATUS';
+import { API_CancelUpload, commanderSocket } from '../../backend/api/webSocketConnection';
+import { sleep } from '../../Helpers/sleep';
+import { MessageContext } from '../../context/MessageContext/MessageContext';
 
 const ThreeDotButton = ({ scrollToDownloadList, scrollToUploadList, type }) => {
 	const [anchorEl, setAnchorEl] = useState(null);
 	const { selectedUser } = useContext(SelectUserContext);
+
+	const { dispatch } = useContext(MessageContext);
+
 	const { uploadMediaList, dispatchUploadMediaContext } = useContext(UploadMediaContext);
 	const { dispatchOldUploadMediaContext } = useContext(OldUploadMediaContext);
 
@@ -106,21 +114,54 @@ const ThreeDotButton = ({ scrollToDownloadList, scrollToUploadList, type }) => {
 		}
 	};
 
-	const cancelAllWaitings = () => {
+	const cancelAllWaitings = async () => {
 		setAnchorEl(null);
-		uploadMediaList[`media:upload:${selectedUser.userIdentity}`].forEach(e => {
-			if (e.fileStatus === FILE_STATUS.waiting) {
-				console.log(e.fileName);
+		const uKey = uploadMediaList[`media:upload:${selectedUser.userIdentity}`];
+		for (let i = 0; i < uKey.length; i++) {
+			if (uKey[i].fileStatus === FILE_STATUS.waiting) {
+				const tempCancelRequest = {
+					event: 'cncl',
+					mac: uKey[i].mac,
+					dir: uKey[i].dir,
+					uuid: uKey[i].uuid,
+					ip: uKey[i].ip,
+					username: uKey[i].username,
+					nick: uKey[i].nick
+				};
+				API_CancelUpload(tempCancelRequest);
+				await sleep(100);
 			}
-		});
+		}
 	};
-	const rejectAllWaitings = () => {
+	const rejectAllWaitings = async () => {
 		setAnchorEl(null);
-		downloadMediaList[`media:download:${selectedUser.userIdentity}`].forEach(e => {
-			if (e.fileStatus === FILE_STATUS.waiting) {
-				console.log(e.fileName);
+		const dKey = downloadMediaList[`media:download:${selectedUser.userIdentity}`];
+
+		for (let i = 0; i < dKey.length; i++) {
+			if (dKey[i].fileStatus === FILE_STATUS.waiting) {
+				const tempRejectRequest = {
+					event: 'crej',
+					mac: dKey[i].mac,
+					dir: dKey[i].dir,
+					uuid: dKey[i].uuid,
+					ip: dKey[i].ip,
+					username: dKey[i].username,
+					nick: dKey[i].nick
+				};
+				dKey[i].fileStatus = FILE_STATUS.canceled;
+				commanderSocket.send(JSON.stringify(tempRejectRequest));
+				dispatch({
+					type: STATUS_CHANGED,
+					payload: { uuid: dKey[i].uuid, dbName: dKey[i].dbName, fileStatus: FILE_STATUS.rejected }
+				});
+
+				dispatchDownloadMediaContext({
+					type: DOWNLOAD_MEDIA_STATUS_CHANGED,
+					payload: { uuid: dKey[i].uuid, dbName: dKey[i].dbName, fileStatus: FILE_STATUS.rejected }
+				});
+				await sleep(100);
 			}
-		});
+		}
 	};
 
 	return (
