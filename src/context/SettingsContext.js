@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 import { getObject } from '../backend/api/dbFunctions';
 import { debounce } from '../Helpers/debounce';
 import findDbDirectory from '../Helpers/findDbDirectory';
+import { API_getMyInfo } from '../backend/api/webSocketConnection';
 const { app } = require('electron').remote;
 export const SettingsContext = createContext();
 

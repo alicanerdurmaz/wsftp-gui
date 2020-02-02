@@ -16,15 +16,12 @@ import { SnackbarProvider } from 'notistack';
 import Button from '@material-ui/core/Button';
 const App = () => {
 	const notistackRef = useRef(false);
-	const onClickDismiss = key => () => {
-		notistackRef.current.closeSnackbar(key);
-	};
+	// const onClickDismiss = key => () => {
+	// 	notistackRef.current.closeSnackbar(key);
+	// };action={key => <Button onClick={onClickDismiss(key)}>Dismiss</Button>}
 	return (
 		<Fragment>
-			<SnackbarProvider
-				maxSnack={10}
-				ref={notistackRef}
-				action={key => <Button onClick={onClickDismiss(key)}>Dismiss</Button>}>
+			<SnackbarProvider maxSnack={10} ref={notistackRef} autoHideDuration={2000} dense preventDuplicate>
 				<SettingsContextProvider>
 					<UploadMediaContextProvider>
 						<DownloadMediaContextProvider>

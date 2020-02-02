@@ -5,10 +5,11 @@ import { SelectUserContext } from '../../../context/SelectUserContext';
 import { API_SendMessage, API_SendFile } from '../../../backend/api/webSocketConnection';
 import uuid from 'uuid/v4';
 import { OnlineUserContext } from '../../../context/OnlineUserContext/OnlineUserContext';
-
+import { useSnackbar } from 'notistack';
 const { dialog } = window.require('electron').remote;
 
 const ChatInput = () => {
+	const { enqueueSnackbar } = useSnackbar();
 	const { selectedUser } = useContext(SelectUserContext);
 	const { onlineUserList } = useContext(OnlineUserContext);
 	const [text, setText] = useState('');
@@ -28,6 +29,10 @@ const ChatInput = () => {
 	};
 
 	const sendMessage = e => {
+		if (onlineUserList[selectedUser.userIdentity].event === 'offline') {
+			enqueueSnackbar(`${selectedUser.username} is offline`, { variant: 'error' });
+			return;
+		}
 		if (text.length < 1) {
 			return;
 		}
@@ -36,6 +41,10 @@ const ChatInput = () => {
 	};
 
 	const openFileExplorer = async () => {
+		if (onlineUserList[selectedUser.userIdentity].event === 'offline') {
+			enqueueSnackbar(`${selectedUser.username} is offline`, { variant: 'error' });
+			return;
+		}
 		if (!selectedUser) {
 			return false;
 		}
@@ -51,23 +60,20 @@ const ChatInput = () => {
 			selectedUser.nick
 		);
 	};
-
 	return (
 		<div className='chat-input-area'>
-			{onlineUserList[selectedUser.userIdentity].event === 'online' ? (
-				<Fragment>
-					<FileUploadIcon onClick={() => openFileExplorer()}></FileUploadIcon>
-					<TextareaAutosize
-						minRows={1}
-						maxRows={4}
-						value={text}
-						onHeightChange={e => handleHeightChange(e)}
-						placeholder='Type a message'
-						className='text-area-autosize'
-						onChange={e => setText(e.target.value)}
-						onKeyDown={e => handleKeyEvents(e)}></TextareaAutosize>
-				</Fragment>
-			) : null}
+			<Fragment>
+				<FileUploadIcon onClick={() => openFileExplorer()}></FileUploadIcon>
+				<TextareaAutosize
+					minRows={1}
+					maxRows={4}
+					value={text}
+					onHeightChange={e => handleHeightChange(e)}
+					placeholder='Type a message'
+					className='text-area-autosize'
+					onChange={e => setText(e.target.value)}
+					onKeyDown={e => handleKeyEvents(e)}></TextareaAutosize>
+			</Fragment>
 		</div>
 	);
 };

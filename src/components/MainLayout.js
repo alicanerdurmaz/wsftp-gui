@@ -8,6 +8,7 @@ import { SelectUserContext } from '../context/SelectUserContext';
 import DragAndDropProvider from './DragAndDropProvider';
 import { MessageContext } from '../context/MessageContext/MessageContext';
 import { searchFromMessageContext } from '../Helpers/searchFrom';
+import { API_getMyInfo } from '../backend/api/webSocketConnection';
 
 const MainLayout = () => {
 	const { selectedUser } = useContext(SelectUserContext);
@@ -32,6 +33,7 @@ const MainLayout = () => {
 	};
 
 	const openSettingsScreen = () => {
+		API_getMyInfo();
 		setModalOpen(true);
 	};
 

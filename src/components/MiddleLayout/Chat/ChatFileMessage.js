@@ -205,9 +205,3 @@ const ChatFileMessage = ({
 };
 
 export default ChatFileMessage;
-
-// fileSize:string
-//  current: string
-//  det: undefined
-//  speed: string
-//  progress: number

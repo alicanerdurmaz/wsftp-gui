@@ -44,6 +44,7 @@ const ChatHeader = ({ startSearch, setActiveScreenToMedia }) => {
 		setIsSearchOpen(false);
 		searchInput.current.value = '';
 	};
+
 	return (
 		<div className='chat-header-container'>
 			<div className='chat-header-area'>
@@ -51,7 +52,7 @@ const ChatHeader = ({ startSearch, setActiveScreenToMedia }) => {
 					<Fragment>
 						<span
 							className={
-								selectedUser.status === 'online'
+								onlineUserList[selectedUser.userIdentity].event === 'online'
 									? 'online-indicator bg-colorGreen'
 									: 'online-indicator bg-colorGray'
 							}></span>

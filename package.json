@@ -27,7 +27,7 @@
 			"src/backend/api/*"
 		],
 		"linux": {
-			"target": "snap",
+			"target": "AppImage",
 			"icon": "src/assets/logo.png",
 			"category": "Productivity"
 		}
