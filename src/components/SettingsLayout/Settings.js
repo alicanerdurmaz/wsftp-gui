@@ -52,6 +52,7 @@ const Settings = ({ modalOpen, setModalOpen }) => {
 						<ChangeDownloadDirectory
 							settings={settings}
 							setSettings={setSettings}></ChangeDownloadDirectory>
+						<h1>{`${process.env.REACT_APP_VERSION}`}</h1>
 					</div>
 				</div>
 			</Zoom>
