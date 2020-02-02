@@ -195,6 +195,7 @@ const MediaHistoryLayout = () => {
 			<div className='media-title-container-upload'>
 				<div className='media-title-upload'>Uploads</div>
 				<input
+					tabIndex={-1}
 					value={uploadSearchTerm}
 					onKeyDown={e => submitUploadSearch(e)}
 					onChange={e => setUploadSearchTerm(e.target.value)}
@@ -294,6 +295,7 @@ const MediaHistoryLayout = () => {
 			<div className='media-title-container-download'>
 				<div className='media-title-download'>Downloads</div>
 				<input
+					tabIndex={-1}
 					value={downloadSearchTerm}
 					onKeyDown={e => submitDownloadSearch(e)}
 					onChange={e => setDownloadSearchTerm(e.target.value)}

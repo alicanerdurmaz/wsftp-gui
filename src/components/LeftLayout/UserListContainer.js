@@ -12,6 +12,7 @@ const UserListContainer = () => {
 			<ul className='user-ul'>
 				<li className='user-li nohighlight'>
 					<input
+						tabIndex={-1}
 						type='text'
 						className='search-user'
 						placeholder='Search a user'

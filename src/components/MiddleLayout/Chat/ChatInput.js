@@ -60,11 +60,14 @@ const ChatInput = () => {
 			selectedUser.nick
 		);
 	};
+
 	return (
 		<div className='chat-input-area'>
 			<Fragment>
 				<FileUploadIcon onClick={() => openFileExplorer()}></FileUploadIcon>
 				<TextareaAutosize
+					autoFocus
+					tabIndex={0}
 					minRows={1}
 					maxRows={4}
 					value={text}

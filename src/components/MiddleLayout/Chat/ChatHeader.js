@@ -60,6 +60,7 @@ const ChatHeader = ({ startSearch, setActiveScreenToMedia }) => {
 						<div className='divider'></div>
 
 						<input
+							tabIndex={-1}
 							ref={searchInput}
 							type='text'
 							className='search-message'

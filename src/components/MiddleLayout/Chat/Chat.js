@@ -142,11 +142,7 @@ const Chat = ({ startSearch, scrollPosition, jumpToDb, setJumpToDb, setActiveScr
 			{selectedUser ? (
 				<Fragment>
 					<div className={`chat-read-container `} ref={e => (refScroller = e)}>
-						<ul
-							className='chat-list'
-							onWheel={e => handleWheel(e)}
-							onKeyDown={e => handleKeyDown(e)}
-							tabIndex='0'>
+						<ul className='chat-list' onWheel={e => handleWheel(e)} onKeyDown={e => handleKeyDown(e)}>
 							<Fragment>
 								<ChatOldList scrollDirection={scrollDirection} jumpToDb={jumpToDb}></ChatOldList>
 								<ChatList setHidden={setHidden} jumpToBottom={jumpToBottom}></ChatList>
