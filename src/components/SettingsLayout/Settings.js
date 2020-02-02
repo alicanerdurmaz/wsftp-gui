@@ -13,12 +13,17 @@ const useStyles = makeStyles(theme => ({
 	modal: {
 		display: 'flex',
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'center',
+		width: '100%',
+		height: '100%',
+		outline: 'none'
 	},
 	paper: {
 		border: '2px solid #000',
 		boxShadow: theme.shadows[5],
-		padding: theme.spacing(2, 4, 3)
+		padding: '16px 16px',
+		width: '90%',
+		height: '90%'
 	}
 }));
 
@@ -29,8 +34,6 @@ const Settings = ({ modalOpen, setModalOpen }) => {
 	return (
 		<Modal
 			disableBackdropClick
-			aria-labelledby='transition-modal-title'
-			aria-describedby='transition-modal-description'
 			className={classes.modal}
 			open={modalOpen}
 			onClose={e => setModalOpen(false)}

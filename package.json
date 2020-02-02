@@ -1,9 +1,12 @@
 {
 	"name": "tunnelgo",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"license": "MIT",
 	"description": "Offline, File share and instant messaging app",
-	"repository": "https://github.com/alicanerdurmaz/wsftp-gui",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/alicanerdurmaz/wsftp-gui.git"
+	},
 	"main": "public/electron.js",
 	"author": "Alican Erdurmaz <alicanerdurmaz@gmail.com>",
 	"dependencies": {
@@ -31,14 +34,7 @@
 			"target": "AppImage",
 			"icon": "src/assets/logo.png",
 			"category": "Productivity"
-		},
-		"publish": [
-			{
-				"provider": "github",
-				"owner": "alicanerdurmaz",
-				"repo": "wsftp-gui"
-			}
-		]
+		}
 	},
 	"homepage": "./",
 	"scripts": {
@@ -48,7 +44,7 @@
 		"electron-build": "electron-builder -l",
 		"clean-build": "rm -rf build/ .cache dist/",
 		"build": "yarn clean-build && yarn craco build && yarn electron-build",
-		"deploy": "yarn build -p always"
+		"deploy": "yarn build --publish always"
 	},
 	"keywords": [
 		"Electron",
