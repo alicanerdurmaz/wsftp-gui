@@ -23,7 +23,9 @@ const useStyles = makeStyles(theme => ({
 		boxShadow: theme.shadows[5],
 		padding: '16px 16px',
 		width: '90%',
-		height: '90%'
+		height: '90%',
+		outline: 'none',
+		background: '#36393f'
 	}
 }));
 
@@ -55,7 +57,7 @@ const Settings = ({ modalOpen, setModalOpen }) => {
 						<ChangeDownloadDirectory
 							settings={settings}
 							setSettings={setSettings}></ChangeDownloadDirectory>
-						<h1>{`${process.env.REACT_APP_VERSION}`}</h1>
+						<h1>0.0.5</h1>
 					</div>
 				</div>
 			</Zoom>
