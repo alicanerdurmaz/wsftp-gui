@@ -108,7 +108,6 @@ autoUpdater.on('update-available', info => {
 		buttonIndex => {
 			if (buttonIndex === 1) {
 				autoUpdater.downloadUpdate();
-			} else {
 			}
 		}
 	);
@@ -116,11 +115,6 @@ autoUpdater.on('update-available', info => {
 
 autoUpdater.on('update-downloaded', info => {
 	autoUpdater.quitAndInstall();
-	dialog.showMessageBox({
-		type: 'info',
-		title: 'Update Downloaded',
-		message: 'Update has been downloaded and will be automatically installed on exit'
-	});
 });
 
 let commanderExe;
