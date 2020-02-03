@@ -18,6 +18,7 @@ try {
 } catch (error) {}
 
 let mainWindow;
+
 function createWindow() {
 	startCommander();
 	mainWindow = new BrowserWindow({
@@ -96,32 +97,30 @@ ipcMain.on('save-completed', () => {
 	}
 });
 
-autoUpdater.on('update-available', () => {
-	dialog.showMessageBox(
+autoUpdater.on('update-available', info => {
+	dialog.showMessageBoxSync(
 		{
 			type: 'info',
-			title: 'Found Updates',
-			message: 'Found updates, do you want update now?',
-			buttons: ['Sure', 'No']
+			title: 'Updates Found ',
+			message: 'Updates found, do you want to download right now?',
+			buttons: ['No', 'Yes']
 		},
 		buttonIndex => {
-			if (buttonIndex === 0) {
+			if (buttonIndex === 1) {
 				autoUpdater.downloadUpdate();
 			} else {
 			}
 		}
 	);
 });
-autoUpdater.on('update-downloaded', () => {
-	dialog.showMessageBox(
-		{
-			title: 'Install Updates',
-			message: 'Updates downloaded, application will be quit for update...'
-		},
-		() => {
-			setImmediate(() => autoUpdater.quitAndInstall());
-		}
-	);
+
+autoUpdater.on('update-downloaded', info => {
+	autoUpdater.quitAndInstall();
+	dialog.showMessageBox({
+		type: 'info',
+		title: 'Update Downloaded',
+		message: 'Update has been downloaded and will be automatically installed on exit'
+	});
 });
 
 let commanderExe;
