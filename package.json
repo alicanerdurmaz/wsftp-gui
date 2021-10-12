@@ -71,7 +71,7 @@
 	"devDependencies": {
 		"concurrently": "^4.1.2",
 		"cross-env": "^6.0.0",
-		"electron": "^7.2.4",
+		"electron": "^11.5.0",
 		"electron-builder": "^22.3.2",
 		"normalize.css": "^8.0.1",
 		"wait-on": "^3.3.0"
